@@ -1,0 +1,32 @@
+{
+  "name": "psgc-js",
+  "version": "1.0.0",
+  "main": "./dist/index.js",
+  "module": "./dist/index.mjs",
+  "types": "./dist/index.d.ts",
+  "author": {
+    "name": "Ivan Gemota",
+    "email": "davannarts@gmail.com",
+    "url": "https://github.com/aivangogh"
+  },
+  "repository": {
+    "url": "https://github.com/aivangogh/psgc-js"
+  },
+  "homepage": "https://github.com/aivangogh/psgc-js",
+  "license": "MIT",
+  "keywords": [
+    "philippines",
+    "address",
+    "ph-address",
+    "psgc"
+  ],
+  "scripts": {
+    "test": "jest",
+    "build": "tsup"
+  },
+  "devDependencies": {
+    "typescript": "^5.2.2",
+    "tsup": "^8.1.2"
+  },
+  "dependencies": {}
+}

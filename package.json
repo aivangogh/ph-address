@@ -1,6 +1,7 @@
 {
   "name": "@aivangogh/ph-address",
-  "version": "1.0.0",
+  "version": "1.0.1",
+  "description": "A collection of philippine geographic data based on PSGC",
   "main": "./dist/index.js",
   "module": "./dist/index.mjs",
   "types": "./dist/index.d.ts",

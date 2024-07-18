@@ -3,7 +3,7 @@
     <img src="https://img.shields.io/npm/l/@aivangogh/ph-address"/>
   </a>
   <a href="#">
-    <img src="https://img.shields.io/npm/v/@ageesea/psgc-js"/>
+    <img src="https://img.shields.io/npm/v/@aivangogh/ph-address"/>
   </a>
   <a href="https://www.npmjs.com/package/@aivangogh/ph-address">
     <img src="https://img.shields.io/npm/dt/@aivangogh/ph-address"/>

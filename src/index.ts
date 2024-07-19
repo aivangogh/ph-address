@@ -1,11 +1,10 @@
-import { getAllRegions } from "./functions/region";
-import { getAllProvinces } from "./functions/province";
+import { getBarangaysByMunicipality, getBarangaysByMunicipalityAndProvince } from "./functions/barangay";
 import { getMunicipalitiesByProvince } from "./functions/municipality";
-import { getBarangaysByMunicipality } from "./functions/barangay";
+import { getAllProvinces } from "./functions/province";
+import { getAllRegions } from "./functions/region";
 
 export {
-  getAllRegions,
-  getAllProvinces,
-  getMunicipalitiesByProvince,
-  getBarangaysByMunicipality,
+  getAllProvinces, getAllRegions, getBarangaysByMunicipality,
+  getBarangaysByMunicipalityAndProvince, getMunicipalitiesByProvince
 };
+

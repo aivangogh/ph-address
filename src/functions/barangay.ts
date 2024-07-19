@@ -24,11 +24,12 @@ function getBarangaysByMunicipality(name: string): TBarangay[] {
  * @returns {Array} - An array of barangays that belong to the specified municipality, sorted alphabetically by name.
  */
 function getBarangaysByMunicipalityAndProvince(municipalityName: string, provinceName: string): TBarangay[] {
-  const cityOrMunicipality = municipalities.find((municipality) => municipality.province === provinceName)
+  const cityOrMunicipality = municipalities.find((value) => value.name === municipalityName && value.province === provinceName)
 
   const filteredBarangays = barangays.filter(
     (value) => (value.cityOrMunicipality === municipalityName) && (value.cityOrMunicipality === cityOrMunicipality?.name)
   );
+
   return sortByName<TBarangay>(filteredBarangays);
 }
 

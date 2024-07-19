@@ -1,4 +1,4 @@
-import { getAllRegions } from "../src/region";
+import { getAllRegions } from "../src";
 import regions from "../src/data/regions.json";
 
 describe("Get Region/s test suite", () => {

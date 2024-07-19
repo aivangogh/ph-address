@@ -1,6 +1,6 @@
 {
   "name": "@aivangogh/ph-address",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "description": "A collection of philippine geographic data based on PSGC",
   "main": "./dist/index.js",
   "module": "./dist/index.mjs",
@@ -11,7 +11,7 @@
     "url": "https://github.com/aivangogh"
   },
   "repository": {
-    "url": "https://github.com/aivangogh/ph-address"
+    "url": "git@github.com:aivangogh/ph-address.git"
   },
   "homepage": "https://github.com/aivangogh/ph-address",
   "license": "MIT",

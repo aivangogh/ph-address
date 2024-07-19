@@ -50,6 +50,7 @@ import {
   getAllProvinces,
   getMunicipalitiesByProvince,
   getBarangaysByMunicipality,
+  getBarangaysByMunicipalityAndProvince
 } from "@aivangogh/ph-address";
 ```
 

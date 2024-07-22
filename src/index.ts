@@ -4,6 +4,9 @@ import { getAllProvinces, getProvincesByRegion } from "./functions/province";
 import { getAllRegions } from "./functions/region";
 
 export {
-    getAllProvinces, getAllRegions, getBarangaysByMunicipality, getMunicipalitiesByProvince, getProvincesByRegion
+    getAllProvinces,
+    getAllRegions,
+    getBarangaysByMunicipality,
+    getMunicipalitiesByProvince,
+    getProvincesByRegion
 };
-

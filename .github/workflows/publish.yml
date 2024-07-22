@@ -15,9 +15,6 @@ jobs:
         with:
           bun-version: latest
       - uses: actions/setup-node@v3
-        with:
-           node-version: 16.x
-           cache: "bun"
 
       - run: bun install --frozen-lockfile
       - name: Create Release Pull Request or Publish

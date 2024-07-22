@@ -1,5 +1,15 @@
 # @aivangogh/ph-address
 
+## 1.4.0
+
+### Minor Changes
+
+- e7dc86d: added documentation
+
+### Patch Changes
+
+- e7dc86d: Changes in README.md
+
 ## 1.3.0
 
 ### Minor Changes

@@ -9,9 +9,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-      - uses: bun/action-setup@v2
+      - uses: oven-sh/setup-bun@v2
         with:
-          version: 7
+          bun-version: latest
       - uses: actions/setup-node@v3
         with:
            node-version: 16.x

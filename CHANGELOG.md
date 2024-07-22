@@ -1,5 +1,12 @@
 # @aivangogh/ph-address
 
+## 1.4.1
+
+### Patch Changes
+
+- d4dad75: (Pob.) removed
+- d4dad75: small changes
+
 ## 1.4.0
 
 ### Minor Changes

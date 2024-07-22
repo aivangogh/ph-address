@@ -27,3 +27,9 @@ node_modules
 tsconfig.json
 tsup.config.ts
 jest.config.ts
+
+.changeset
+.github
+
+CHANGELOG.md
+bun.lockb

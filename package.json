@@ -22,8 +22,9 @@
     "psgc"
   ],
   "scripts": {
-    "test": "jest",
-    "build": "tsup"
+    "build": "tsup",
+    "release": "bun run build && changeset publish",
+    "test": "jest"
   },
   "devDependencies": {
     "@changesets/cli": "^2.27.7",

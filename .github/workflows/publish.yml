@@ -1,4 +1,4 @@
-name: Publish
+name: Release
 on:
   push:
     branches:
@@ -7,7 +7,8 @@ on:
 concurrency: ${{ github.workflow }}-${{ github.ref }}
 
 jobs:
-  build:
+  release:
+    name: Release
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
@@ -21,8 +22,7 @@ jobs:
         id: changesets
         uses: changesets/action@v1
         with:
-          publish: bun run build
+          publish: bun run release
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
-      - run: npm publish --access=public

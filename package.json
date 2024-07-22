@@ -23,7 +23,7 @@
   ],
   "scripts": {
     "build": "tsup",
-    "release": "bun run build && changeset publish --access=public",
+    "release": "bun run build && changeset publish",
     "test": "jest"
   },
   "devDependencies": {

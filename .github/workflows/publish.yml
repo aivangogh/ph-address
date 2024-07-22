@@ -25,3 +25,4 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+      - run: npm publish --access=public --@<aivangogh>:registry=https://npm.pkg.github.com/

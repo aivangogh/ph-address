@@ -11,4 +11,15 @@ function getAllProvinces(): TProvince[] {
   return sortByName<TProvince>(provinces);
 }
 
-export { getAllProvinces };
+/**
+ * Retrieves all provinces based in region
+ * @param {string} code - The code of the region to filter province by.
+ * @returns {Array} An array of TProvince objects sorted alphabetically by name.
+ */
+function getProvincesByRegion(code: string): TProvince[] {
+  const fileteredProvinces = provinces.filter((value) => value.regionCode === code);
+
+  return sortByName<TProvince>(fileteredProvinces);
+}
+
+export { getAllProvinces, getProvincesByRegion };

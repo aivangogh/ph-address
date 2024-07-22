@@ -2,6 +2,7 @@ import {
   getBarangaysByMunicipality,
   getBarangaysByMunicipalityAndProvince,
 } from "../src";
+import { sortByName } from "../src/utils/sort";
 
 describe("Get barangays test suite", () => {
   // Returns sorted barangays for a given municipality name
@@ -25,80 +26,20 @@ describe("Get barangays test suite", () => {
         name: "Buenavista",
         cityOrMunicipality: "Carcar City",
       },
-      {
-        code: "072214003",
-        name: "Calidngan",
-        cityOrMunicipality: "Carcar City",
-      },
-      {
-        code: "072214004",
-        name: "Can-asujan",
-        cityOrMunicipality: "Carcar City",
-      },
-      {
-        code: "072214005",
-        name: "Guadalupe",
-        cityOrMunicipality: "Carcar City",
-      },
-      {
-        code: "072214006",
-        name: "Liburon",
-        cityOrMunicipality: "Carcar City",
-      },
-      {
-        code: "072214007",
-        name: "Napo",
-        cityOrMunicipality: "Carcar City",
-      },
-      {
-        code: "072214008",
-        name: "Ocana",
-        cityOrMunicipality: "Carcar City",
-      },
-      {
-        code: "072214009",
-        name: "Perrelos",
-        cityOrMunicipality: "Carcar City",
-      },
-      {
-        code: "072214010",
-        name: "Valencia",
-        cityOrMunicipality: "Carcar City",
-      },
-      {
-        code: "072214011",
-        name: "Valladolid",
-        cityOrMunicipality: "Carcar City",
-      },
-      {
-        code: "072214012",
-        name: "Poblacion I",
-        cityOrMunicipality: "Carcar City",
-      },
-      {
-        code: "072214013",
-        name: "Poblacion II",
-        cityOrMunicipality: "Carcar City",
-      },
-      {
-        code: "072214014",
-        name: "Poblacion III",
-        cityOrMunicipality: "Carcar City",
-      },
-      {
-        code: "072214015",
-        name: "Tuyom",
-        cityOrMunicipality: "Carcar City",
-      },
     ];
     const mockMunicipalities = [{ name: "Carcar City", province: "Cebu" }];
 
-    jest.mock("../src/data/barangays.json", () => mockBarangays);
-    jest.mock("../src/data/municipalities.json", () => mockMunicipalities);
+    jest.mock("../src/data/barangays.json", () => sortByName(mockBarangays));
+    jest.mock("../src/data/municipalities.json", () =>
+      sortByName(mockMunicipalities)
+    );
 
-    const result = getBarangaysByMunicipalityAndProvince("Carcar City", "Cebu");
+    const result = getBarangaysByMunicipalityAndProvince(
+      "San Fernando",
+      "Bukidnon"
+    );
 
-    expect(result).toContainEqual([
+    expect(result).toEqual([
       {
         code: "072214001",
         name: "Bolinawan",
@@ -107,71 +48,6 @@ describe("Get barangays test suite", () => {
       {
         code: "072214002",
         name: "Buenavista",
-        cityOrMunicipality: "Carcar City",
-      },
-      {
-        code: "072214003",
-        name: "Calidngan",
-        cityOrMunicipality: "Carcar City",
-      },
-      {
-        code: "072214004",
-        name: "Can-asujan",
-        cityOrMunicipality: "Carcar City",
-      },
-      {
-        code: "072214005",
-        name: "Guadalupe",
-        cityOrMunicipality: "Carcar City",
-      },
-      {
-        code: "072214006",
-        name: "Liburon",
-        cityOrMunicipality: "Carcar City",
-      },
-      {
-        code: "072214007",
-        name: "Napo",
-        cityOrMunicipality: "Carcar City",
-      },
-      {
-        code: "072214008",
-        name: "Ocana",
-        cityOrMunicipality: "Carcar City",
-      },
-      {
-        code: "072214009",
-        name: "Perrelos",
-        cityOrMunicipality: "Carcar City",
-      },
-      {
-        code: "072214010",
-        name: "Valencia",
-        cityOrMunicipality: "Carcar City",
-      },
-      {
-        code: "072214011",
-        name: "Valladolid",
-        cityOrMunicipality: "Carcar City",
-      },
-      {
-        code: "072214012",
-        name: "Poblacion I",
-        cityOrMunicipality: "Carcar City",
-      },
-      {
-        code: "072214013",
-        name: "Poblacion II",
-        cityOrMunicipality: "Carcar City",
-      },
-      {
-        code: "072214014",
-        name: "Poblacion III",
-        cityOrMunicipality: "Carcar City",
-      },
-      {
-        code: "072214015",
-        name: "Tuyom",
         cityOrMunicipality: "Carcar City",
       },
     ]);

@@ -1,6 +1,6 @@
 {
   "name": "@aivangogh/ph-address",
-  "version": "1.0.6",
+  "version": "1.1.0",
   "description": "A collection of philippine geographic data based on PSGC",
   "main": "./dist/index.js",
   "module": "./dist/index.mjs",
@@ -26,6 +26,7 @@
     "build": "tsup"
   },
   "devDependencies": {
+    "@changesets/cli": "^2.27.7",
     "@types/jest": "^29.5.12",
     "jest": "^29.7.0",
     "ts-jest": "^29.2.3",

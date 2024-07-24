@@ -1,5 +1,11 @@
 # @aivangogh/ph-address
 
+## 1.4.2
+
+### Patch Changes
+
+- 691b4c9: changes: minified json
+
 ## 1.4.1
 
 ### Patch Changes

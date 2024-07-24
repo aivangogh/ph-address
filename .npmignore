@@ -33,3 +33,4 @@ jest.config.ts
 
 CHANGELOG.md
 bun.lockb
+package.json

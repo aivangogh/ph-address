@@ -22,19 +22,22 @@
     "psgc"
   ],
   "scripts": {
-    "build": "tsup",
+    "build:tsup": "tsup",
     "release": "bun run build && changeset publish",
-    "test": "jest",
-    "migrate:psgc": "bun run scripts/migrate-psgc.ts"
+    "test": "vitest",
+    "migrate:psgc": "bun run scripts/migrate-psgc.ts",
+    "minify:json": "bun run scripts/minify-json.ts src/data",
+    "build": "bun run migrate:psgc && bun run minify:json && bun run build:tsup",
+    "format": "bun run prettier --write ."
   },
   "devDependencies": {
     "@changesets/cli": "^2.27.7",
-    "@types/jest": "^29.5.12",
-    "jest": "^29.7.0",
-    "ts-jest": "^29.2.3",
+    "@vitest/coverage-v8": "^2.0.4",
+    "prettier": "^3.3.2",
     "ts-node": "^10.9.2",
     "tsup": "^8.1.2",
     "typescript": "^5.2.2",
+    "vitest": "^2.0.4",
     "xlsx": "^0.18.5"
   },
   "dependencies": {}

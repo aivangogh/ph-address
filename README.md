@@ -3,7 +3,7 @@
     <img src="https://img.shields.io/npm/l/@aivangogh/ph-address"/>
   </a>
   <a href="#">
-    <img src="https://img.shields.io/npm/v/@aivangogh/ph-address"/>
+    <img src="https://img.shields.io/npm/v/@aivangogh/ph-address/2025.3.1"/>
   </a>
   <a href="https://www.npmjs.com/package/@aivangogh/ph-address">
     <img src="https://img.shields.io/npm/dt/@aivangogh/ph-address"/>
@@ -57,7 +57,7 @@ import {
 | Function                        | Param         | Description                                                  |
 | ------------------------------- | ------------- | ------------------------------------------------------------ |
 | `getAllRegions()`               |               | Returns all regions available.                               |
-| `getAllProvinces()`             |               | An array of TProvince objects sorted alphabetically by name. |
+| `getAllProvinces()`             |               | Returns all provinces available. |
 | `getProvincesByRegion()`        | code {string} | The code of the region to filter province by.                |
 | `getMunicipalitiesByProvince()` | code {string} | The code of the province to filter municipalities by.        |
 | `getBarangaysByMunicipality()`  | code {string} | The code of the municipality to filter barangays by.         |
@@ -83,34 +83,34 @@ You can use this types as well.
 
 ```ts
 import {
-  type TBarangay,
-  type TMunicipality,
-  type TProvince,
-  type TRegion
+  type PHBarangay,
+  type PHMunicipality,
+  type PHProvince,
+  type PHRegion
 } from "@aivangogh/ph-address"
 
 ```
 
 ```ts
-type TBarangay = {
+type PHBarangay = {
   name: string;
   psgcCode: string;
   municipalCityCode: string;
 };
 
-type TMunicipality = {
+type PHMunicipality = {
   name: string;
   psgcCode: string;
   provinceCode: string;
 };
 
-type TProvince = {
+type PHProvince = {
   name: string;
   psgcCode: string;
   regionCode: string;
 };
 
-type TRegion = {
+type PHRegion = {
   name: string;
   psgcCode: string;
   designation: string;

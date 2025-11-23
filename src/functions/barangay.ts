@@ -1,5 +1,5 @@
 import barangays from "../data/barangays.json";
-import { TBarangay } from "../types/barangay";
+import { PHBarangay } from "../types/barangay";
 import { sortByName } from "../utils/sort";
 
 /**
@@ -8,12 +8,12 @@ import { sortByName } from "../utils/sort";
  * @param {string} code - The code of the municipality to filter barangays by.
  * @returns {Array} - An array of barangays that belong to the specified municipality, sorted alphabetically by name.
  */
-function getBarangaysByMunicipality(code: string): TBarangay[] {
+function getBarangaysByMunicipality(code: string): PHBarangay[] {
   const filteredBarangays = barangays.filter(
     (value) => value.municipalCityCode === code
   );
 
-  return sortByName<TBarangay>(filteredBarangays);
+  return sortByName<PHBarangay>(filteredBarangays);
 }
 
 export { getBarangaysByMunicipality };

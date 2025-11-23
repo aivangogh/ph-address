@@ -7,10 +7,11 @@ yarn-error.log*
 pnpm-debug.log*
 lerna-debug.log*
 
+/node_modules
 /src
 /tests
-node_modules
-*.local
+/scripts
+/assets
 
 # Editor directories and files
 .vscode/*
@@ -31,6 +32,6 @@ jest.config.ts
 .changeset
 .github
 
-CHANGELOG.md
 bun.lockb
-package.json
+
+.claude

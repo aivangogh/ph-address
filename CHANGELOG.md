@@ -1,41 +1,20 @@
 # @aivangogh/ph-address
 
-## 1.4.2
-
-### Patch Changes
-
-- 691b4c9: changes: minified json
-
-## 1.4.1
-
-### Patch Changes
-
-- d4dad75: (Pob.) removed
-- d4dad75: small changes
-
-## 1.4.0
+## 2025.3.1
 
 ### Minor Changes
 
-- e7dc86d: added documentation
+- Added documentation.
+- Added `psgcCode` to the JSON data.
 
 ### Patch Changes
 
-- e7dc86d: Changes in README.md
-
-## 1.3.0
-
-### Minor Changes
-
-- 9c00d7a: added: PSGC json added psgcCode
-
-### Patch Changes
-
-- 9c00d7a: Changes of city name
-- a53933e: Changes in README.md
-
-## 1.2.0
-
-### Minor Changes
-
-- af3c863: added: PSGC json added psgcCode
+- Minified JSON data files.
+- Removed "(Pob.)" from names.
+- General small changes and improvements.
+- Updated `README.md`.
+- Changed formatting of city names (e.g., "City of Cebu" to "Cebu City").
+- Fixed an issue with the CI/CD pipeline by updating `bun.lockb`.
+- Refactored scripts for better maintainability and added a separate script for JSON minification.
+- Improved the `migrate:psgc` script to accept a file argument.
+- Fixed failing tests for provinces and municipalities.

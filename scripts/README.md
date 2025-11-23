@@ -10,7 +10,9 @@ Scripts for processing the PSGC data.
 
 Converts the official PSGC Excel file into formatted JSON data.
 
-- **Usage**: `bun run migrate:psgc`
+- **Usage**: `bun run scripts/migrate-psgc.ts --file=<filename.xlsx>`
+  - The `build` script (`bun run build`) in `package.json` uses a default file path.
+- **Example**: `bun run scripts/migrate-psgc.ts --file=assets/PSGC-3Q-2025-Publication-Datafile.xlsx`
 - **Input**: Reads an Excel file (e.g., `assets/PSGC-3Q-2025-Publication-Datafile.xlsx`).
 - **Output**: Generates formatted JSON files in `src/data/`.
 

@@ -1,9 +1,9 @@
 <p align="center">
-  <a href="LICENSE.md" >
+  <a href="LICENSE" >
     <img src="https://img.shields.io/npm/l/@aivangogh/ph-address"/>
   </a>
-  <a href="#">
-    <img src="https://img.shields.io/npm/v/@aivangogh/ph-address/2025.3.1"/>
+  <a href="https://www.npmjs.com/package/@aivangogh/ph-address">
+    <img src="https://img.shields.io/npm/v/@aivangogh/ph-address"/>
   </a>
   <a href="https://www.npmjs.com/package/@aivangogh/ph-address">
     <img src="https://img.shields.io/npm/dt/@aivangogh/ph-address"/>
@@ -12,114 +12,189 @@
 
 # PH-Address
 
-A collection of philippine geographic data based on PSGC
+A lightweight, zero-dependency package that provides a comprehensive collection of Philippine geographic data, based on the official [Philippine Standard Geographic Code (PSGC)](https://psa.gov.ph/classification/psgc/).
 
-## Installing
+## Features
 
-### Package manager
+- **Up-to-Date Data**: Sourced from the latest PSGC publications.
+- **Zero Dependencies**: Does not add any extra packages to your project.
+- **Fully Typed**: Written in TypeScript for a better developer experience.
+- **Easy to Use**: A simple and intuitive API for retrieving regions, provinces, municipalities, and barangays.
 
-Using npm:
+## Versioning
 
-```bash
-$ npm install @aivangogh/ph-address
-```
+This package uses a calendar-based versioning scheme: `YYYY.Q.P`
 
-Using yarn:
+- `YYYY`: The year of the PSGC data publication.
+- `Q`: The quarter of the publication (1, 2, 3, or 4).
+- `P`: A patch number for any bug fixes or improvements to the package itself, which resets with each new quarterly release.
 
-```bash
-$ yarn add @aivangogh/ph-address
-```
+For example, version `2025.3.1` means the data is from the **3rd quarter of 2025**, with `1` patch release.
 
-Using pnpm:
-
-```bash
-$ pnpm add @aivangogh/ph-address
-```
-
-Using bun:
+## Installation
 
 ```bash
-$ bun add @aivangogh/ph-address
+# Using npm
+npm install @aivangogh/ph-address
+
+# Using yarn
+yarn add @aivangogh/ph-address
+
+# Using pnpm
+pnpm add @aivangogh/ph-address
+
+# Using bun
+bun add @aivangogh/ph-address
 ```
 
-Once the package is installed, you can import the library using `import` or `require` approach:
+## API Reference
+
+You can import all functions from the package:
 
 ```ts
 import {
   getAllRegions,
   getAllProvinces,
+  getProvincesByRegion,
   getMunicipalitiesByProvince,
   getBarangaysByMunicipality,
-  getBarangaysByMunicipalityAndProvince,
 } from "@aivangogh/ph-address";
 ```
 
-| Function                        | Param         | Description                                                  |
-| ------------------------------- | ------------- | ------------------------------------------------------------ |
-| `getAllRegions()`               |               | Returns all regions available.                               |
-| `getAllProvinces()`             |               | Returns all provinces available. |
-| `getProvincesByRegion()`        | code {string} | The code of the region to filter province by.                |
-| `getMunicipalitiesByProvince()` | code {string} | The code of the province to filter municipalities by.        |
-| `getBarangaysByMunicipality()`  | code {string} | The code of the municipality to filter barangays by.         |
+---
 
-## Example
+### `getAllRegions()`
+
+Returns a sorted list of all regions.
+
+**Example:**
 
 ```ts
-import {
-  getMunicipalitiesByProvince,
-  getBarangaysByMunicipality,
-} from "@aivangogh/ph-address";
+import { getAllRegions } from "@aivangogh/ph-address";
 
-// All municipaliy/city in Bohol
-console.log(getMunicipalitiesByProvince("071200000"));
+const regions = getAllRegions();
+console.log(regions);
+/*
+[
+  { name: 'AUTONOMOUS REGION IN MUSLIM MINDANAO (ARMM)', psgcCode: '1900000000', designation: 'ARMM' },
+  { name: 'BICOL REGION', psgcCode: '0500000000', designation: 'REGION V' },
+  ...
+]
+*/
+```
 
-// All barangays in the city of Cebu City
-console.log(getBarangaysByMunicipality("072217000"));
+---
+
+### `getAllProvinces()`
+
+Returns a sorted list of all provinces.
+
+**Example:**
+
+```ts
+import { getAllProvinces } from "@aivangogh/ph-address";
+
+const provinces = getAllProvinces();
+console.log(provinces);
+/*
+[
+  { name: 'Abra', psgcCode: '1400100000', regionCode: '1400000000' },
+  { name: 'Agusan Del Norte', psgcCode: '1600200000', regionCode: '1600000000' },
+  ...
+]
+*/
+```
+
+---
+
+### `getProvincesByRegion(regionCode)`
+
+Returns a sorted list of provinces within a specific region.
+
+- `regionCode` (string): The PSGC code of the region.
+
+**Example:**
+
+```ts
+import { getProvincesByRegion } from "@aivangogh/ph-address";
+
+// Get all provinces in Region VII (Central Visayas)
+const provinces = getProvincesByRegion("0700000000"); 
+console.log(provinces);
+/*
+[
+  { name: 'Bohol', psgcCode: '0701200000', regionCode: '0700000000' },
+  { name: 'Cebu', psgcCode: '0702200000', regionCode: '0700000000' }
+]
+*/
+```
+
+---
+
+### `getMunicipalitiesByProvince(provinceCode)`
+
+Returns a sorted list of municipalities/cities within a specific province.
+
+- `provinceCode` (string): The PSGC code of the province.
+
+**Example:**
+
+```ts
+import { getMunicipalitiesByProvince } from "@aivangogh/ph-address";
+
+// Get all municipalities in Cebu
+const municipalities = getMunicipalitiesByProvince("0702200000");
+console.log(municipalities);
+/*
+[
+  { name: 'Alcantara', psgcCode: '0702201000', provinceCode: '0702200000' },
+  { name: 'Alcoy', psgcCode: '0702202000', provinceCode: '0702200000' },
+  ...
+]
+*/
+```
+
+---
+
+### `getBarangaysByMunicipality(municipalityCode)`
+
+Returns a sorted list of barangays within a specific municipality/city.
+
+- `municipalityCode` (string): The PSGC code of the municipality or city.
+
+**Example:**
+
+```ts
+import { getBarangaysByMunicipality } from "@aivangogh/ph-address";
+
+// Get all barangays in Cebu City
+const barangays = getBarangaysByMunicipality("0730600000");
+console.log(barangays);
+/*
+[
+  { name: 'Adlaon', psgcCode: '0730600001', municipalCityCode: '0730600000' },
+  { name: 'Agsungot', psgcCode: '0730600002', municipalCityCode: '0730600000' },
+  ...
+]
+*/
 ```
 
 ## Types
 
-You can use this types as well.
+You can import all the necessary types for use in your TypeScript projects.
 
 ```ts
-import {
-  type PHBarangay,
-  type PHMunicipality,
-  type PHProvince,
-  type PHRegion
-} from "@aivangogh/ph-address"
-
+import type {
+  PHRegion,
+  PHProvince,
+  PHMunicipality,
+  PHBarangay
+} from "@aivangogh/ph-address";
 ```
 
-```ts
-type PHBarangay = {
-  name: string;
-  psgcCode: string;
-  municipalCityCode: string;
-};
+## Data Source
 
-type PHMunicipality = {
-  name: string;
-  psgcCode: string;
-  provinceCode: string;
-};
-
-type PHProvince = {
-  name: string;
-  psgcCode: string;
-  regionCode: string;
-};
-
-type PHRegion = {
-  name: string;
-  psgcCode: string;
-  designation: string;
-};
-```
-
-## Reference
-
-- [PSA-PSGC Publications](https://psa.gov.ph/classification/psgc/)
+The data is sourced directly from the quarterly publications of the **Philippine Statistics Authority (PSA)**.
 
 ## License
 

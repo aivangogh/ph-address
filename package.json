@@ -27,7 +27,7 @@
     "test": "vitest",
     "migrate:psgc": "bun run scripts/migrate-psgc.ts",
     "minify:json": "bun run scripts/minify-json.ts src/data",
-    "build": "bun run migrate:psgc && bun run minify:json && bun run build:tsup",
+    "build": "bun run minify:json && bun run build:tsup",
     "format": "bun run prettier --write ."
   },
   "devDependencies": {

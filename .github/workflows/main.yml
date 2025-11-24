@@ -9,10 +9,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-      - uses: oven-sh/setup-bun@v2
-        with:
-          bun-version: latest
       - uses: actions/setup-node@v3
 
-      - run: bun install --frozen-lockfile
-      - run: bun run build
+      - run: npm ci
+      - run: npm run build

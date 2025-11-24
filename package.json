@@ -1,6 +1,6 @@
 {
   "name": "@aivangogh/ph-address",
-  "version": "2025.3.3",
+  "version": "2025.3.4",
   "description": "A collection of philippine geographic data based on PSGC",
   "main": "./dist/index.js",
   "module": "./dist/index.mjs",
@@ -24,10 +24,11 @@
   "scripts": {
     "build:tsup": "tsup",
     "release": "bun run build && changeset publish",
-    "test": "vitest",
+    "test": "bun run test:prepare && vitest",
+    "test:prepare": "bun run scripts/compress-json.ts src/data-compressed",
     "migrate:psgc": "bun run scripts/migrate-psgc.ts",
-    "minify:json": "bun run scripts/minify-json.ts src/data",
-    "build": "bun run minify:json && bun run build:tsup",
+    "build:compress": "bun run scripts/compress-json.ts dist/data-compressed",
+    "build": "bun run build:tsup && bun run build:compress",
     "format": "bun run prettier --write ."
   },
   "devDependencies": {

@@ -16,7 +16,7 @@
   },
   "author": {
     "name": "Ivan Gemota",
-    "email": "davannarts@gmail.com",
+    "email": "aivangogh.dev@gmail.com",
     "url": "https://github.com/aivangogh"
   },
   "repository": {
@@ -33,17 +33,16 @@
   "scripts": {
     "build:tsup": "tsup",
     "release": "bun run build && changeset publish",
-    "test": "bun run test:prepare && vitest",
-    "test:prepare": "bun run scripts/compress-json.ts src/data-compressed/index.ts",
+    "test": "vitest",
+    "test:prepare": "bun run build:toon && bun run build:toon-ts",
     "migrate:psgc": "bun run scripts/migrate-psgc.ts",
-    "build:compress": "bun run scripts/compress-json.ts dist/data-compressed",
-    "build:prepare": "bun run scripts/compress-json.ts src/data-compressed/index.ts",
-    "build": "bun run build:prepare && bun run build:tsup && bun run build:compress",
+    "build:toon": "bun run scripts/convert-to-toon.ts src/data-toon",
+    "build:toon-ts": "bun run scripts/convert-to-toon.ts src/data-toon-ts/index.ts",
+    "build": "bun run build:toon && bun run build:toon-ts && bun run build:tsup",
     "format": "bun run prettier --write ."
   },
   "devDependencies": {
     "@changesets/cli": "^2.27.7",
-    "@types/pako": "^2.0.4",
     "@vitest/coverage-v8": "^2.0.4",
     "prettier": "^3.3.2",
     "ts-node": "^10.9.2",
@@ -53,6 +52,6 @@
     "xlsx": "^0.18.5"
   },
   "dependencies": {
-    "pako": "^2.1.0"
+    "@toon-format/toon": "^1.3.0"
   }
 }

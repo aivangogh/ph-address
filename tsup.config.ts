@@ -1,30 +1,28 @@
 import { defineConfig } from 'tsup';
 import path from 'path';
 
-const baseConfig = {
-  shims: true,
-  skipNodeModulesBundle: true,
-  dts: true,
-};
-
-export default defineConfig((options) => [
+export default defineConfig([
   {
-    ...baseConfig,
     platform: 'node',
     format: ['cjs', 'esm'],
     entry: {
       index: './src/index.ts',
     },
-    clean: !options.watch,
+    dts: true,
+    shims: true,
+    skipNodeModulesBundle: true,
+    clean: true,
   },
   {
-    ...baseConfig,
     platform: 'browser',
     format: ['esm'],
     entry: {
       browser: './src/index.ts',
     },
     dts: false,
+    shims: true,
+    skipNodeModulesBundle: true,
+    clean: false, // Do not clean the dist folder again
     esbuildPlugins: [
       {
         name: 'replace-data-loader',
@@ -36,6 +34,5 @@ export default defineConfig((options) => [
         },
       },
     ],
-    clean: false, // Do not clean the dist folder again
   },
 ]);

@@ -1,0 +1,19 @@
+[18]{name,psgcCode,designation}:
+  Bangsamoro Autonomous Region In Muslim Mindanao,"1900000000",BARMM
+  Cordillera Administrative Region,"1400000000",CAR
+  MIMAROPA Region,"1700000000",""
+  National Capital Region,"1300000000",NCR
+  Negros Island Region,"1800000000",NIR
+  Region I,"0100000000",Ilocos Region
+  Region II,"0200000000",Cagayan Valley
+  Region III,"0300000000",Central Luzon
+  Region IV-A,"0400000000",CALABARZON
+  Region IX,"0900000000",Zamboanga Peninsula
+  Region V,"0500000000",Bicol Region
+  Region VI,"0600000000",Western Visayas
+  Region VII,"0700000000",Central Visayas
+  Region VIII,"0800000000",Eastern Visayas
+  Region X,"1000000000",Northern Mindanao
+  Region XI,"1100000000",Davao Region
+  Region XII,"1200000000",SOCCSKSARGEN
+  Region XIII,"1600000000",Caraga

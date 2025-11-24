@@ -23,10 +23,7 @@ A lightweight package that provides a comprehensive collection of Philippine geo
 
 ## Node.js and Browser Support
 
-This package is designed to work in both Node.js and browser environments, with optimized bundles for each.
-
--   **Node.js**: In a Node.js environment, the library efficiently reads data from TOON files at runtime.
--   **Browser**: For browser usage, the library uses a bundle with the data embedded, ensuring compatibility without file system access.
+This package is a "hybrid" package that supports both CommonJS (`require()`) and ESM (`import`) syntax. It is compatible with both Node.js and browser environments out of the box. The data is bundled directly with the code, so it works seamlessly without needing file system access.
 
 ## Versioning
 

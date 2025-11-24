@@ -1,5 +1,11 @@
 # @aivangogh/ph-address
 
+## 2025.3.8
+
+### Major Changes
+
+- **Simplified Build Process**: The dual-build system for Node.js and the browser has been removed. The package now uses a single, unified build that works in both environments out of the box.
+
 ## 2025.3.7
 
 ### Major Changes

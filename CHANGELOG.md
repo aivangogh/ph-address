@@ -1,10 +1,32 @@
 # @aivangogh/ph-address
 
-## 2025.3.10
+## 2025.3.9
 
-### Patch Changes
+### Major Changes
 
-- 8438986: fixed issues with build
+- **Compression Layer Added**: Implemented gzip compression on top of TOON format using `pako`, achieving an 87.6% reduction in data size compared to raw JSON (4.3 MB → 533 KB).
+- **Improved Performance**: Data initialization is now ~47% faster due to smaller payload size. Decompression + decoding is faster than decoding uncompressed TOON data.
+- **Optimized Bundle Size**: Distribution package reduced from 3.2 MB to 1.1 MB (65.6% reduction).
+
+### Minor Changes
+
+- **Enhanced Test Suite**: Added comprehensive test coverage including:
+  - Performance benchmarks for data loading and decompression
+  - Data integrity and relationship validation tests
+  - Compression ratio verification tests
+  - Edge case and caching performance tests
+- **Improved Build Process**: Updated `convert-to-toon.ts` to automatically compress TOON data with gzip and encode as base64.
+
+### Technical Details
+
+- Data is now stored as gzip-compressed, base64-encoded TOON strings
+- Compression ratios achieved:
+  - Barangays: 67.4% reduction (1.59 MB → 520 KB)
+  - Municipalities: 63.3% reduction (62 KB → 23 KB)
+  - Provinces: 60.2% reduction (3.2 KB → 1.3 KB)
+  - Regions: 39.5% reduction
+- All data is decompressed on first access and cached in memory for subsequent calls
+- Browser and Node.js compatibility maintained
 
 ## 2025.3.8
 

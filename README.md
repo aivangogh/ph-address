@@ -12,14 +12,21 @@
 
 # PH-Address
 
-A lightweight, zero-dependency package that provides a comprehensive collection of Philippine geographic data, based on the official [Philippine Standard Geographic Code (PSGC)](https://psa.gov.ph/classification/psgc/).
+A lightweight package that provides a comprehensive collection of Philippine geographic data, based on the official [Philippine Standard Geographic Code (PSGC)](https://psa.gov.ph/classification/psgc/).
 
 ## Features
 
 - **Up-to-Date Data**: Sourced from the latest PSGC publications.
-- **Zero Dependencies**: Does not add any extra packages to your project.
+- **Lightweight**: Optimized for a small bundle size, with data compressed using the `toon-format`.
 - **Fully Typed**: Written in TypeScript for a better developer experience.
 - **Easy to Use**: A simple and intuitive API for retrieving regions, provinces, municipalities, and barangays.
+
+## Node.js and Browser Support
+
+This package is designed to work in both Node.js and browser environments, with optimized bundles for each.
+
+-   **Node.js**: In a Node.js environment, the library efficiently reads data from TOON files at runtime.
+-   **Browser**: For browser usage, the library uses a bundle with the data embedded, ensuring compatibility without file system access.
 
 ## Versioning
 
@@ -42,9 +49,6 @@ yarn add @aivangogh/ph-address
 
 # Using pnpm
 pnpm add @aivangogh/ph-address
-
-# Using bun
-bun add @aivangogh/ph-address
 ```
 
 ## API Reference

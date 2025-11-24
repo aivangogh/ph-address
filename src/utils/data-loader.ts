@@ -1,6 +1,12 @@
 import { decode } from '@toon-format/toon';
-import fs from 'fs';
-import path from 'path';
+import pako from 'pako';
+import {
+    regions as regionsCompressed,
+    provinces as provincesCompressed,
+    municipalities as municipalitiesCompressed,
+    barangays as barangaysCompressed,
+} from '../data-toon-ts';
+
 import { PHRegion } from '../types/region';
 import { PHProvince } from '../types/province';
 import { PHMunicipality } from '../types/municipality';
@@ -19,15 +25,24 @@ let barangaysByMunicipality: Map<string, readonly PHBarangay[]>;
 
 let isInitialized = false;
 
+function decompressAndDecode<T>(compressed: string): T {
+    // Decode from base64
+    const compressedBytes = Uint8Array.from(atob(compressed), c => c.charCodeAt(0));
+    // Decompress
+    const decompressed = pako.inflate(compressedBytes, { to: 'string' });
+    // Decode TOON
+    return decode(decompressed) as T;
+}
+
 function initializeData() {
     if (isInitialized) {
         return;
     }
 
-    regions = loadAndDecode<PHRegion[]>('regions.toon');
-    provinces = loadAndDecode<PHProvince[]>('provinces.toon');
-    municipalities = loadAndDecode<PHMunicipality[]>('municipalities.toon');
-    barangays = loadAndDecode<PHBarangay[]>('barangays.toon');
+    regions = decompressAndDecode<PHRegion[]>(regionsCompressed);
+    provinces = decompressAndDecode<PHProvince[]>(provincesCompressed);
+    municipalities = decompressAndDecode<PHMunicipality[]>(municipalitiesCompressed);
+    barangays = decompressAndDecode<PHBarangay[]>(barangaysCompressed);
 
     provincesByRegion = new Map();
     for (const province of provinces) {
@@ -50,11 +65,6 @@ function initializeData() {
     isInitialized = true;
 }
 
-function loadAndDecode<T>(fileName: string): T {
-  const filePath = path.resolve(__dirname, `../data-toon/${fileName}`);
-  const fileBuffer = fs.readFileSync(filePath, 'utf-8');
-  return decode(fileBuffer) as T;
-}
 
 export function getRegions(): readonly PHRegion[] {
   initializeData();

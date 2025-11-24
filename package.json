@@ -1,18 +1,13 @@
 {
   "name": "@aivangogh/ph-address",
-  "version": "2025.3.8",
+  "version": "2025.3.9",
   "description": "A collection of philippine geographic data based on PSGC",
   "main": "./dist/index.js",
   "module": "./dist/index.mjs",
   "types": "./dist/index.d.ts",
   "exports": {
-    "node": {
-      "import": "./dist/index.mjs",
-      "require": "./dist/index.js"
-    },
-    "browser": {
-      "import": "./dist/browser.mjs"
-    }
+    "import": "./dist/index.mjs",
+    "require": "./dist/index.js"
   },
   "author": {
     "name": "Ivan Gemota",

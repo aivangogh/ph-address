@@ -1,16 +1,32 @@
 import { describe, it, expect } from 'vitest';
-import { getAllProvinces } from '../src';
-import provinces from '../src/data/provinces.json';
+import { getAllProvinces, getProvincesByRegion } from '../src';
+import allProvinces from '../src/data/provinces.json';
+import { sortByName } from '../src/utils/sort';
 
 describe('Get province/s test suite', () => {
   it('should return all provinces sorted by name', () => {
     const result = getAllProvinces();
-    
-    // Check if the result has the same number of items as the source
-    expect(result.length).toEqual(provinces.length);
+    const expected = sortByName(allProvinces);
 
-    // Check if the result is sorted by name
-    const sortedResult = [...result].sort((a, b) => a.name.localeCompare(b.name));
-    expect(result).toEqual(sortedResult);
+    expect(result).toEqual(expected);
+  });
+
+  it('should return sorted provinces when a valid region code is provided', () => {
+    const regionCode = '1400000000';
+
+    const result = getProvincesByRegion(regionCode);
+
+    const expected = sortByName(
+      allProvinces.filter((p) => p.regionCode === regionCode)
+    );
+
+    expect(result).toEqual(expected);
+    expect(result.length).toBeGreaterThan(0);
+  });
+
+  it('should return an empty array for a non-existent region code', () => {
+    const regionCode = 'non-existent-code';
+    const result = getProvincesByRegion(regionCode);
+    expect(result).toEqual([]);
   });
 });

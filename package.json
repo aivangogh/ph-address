@@ -43,6 +43,7 @@
   },
   "devDependencies": {
     "@changesets/cli": "^2.27.7",
+    "@types/pako": "^2.0.4",
     "@vitest/coverage-v8": "^2.0.4",
     "prettier": "^3.3.2",
     "ts-node": "^10.9.2",

@@ -32,14 +32,14 @@
   ],
   "scripts": {
     "build:tsup": "tsup",
-    "release": "bun run build && changeset publish",
+    "release": "npm run build && changeset publish",
     "test": "vitest",
-    "test:prepare": "bun run build:toon && bun run build:toon-ts",
-    "migrate:psgc": "bun run scripts/migrate-psgc.ts",
-    "build:toon": "bun run scripts/convert-to-toon.ts src/data-toon",
-    "build:toon-ts": "bun run scripts/convert-to-toon.ts src/data-toon-ts/index.ts",
-    "build": "bun run build:toon && bun run build:toon-ts && bun run build:tsup",
-    "format": "bun run prettier --write ."
+    "test:prepare": "npm run build:toon && npm run build:toon-ts",
+    "migrate:psgc": "ts-node scripts/migrate-psgc.ts",
+    "build:toon": "ts-node scripts/convert-to-toon.ts src/data-toon",
+    "build:toon-ts": "ts-node scripts/convert-to-toon.ts src/data-toon-ts/index.ts",
+    "build": "npm run build:toon && npm run build:toon-ts && npm run build:tsup",
+    "format": "prettier --write ."
   },
   "devDependencies": {
     "@changesets/cli": "^2.27.7",

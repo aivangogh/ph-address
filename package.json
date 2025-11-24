@@ -1,10 +1,19 @@
 {
   "name": "@aivangogh/ph-address",
-  "version": "2025.3.5",
+  "version": "2025.3.4",
   "description": "A collection of philippine geographic data based on PSGC",
   "main": "./dist/index.js",
   "module": "./dist/index.mjs",
   "types": "./dist/index.d.ts",
+  "exports": {
+    "node": {
+      "import": "./dist/index.mjs",
+      "require": "./dist/index.js"
+    },
+    "browser": {
+      "import": "./dist/browser.mjs"
+    }
+  },
   "author": {
     "name": "Ivan Gemota",
     "email": "davannarts@gmail.com",
@@ -25,14 +34,16 @@
     "build:tsup": "tsup",
     "release": "bun run build && changeset publish",
     "test": "bun run test:prepare && vitest",
-    "test:prepare": "bun run scripts/compress-json.ts src/data-compressed",
+    "test:prepare": "bun run scripts/compress-json.ts src/data-compressed/index.ts",
     "migrate:psgc": "bun run scripts/migrate-psgc.ts",
     "build:compress": "bun run scripts/compress-json.ts dist/data-compressed",
-    "build": "bun run build:tsup && bun run build:compress",
+    "build:prepare": "bun run scripts/compress-json.ts src/data-compressed/index.ts",
+    "build": "bun run build:prepare && bun run build:tsup && bun run build:compress",
     "format": "bun run prettier --write ."
   },
   "devDependencies": {
     "@changesets/cli": "^2.27.7",
+    "@types/pako": "^2.0.4",
     "@vitest/coverage-v8": "^2.0.4",
     "prettier": "^3.3.2",
     "ts-node": "^10.9.2",
@@ -41,5 +52,7 @@
     "vitest": "^2.0.4",
     "xlsx": "^0.18.5"
   },
-  "dependencies": {}
+  "dependencies": {
+    "pako": "^2.1.0"
+  }
 }

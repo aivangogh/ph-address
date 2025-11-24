@@ -162,9 +162,11 @@ console.log(municipalities);
 
 ### `getBarangaysByMunicipality(municipalityCode)`
 
-Returns a sorted list of barangays within a specific municipality/city.
+Returns a sorted list of barangays within a specific municipality or city.
 
 - `municipalityCode` (string): The PSGC code of the municipality or city.
+
+**Note**: In the context of this library and the PSGC data, the term "municipality" is used to refer to both municipalities and cities.
 
 **Example:**
 

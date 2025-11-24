@@ -1,48 +1,53 @@
-import fs from 'fs';
-import zlib from 'zlib';
-import path from 'path';
+import { gunzip } from 'pako';
+import {
+    regions,
+    provinces,
+    municipalities,
+    barangays,
+} from '../data-compressed';
+
 import { PHRegion } from '../types/region';
 import { PHProvince } from '../types/province';
 import { PHMunicipality } from '../types/municipality';
 import { PHBarangay } from '../types/barangay';
 
+let isInitialized = false;
+
 // Data is stored in memory after initial load
-let regions: readonly PHRegion[];
-let provinces: readonly PHProvince[];
-let municipalities: readonly PHMunicipality[];
-let barangays: readonly PHBarangay[];
+let regionsData: readonly PHRegion[];
+let provincesData: readonly PHProvince[];
+let municipalitiesData: readonly PHMunicipality[];
+let barangaysData: readonly PHBarangay[];
 
 // Indexed data for faster lookups
 let provincesByRegion: Map<string, readonly PHProvince[]>;
 let municipalitiesByProvince: Map<string, readonly PHMunicipality[]>;
 let barangaysByMunicipality: Map<string, readonly PHBarangay[]>;
 
-let isInitialized = false;
-
 function initializeData() {
     if (isInitialized) {
         return;
     }
 
-    regions = loadAndDecompress<PHRegion[]>('regions.json.gz');
-    provinces = loadAndDecompress<PHProvince[]>('provinces.json.gz');
-    municipalities = loadAndDecompress<PHMunicipality[]>('municipalities.json.gz');
-    barangays = loadAndDecompress<PHBarangay[]>('barangays.json.gz');
+    regionsData = decompressData(regions) as readonly PHRegion[];
+    provincesData = decompressData(provinces) as readonly PHProvince[];
+    municipalitiesData = decompressData(municipalities) as readonly PHMunicipality[];
+    barangaysData = decompressData(barangays) as readonly PHBarangay[];
 
     provincesByRegion = new Map();
-    for (const province of provinces) {
+    for (const province of provincesData) {
         const regionProvinces = (provincesByRegion.get(province.regionCode) || []).concat(province);
         provincesByRegion.set(province.regionCode, regionProvinces);
     }
 
     municipalitiesByProvince = new Map();
-    for (const municipality of municipalities) {
+    for (const municipality of municipalitiesData) {
         const provinceMunicipalities = (municipalitiesByProvince.get(municipality.provinceCode) || []).concat(municipality);
         municipalitiesByProvince.set(municipality.provinceCode, provinceMunicipalities);
     }
 
     barangaysByMunicipality = new Map();
-    for (const barangay of barangays) {
+    for (const barangay of barangaysData) {
         const municipalityBarangays = (barangaysByMunicipality.get(barangay.municipalCityCode) || []).concat(barangay);
         barangaysByMunicipality.set(barangay.municipalCityCode, municipalityBarangays);
     }
@@ -50,32 +55,34 @@ function initializeData() {
     isInitialized = true;
 }
 
-function loadAndDecompress<T>(fileName: string): T {
-  // Assuming the script is in dist/utils/data-loader.js
-  const filePath = path.resolve(__dirname, `../data-compressed/${fileName}`);
-  const fileBuffer = fs.readFileSync(filePath);
-  const decompressed = zlib.gunzipSync(fileBuffer);
-  return JSON.parse(decompressed.toString());
+function decompressData<T>(base64: string): T {
+  const compressedData = atob(base64);
+  const uint8Array = new Uint8Array(compressedData.length);
+  for (let i = 0; i < compressedData.length; i++) {
+    uint8Array[i] = compressedData.charCodeAt(i);
+  }
+  const decompressed = gunzip(uint8Array, { to: 'string' });
+  return JSON.parse(decompressed);
 }
 
 export function getRegions(): readonly PHRegion[] {
   initializeData();
-  return regions;
+  return regionsData;
 }
 
 export function getProvinces(): readonly PHProvince[] {
     initializeData();
-    return provinces;
+    return provincesData;
 }
 
 export function getMunicipalities(): readonly PHMunicipality[] {
     initializeData();
-    return municipalities;
+    return municipalitiesData;
 }
 
 export function getBarangays(): readonly PHBarangay[] {
     initializeData();
-    return barangays;
+    return barangaysData;
 }
 
 export function getIndexedProvincesByRegion() {

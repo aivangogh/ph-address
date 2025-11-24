@@ -1,5 +1,17 @@
 # @aivangogh/ph-address
 
+## 2025.3.7
+
+### Major Changes
+
+- **Switched to `npm`**: The entire build process, including CI/CD pipelines, has been migrated from `bun` to `npm` to improve stability and address lockfile issues.
+- **Simplified Data Handling with TOON**: The project now uses the `toon-format` for data storage. This simplifies the data loading mechanism and build process, removing the need for `pako` and custom compression scripts. A new script, `convert-to-toon.ts`, has been added to handle the conversion from JSON to TOON.
+- **Dual-Build System**: The project now generates two separate bundles: one for Node.js that reads TOON files at runtime, and another for the browser that bundles the TOON data as strings. This provides an optimized experience for both environments.
+
+### Patch Changes
+
+- Fixed various CI/CD failures related to `bun install --frozen-lockfile`.
+
 ## 2025.3.3
 
 ### Minor Changes

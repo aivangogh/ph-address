@@ -1,5 +1,11 @@
 # @aivangogh/ph-address
 
+## 2025.3.10
+
+### Patch Changes
+
+- 8438986: fixed issues with build
+
 ## 2025.3.8
 
 ### Major Changes

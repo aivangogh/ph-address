@@ -1,6 +1,8 @@
-import fs from 'fs';
-import zlib from 'zlib';
-import path from 'path';
+import regionsData from '../data/regions.json';
+import provincesData from '../data/provinces.json';
+import municipalitiesData from '../data/municipalities.json';
+import barangaysData from '../data/barangays.json';
+
 import { PHRegion } from '../types/region';
 import { PHProvince } from '../types/province';
 import { PHMunicipality } from '../types/municipality';
@@ -24,10 +26,10 @@ function initializeData() {
         return;
     }
 
-    regions = loadAndDecompress<PHRegion[]>('regions.json.gz');
-    provinces = loadAndDecompress<PHProvince[]>('provinces.json.gz');
-    municipalities = loadAndDecompress<PHMunicipality[]>('municipalities.json.gz');
-    barangays = loadAndDecompress<PHBarangay[]>('barangays.json.gz');
+    regions = regionsData as readonly PHRegion[];
+    provinces = provincesData as readonly PHProvince[];
+    municipalities = municipalitiesData as readonly PHMunicipality[];
+    barangays = barangaysData as readonly PHBarangay[];
 
     provincesByRegion = new Map();
     for (const province of provinces) {
@@ -48,14 +50,6 @@ function initializeData() {
     }
 
     isInitialized = true;
-}
-
-function loadAndDecompress<T>(fileName: string): T {
-  // Assuming the script is in dist/utils/data-loader.js
-  const filePath = path.resolve(__dirname, `../data-compressed/${fileName}`);
-  const fileBuffer = fs.readFileSync(filePath);
-  const decompressed = zlib.gunzipSync(fileBuffer);
-  return JSON.parse(decompressed.toString());
 }
 
 export function getRegions(): readonly PHRegion[] {

@@ -5,7 +5,7 @@
  * @param array The array of objects to sort. Each object must have a `name` property.
  * @returns A new array with the elements sorted by name. Returns an empty array if the input is null or undefined.
  */
-function sortByName<TData extends { name: string }>(array: TData[]): TData[] {
+function sortByName<TData extends { name: string }>(array: readonly TData[]): TData[] {
   if (!array) return [];
 
   return [...array].sort((a, b) => {

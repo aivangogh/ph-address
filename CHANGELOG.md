@@ -1,5 +1,11 @@
 # @aivangogh/ph-address
 
+## 2025.3.12
+
+### Patch Changes
+
+- 98b58f5: fixed compiled issues
+
 ## 2025.3.9
 
 ### Major Changes

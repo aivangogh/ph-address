@@ -17,14 +17,9 @@
   "repository": {
     "url": "git+ssh://git@github.com/aivangogh/ph-address.git"
   },
-  "homepage": "https://github.com/aivangogh/ph-address",
+  "homepage": "https://aivangogh.github.io/tools/ph-address",
   "license": "MIT",
-  "keywords": [
-    "philippines",
-    "address",
-    "ph-address",
-    "psgc"
-  ],
+  "keywords": ["philippines", "address", "ph-address", "psgc"],
   "scripts": {
     "build:tsup": "tsup",
     "release": "npm run build && changeset publish",

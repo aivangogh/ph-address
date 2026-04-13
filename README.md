@@ -17,8 +17,8 @@ A lightweight package that provides a comprehensive collection of Philippine geo
 ## Features
 
 - **Up-to-Date Data**: Sourced from the latest PSGC publications.
-- **Ultra-Lightweight**: Highly optimized bundle size (~1.1 MB total, ~533 KB compressed data) using TOON format + gzip compression - 87.6% smaller than raw JSON.
-- **Fast Performance**: Efficient data loading with automatic caching. Initial load under 2 seconds, subsequent calls are nearly instant.
+- **Ultra-Lightweight**: Highly optimized bundle size (~373 KB dist) using CSV + gzip compression — 40% smaller than the previous TOON-based format.
+- **Fast Performance**: Efficient data loading with automatic caching. Barangay data (42k rows) decompresses and parses in ~39 ms on first call; subsequent calls are nearly instant.
 - **Fully Typed**: Written in TypeScript for a better developer experience with full type definitions.
 - **Easy to Use**: A simple and intuitive API for retrieving regions, provinces, municipalities, and barangays.
 - **Zero Configuration**: Works out of the box in both Node.js and browser environments.
@@ -29,12 +29,24 @@ This package is a "hybrid" package that supports both CommonJS (`require()`) and
 
 ### Performance Characteristics
 
-- **Bundle Size**: ~1.1 MB total (vs 4.3 MB raw JSON - 74.4% smaller)
-- **Initialization**: ~1.3 seconds for first call (decompresses and caches all data)
+- **Bundle Size**: ~373 KB (dist/index.mjs) — 40% smaller than the previous TOON-based format
+- **Initialization**: ~39 ms for barangays on first call (decompresses and caches all data)
 - **Subsequent Calls**: < 1ms (data is cached in memory)
-- **Memory Usage**: ~7 MB after initialization (decompressed data)
 
-The package uses [TOON format](https://github.com/toon-format/toon) with gzip compression for optimal size and performance. Data is automatically decompressed on first use and cached for instant access on subsequent calls.
+The package uses CSV with gzip compression for optimal size and parse speed. Data is automatically decompressed on first use and cached for instant access on subsequent calls.
+
+### Format Benchmark
+
+Benchmarked on 42,011 barangay rows (20 iterations median):
+
+| Format | Compressed size | Decompress + parse |
+|---|---|---|
+| JSON | 586 KB | 81 ms |
+| TOON (former) | 508 KB | 220 ms |
+| CSV full | 477 KB | 77 ms |
+| **CSV optimized** (current) | **346 KB** | **39 ms** |
+
+CSV optimized removes columns that are derivable from the 10-digit PSGC code structure, then derives them at load time — smaller payload and less to parse.
 
 ## Versioning
 

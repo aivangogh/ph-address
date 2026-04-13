@@ -1,5 +1,46 @@
 # @aivangogh/ph-address
 
+## 2025.4.3
+
+### Major Changes
+
+- **Replaced TOON with CSV**: Dropped `@toon-format/toon` as a runtime dependency. Data is now stored as gzip-compressed, base64-encoded CSV — smaller bundle, faster parse, simpler format.
+- **PSGC Hierarchical Code Optimization**: Removed derivable columns from CSV based on the 10-digit PSGC structure (`RR` + `XXX` + `XX` + `XXX`):
+  - `municipalCityCode` removed from barangays CSV — derived at load time as `psgcCode[0:7] + '000'` (saves 451 KB raw)
+  - `regionCode` removed from provinces CSV — derived at load time as `psgcCode[0:2] + '00000000'`
+  - `provinceCode` kept in municipalities CSV — not always derivable due to NCR cities and HUC special cases
+  - Public API is unchanged — all types still include the derived fields
+- **Migration pipeline now outputs CSV directly from XLSX**: `migrate-psgc.ts` writes `src/data-csv/` alongside `src/data/` JSON, so CSV is generated from the PSGC source — not converted from an intermediate format.
+
+### Performance (vs 2025.4.2 with TOON)
+
+Benchmarked across 20 iterations on 42,011 barangays:
+
+| Metric | TOON (2025.4.2) | CSV optimized (2025.4.3) | Change |
+|---|---|---|---|
+| Total compressed bundle | 532 KB | 369 KB | **-31%** |
+| Barangays compressed | 508 KB | 346 KB | **-32%** |
+| Decompress + parse (barangays) | 220 ms | 39 ms | **-82%** |
+| dist/index.mjs | 504 KB | 373 KB | **-26%** |
+
+### Minor Changes
+
+- **Fixed `data-loader.browser.ts`**: Was broken — still imported the removed `@toon-format/toon` dep. Now re-exports from the shared `data-loader.ts`.
+- **Replaced `Buffer` with `atob()`**: Base64 decoding now uses the browser-native `atob()` API, removing the Node.js-only `Buffer` shim requirement.
+- **Removed `ts-node` devDependency**: All scripts now run via `bun` natively.
+- **Added `benchmark` script**: Run `bun run benchmark` to compare JSON vs TOON vs CSV full vs CSV optimized across all four datasets.
+- **Added `@toon-format/toon` as devDependency**: Kept for benchmark comparisons only — not included in the production bundle.
+
+### Technical Details
+
+- Data pipeline: XLSX → `migrate-psgc.ts` → `src/data-csv/*.csv` → `convert-to-csv.ts` → `src/data-csv-ts/index.ts`
+- Compression ratios (CSV optimized, gzip+base64):
+  - Barangays: 860 KB → 346 KB (59.8% reduction)
+  - Municipalities: 51 KB → 21 KB (57.9% reduction)
+  - Provinces: 1.8 KB → 1.0 KB (43.7% reduction)
+  - Regions: 0.7 KB → 0.4 KB (37.1% reduction)
+- Only production dependency: `pako` for gzip decompression
+
 ## 2025.3.9
 
 ### Major Changes

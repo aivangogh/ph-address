@@ -11,6 +11,7 @@ import { sortByName } from '../src/utils/sort';
 const PSGC_SHEET_NAME = 'PSGC';
 const ASSETS_DIR = path.join(__dirname, '../assets');
 const DATA_DIR = path.join(__dirname, '../src/data');
+const CSV_DATA_DIR = path.join(__dirname, '../src/data-csv');
 
 interface RawPSGCDataRow {
 	['10-digit PSGC']?: string | number;
@@ -119,6 +120,58 @@ function extractData(rawData: RawPSGCDataRow[]) {
 	return { regions, provinces, municipalities, barangays };
 }
 
+function csvEscape(value: string): string {
+	return value.includes(',') || value.includes('"') || value.includes('\n')
+		? `"${value.replace(/"/g, '""')}"`
+		: value;
+}
+
+function toCSV(headers: string[], rows: Record<string, string>[]): string {
+	const lines = [
+		headers.join(','),
+		...rows.map(row => headers.map(h => csvEscape(row[h] ?? '')).join(',')),
+	];
+	return lines.join('\n');
+}
+
+function writeCsvFiles(data: {
+	regions: PHRegion[];
+	provinces: PHProvince[];
+	municipalities: PHMunicipality[];
+	barangays: PHBarangay[];
+}) {
+	if (!fs.existsSync(CSV_DATA_DIR)) {
+		fs.mkdirSync(CSV_DATA_DIR, { recursive: true });
+	}
+
+	const sortedRegions = sortByName(data.regions);
+	const sortedProvinces = sortByName(data.provinces);
+	const sortedMunicipalities = sortByName(data.municipalities);
+	const sortedBarangays = sortByName(data.barangays);
+
+	// regionCode  = psgcCode[0:2] + '00000000' → derivable, omitted from CSV
+	// municipalCityCode = psgcCode[0:7] + '000' → derivable, omitted from CSV
+	// provinceCode for municipalities is NOT always derivable (NCR/HUC special cases) → kept
+	fs.writeFileSync(
+		path.join(CSV_DATA_DIR, 'regions.csv'),
+		toCSV(['name', 'psgcCode', 'designation'], sortedRegions as unknown as Record<string, string>[]),
+	);
+	fs.writeFileSync(
+		path.join(CSV_DATA_DIR, 'provinces.csv'),
+		toCSV(['name', 'psgcCode'], sortedProvinces as unknown as Record<string, string>[]),
+	);
+	fs.writeFileSync(
+		path.join(CSV_DATA_DIR, 'municipalities.csv'),
+		toCSV(['name', 'psgcCode', 'provinceCode'], sortedMunicipalities as unknown as Record<string, string>[]),
+	);
+	fs.writeFileSync(
+		path.join(CSV_DATA_DIR, 'barangays.csv'),
+		toCSV(['name', 'psgcCode'], sortedBarangays as unknown as Record<string, string>[]),
+	);
+
+	console.log('Generated CSV files in src/data-csv/');
+}
+
 function writeJsonFiles(data: {
 	regions: PHRegion[];
 	provinces: PHProvince[];
@@ -167,6 +220,8 @@ function main() {
 
 	console.log('Writing JSON files...');
 	writeJsonFiles({ regions, provinces, municipalities, barangays });
+	console.log('Writing CSV files...');
+	writeCsvFiles({ regions, provinces, municipalities, barangays });
 	console.log('Data migration complete.');
 }
 

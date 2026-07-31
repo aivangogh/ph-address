@@ -1,6 +1,6 @@
 {
   "name": "@aivangogh/ph-address",
-  "version": "2025.4.3",
+  "version": "2026.2.0",
   "description": "A collection of philippine geographic data based on PSGC",
   "main": "./dist/index.js",
   "module": "./dist/index.mjs",
@@ -34,6 +34,7 @@
     "test:prepare": "bun run build:csv-ts",
     "migrate:psgc": "bun scripts/migrate-psgc.ts",
     "build:csv-ts": "bun scripts/convert-to-csv.ts src/data-csv-ts/index.ts",
+    "data:check": "bun run migrate:psgc --file=assets/PSGC-2Q-2026-Publication-Datafile.xlsx && bun run build:csv-ts && git diff --exit-code -- src/data src/data-csv src/data-csv-ts",
     "build": "bun run build:csv-ts && bun run build:tsup",
     "typecheck": "tsc --noEmit",
     "test:browser": "node tests/browser-smoke.mjs",

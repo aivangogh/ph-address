@@ -117,6 +117,63 @@ function time(fn: () => unknown): number {
   return median(times);
 }
 
+interface QueryTiming {
+  name: string;
+  coldMs: number;
+  cachedMs: number;
+}
+
+const QUERY_EXPRESSIONS = [
+  ['getAllRegions()', 'getAllRegions'],
+  ['getAllProvinces()', 'getAllProvinces'],
+  ["getProvincesByRegion('1400000000')", 'getProvincesByRegion'],
+  [
+    "getMunicipalitiesByProvince('1400100000')",
+    'getMunicipalitiesByProvince',
+  ],
+  [
+    "getBarangaysByMunicipality('0730600000')",
+    'getBarangaysByMunicipality',
+  ],
+] as const;
+
+function benchmarkQuery(expression: string, importName: string): QueryTiming {
+  const cold: number[] = [];
+  const cached: number[] = [];
+
+  for (let i = 0; i < ITERATIONS; i++) {
+    const script = `
+      import { ${importName} } from './src/index.ts';
+      const start = performance.now();
+      ${expression};
+      const initialized = performance.now();
+      for (let i = 0; i < 1000; i++) ${expression};
+      const finished = performance.now();
+      console.log(JSON.stringify({
+        cold: initialized - start,
+        cached: (finished - initialized) / 1000,
+      }));
+    `;
+    const result = Bun.spawnSync(['bun', '--eval', script], {
+      cwd: process.cwd(),
+      stdout: 'pipe',
+      stderr: 'inherit',
+    });
+    if (result.exitCode !== 0) {
+      throw new Error(`Query benchmark failed: ${expression}`);
+    }
+    const timing = JSON.parse(new TextDecoder().decode(result.stdout));
+    cold.push(timing.cold);
+    cached.push(timing.cached);
+  }
+
+  return {
+    name: expression,
+    coldMs: median(cold),
+    cachedMs: median(cached),
+  };
+}
+
 function measure(text: string, parseFn: (t: string) => unknown): FormatResult {
   const b64 = compress(text);
   return {
@@ -283,3 +340,17 @@ for (const name of files) {
 
 for (const r of reports) printReport(r);
 printSummary(reports);
+
+console.log(`\n${sep2}`);
+console.log(`  QUERY TIMINGS — median ${ITERATIONS} runs`);
+console.log(sep2);
+console.log(
+  `\n  ${'Query'.padEnd(56)} ${'Cold'.padStart(11)} ${'Cached'.padStart(11)}`,
+);
+
+for (const [expression, importName] of QUERY_EXPRESSIONS) {
+  const timing = benchmarkQuery(expression, importName);
+  console.log(
+    `  ${timing.name.padEnd(56)}${ms(timing.coldMs)}${ms(timing.cachedMs)}`,
+  );
+}

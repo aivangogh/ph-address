@@ -25,7 +25,7 @@ A lightweight package that provides a comprehensive collection of Philippine geo
 
 ## Node.js and Browser Support
 
-This package is a "hybrid" package that supports both CommonJS (`require()`) and ESM (`import`) syntax. It is compatible with both Node.js and browser environments out of the box. The data is bundled directly with the code using efficient compression, so it works seamlessly without needing file system access.
+This package supports Node.js 18 or newer and browsers, with both CommonJS (`require()`) and ESM (`import`) syntax. The data is bundled directly with the code using efficient compression, so it works seamlessly without needing file system access.
 
 ### Performance Characteristics
 

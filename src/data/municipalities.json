@@ -2360,7 +2360,7 @@
     "provinceCode": "1108600000"
   },
   {
-    "name": "Don Victoriano Chiongbian",
+    "name": "Don Victoriano",
     "psgcCode": "1004217000",
     "provinceCode": "1004200000"
   },
@@ -6381,11 +6381,6 @@
   },
   {
     "name": "San Isidro",
-    "psgcCode": "1102324000",
-    "provinceCode": "1102300000"
-  },
-  {
-    "name": "San Isidro",
     "psgcCode": "1102510000",
     "provinceCode": "1102500000"
   },
@@ -6765,7 +6760,7 @@
     "provinceCode": "0804800000"
   },
   {
-    "name": "Sanchez-Mira",
+    "name": "Sanchez Mira",
     "psgcCode": "0201522000",
     "provinceCode": "0201500000"
   },
@@ -7093,6 +7088,11 @@
     "name": "Sasmuan",
     "psgcCode": "0305422000",
     "provinceCode": "0305400000"
+  },
+  {
+    "name": "Sawata",
+    "psgcCode": "1102324000",
+    "provinceCode": "1102300000"
   },
   {
     "name": "Science City of Muñoz",

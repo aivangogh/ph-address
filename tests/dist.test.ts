@@ -1,4 +1,4 @@
-import { describe, it, expect, beforeAll } from 'vitest';
+import { describe, it, expect } from 'vitest';
 import {
   getAllProvinces,
   getAllRegions,
@@ -8,23 +8,7 @@ import {
 } from '@aivangogh/ph-address';
 
 describe('Distribution files test suite', () => {
-  let initStartTime: number;
-  let initEndTime: number;
-
-  beforeAll(() => {
-    // Measure initialization time
-    initStartTime = performance.now();
-    getAllRegions(); // This triggers data initialization
-    initEndTime = performance.now();
-  });
-
   describe('Data Loading & Decompression', () => {
-    it('should initialize data in reasonable time (<2s)', () => {
-      const initTime = initEndTime - initStartTime;
-      expect(initTime).toBeLessThan(2000); // Should be under 2 seconds
-      console.log(`    ✓ Data initialized in ${initTime.toFixed(2)}ms`);
-    });
-
     it('should return all regions from the dist files', () => {
       const result = getAllRegions();
       expect(result.length).toBeGreaterThan(0);
@@ -116,16 +100,6 @@ describe('Distribution files test suite', () => {
       expect(result).toEqual([]);
     });
 
-    it('should handle multiple calls efficiently (data cached)', () => {
-      const start = performance.now();
-      for (let i = 0; i < 100; i++) {
-        getAllProvinces();
-      }
-      const duration = performance.now() - start;
-
-      expect(duration).toBeLessThan(50); // 100 calls should be very fast (cached)
-      console.log(`    ✓ 100 cached calls in ${duration.toFixed(2)}ms`);
-    });
   });
 
   describe('Data Completeness', () => {

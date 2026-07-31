@@ -8,12 +8,14 @@ describe('Get barangays test suite', () => {
     const municipalityCode = '0730600000'; // Cebu City code
 
     const result = getBarangaysByMunicipality(municipalityCode);
+    const secondResult = getBarangaysByMunicipality(municipalityCode);
 
     const expected = sortByName(
       allBarangays.filter((b) => b.municipalCityCode === municipalityCode)
     );
 
     expect(result).toEqual(expected);
+    expect(secondResult).toBe(result);
     expect(result.length).toBeGreaterThan(0);
   });
 

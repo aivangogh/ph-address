@@ -8,12 +8,14 @@ describe('Get Cities/Municipalities test suite', () => {
     const provinceCode = '1400100000'; // Abra
 
     const result = getMunicipalitiesByProvince(provinceCode);
+    const secondResult = getMunicipalitiesByProvince(provinceCode);
 
     const expected = sortByName(
       allMunicipalities.filter((m) => m.provinceCode === provinceCode)
     );
 
     expect(result).toEqual(expected);
+    expect(secondResult).toBe(result);
     expect(result.length).toBeGreaterThan(0);
   });
 

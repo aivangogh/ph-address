@@ -12,7 +12,7 @@
 
 # PH-Address
 
-A lightweight package that provides a comprehensive collection of Philippine geographic data, based on the official [Philippine Standard Geographic Code (PSGC)](https://psa.gov.ph/classification/psgc/).
+A lightweight package that provides a comprehensive collection of Philippine geographic data, based on the official [Philippine Standard Geographic Code (PSGC)](https://psa.gov.ph/classification/psgc/) as of 30 June 2026.
 
 ## Features
 
@@ -37,7 +37,7 @@ The package uses CSV with gzip compression for optimal size and parse speed. Dat
 
 ### Format Benchmark
 
-Benchmarked on 42,011 barangay rows (20 iterations median):
+Benchmarked on 42,010 barangay rows (20 iterations median):
 
 | Format | Compressed size | Decompress + parse |
 |---|---|---|

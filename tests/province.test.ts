@@ -9,18 +9,21 @@ describe('Get province/s test suite', () => {
     const expected = sortByName(allProvinces);
 
     expect(result).toEqual(expected);
+    expect(getAllProvinces()).toBe(result);
   });
 
   it('should return sorted provinces when a valid region code is provided', () => {
     const regionCode = '1400000000';
 
     const result = getProvincesByRegion(regionCode);
+    const secondResult = getProvincesByRegion(regionCode);
 
     const expected = sortByName(
       allProvinces.filter((p) => p.regionCode === regionCode)
     );
 
     expect(result).toEqual(expected);
+    expect(secondResult).toBe(result);
     expect(result.length).toBeGreaterThan(0);
   });
 

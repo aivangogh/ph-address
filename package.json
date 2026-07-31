@@ -5,9 +5,16 @@
   "main": "./dist/index.js",
   "module": "./dist/index.mjs",
   "types": "./dist/index.d.ts",
+  "files": ["dist"],
+  "engines": {
+    "node": ">=18"
+  },
   "exports": {
-    "import": "./dist/index.mjs",
-    "require": "./dist/index.js"
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.mjs",
+      "require": "./dist/index.js"
+    }
   },
   "author": {
     "name": "Ivan Gemota",

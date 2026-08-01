@@ -4,6 +4,10 @@ import {
   getIndexedBarangaysByMunicipality,
 } from '../utils/data-loader';
 import { PHBarangay } from '../types/barangay';
+import { PHAddress } from '../types/address';
+import { getMunicipalityByCode } from './municipality';
+import { getProvinceByCode } from './province';
+import { getRegionByCode } from './region';
 
 /**
  * Retrieves a list of barangays filtered by the given city/municipality code and sorts them alphabetically by name.
@@ -23,4 +27,25 @@ function getBarangayByCode(code: string): PHBarangay | undefined {
   return getIndexedBarangaysByCode().get(code);
 }
 
-export { getAllBarangays, getBarangayByCode, getBarangaysByMunicipality };
+function getAddressByBarangayCode(code: string): PHAddress | undefined {
+  const barangay = getBarangayByCode(code);
+  if (!barangay) return undefined;
+
+  const municipality = getMunicipalityByCode(barangay.municipalCityCode);
+  if (!municipality) return undefined;
+
+  const province = getProvinceByCode(municipality.provinceCode);
+  const region = getRegionByCode(
+    province?.regionCode ?? municipality.psgcCode.slice(0, 2) + '00000000',
+  );
+  if (!region) return undefined;
+
+  return { region, ...(province && { province }), municipality, barangay };
+}
+
+export {
+  getAddressByBarangayCode,
+  getAllBarangays,
+  getBarangayByCode,
+  getBarangaysByMunicipality,
+};

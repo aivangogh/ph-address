@@ -1,4 +1,5 @@
 import {
+    getAddressByBarangayCode,
     getAllBarangays,
     getBarangayByCode,
     getBarangaysByMunicipality,
@@ -16,11 +17,13 @@ import {
 import { getAllRegions, getRegionByCode } from "./functions/region";
 
 export type { PHBarangay } from "./types/barangay";
+export type { PHAddress } from "./types/address";
 export type { PHMunicipality } from "./types/municipality";
 export type { PHProvince } from "./types/province";
 export type { PHRegion } from "./types/region";
 
 export {
+    getAddressByBarangayCode,
     getAllBarangays,
     getAllMunicipalities,
     getAllProvinces,

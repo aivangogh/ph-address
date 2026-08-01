@@ -17,6 +17,7 @@ on:
 
 permissions:
   contents: write
+  id-token: write
 
 env:
   RELEASE_VERSION: 2026.2.0
@@ -63,11 +64,7 @@ jobs:
       - run: npm version "$RELEASE_VERSION-rc.${{ inputs.rc_number }}" --no-git-tag-version
       - run: pnpm build
       - run: npm publish --tag next --access public
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
       - run: pnpm test:published -- "@aivangogh/ph-address@$RELEASE_VERSION-rc.${{ inputs.rc_number }}"
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
       - run: gh release create "v$RELEASE_VERSION-rc.${{ inputs.rc_number }}" --repo "${{ github.repository }}" --prerelease --title "v$RELEASE_VERSION-rc.${{ inputs.rc_number }}" --generate-notes
         env:
           GH_TOKEN: ${{ github.token }}
@@ -91,8 +88,6 @@ jobs:
       - run: test "$(pnpm pkg get version | tr -d '\"')" = "$RELEASE_VERSION"
       - run: pnpm build
       - run: npm publish --tag latest --access public
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
       - run: pnpm test:published -- "@aivangogh/ph-address@$RELEASE_VERSION"
       - run: gh release create "v$RELEASE_VERSION" --repo "${{ github.repository }}" --title "v$RELEASE_VERSION" --generate-notes
         env:

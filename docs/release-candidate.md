@@ -9,7 +9,10 @@ consumer test and creates a GitHub prerelease.
 The stable path is manual on `main`, selects `stable`, and pauses at the
 protected `npm-production` environment for approval. It publishes the reviewed
 `2026.2.0` commit with npm dist-tag `latest` and creates the final GitHub
-release. No npm token is stored in the repository or printed by the workflow.
+release. Publishing uses npm Trusted Publishing (GitHub OIDC), so no npm token
+is stored in the repository or printed by the workflow. Configure the npm
+trusted publisher with workflow filename `release-candidate.yml`, no environment
+name, and `npm publish` as the only allowed action.
 
 The older push-to-`main` Changesets publisher is intentionally not used: a
 push must not publish a stable package before its RC has been reviewed.

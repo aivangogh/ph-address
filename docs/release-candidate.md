@@ -1,6 +1,6 @@
 # 2026.2.0 release candidate
 
-The RC workflow is manual: open **Actions → Release candidate → Run workflow**
+The RC workflow is the only package-publishing workflow. It is manual: open **Actions → Release candidate → Run workflow**
 on `dev`, select `rc`, and enter the next number. It verifies generated PSGC
 artifacts, build, types, all tests, and browser smoke before publishing
 `2026.2.0-rc.N` with npm dist-tag `next`. It then runs the fresh published-RC
@@ -10,6 +10,9 @@ The stable path is manual on `main`, selects `stable`, and pauses at the
 protected `npm-production` environment for approval. It publishes the reviewed
 `2026.2.0` commit with npm dist-tag `latest` and creates the final GitHub
 release. No npm token is stored in the repository or printed by the workflow.
+
+The older push-to-`main` Changesets publisher is intentionally not used: a
+push must not publish a stable package before its RC has been reviewed.
 
 ## Test an RC locally
 

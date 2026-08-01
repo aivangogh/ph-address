@@ -71,6 +71,7 @@ jobs:
           else
             npm publish --tag next --access public
           fi
+      - run: pnpm exec playwright install --with-deps chromium
       - name: Smoke test published RC
         run: |
           for attempt in 1 2 3 4 5; do
@@ -107,6 +108,7 @@ jobs:
           else
             npm publish --tag latest --access public
           fi
+      - run: pnpm exec playwright install --with-deps chromium
       - name: Smoke test published stable package
         run: |
           for attempt in 1 2 3 4 5; do

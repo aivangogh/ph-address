@@ -17,7 +17,7 @@ A lightweight package that provides a comprehensive collection of Philippine geo
 ## Features
 
 - **Up-to-Date Data**: Sourced from the latest PSGC publications.
-- **Ultra-Lightweight**: Highly optimized bundle size (~373 KB dist) using CSV + gzip compression — 40% smaller than the previous TOON-based format.
+- **Ultra-Lightweight**: Highly optimized bundle size (~373 KB dist) using CSV + gzip compression — 40% smaller than the previous format.
 - **Fast Performance**: Efficient data loading with automatic caching. Barangay data (42k rows) decompresses and parses in ~39 ms on first call; subsequent calls are nearly instant.
 - **Fully Typed**: Written in TypeScript for a better developer experience with full type definitions.
 - **Easy to Use**: A simple and intuitive API for retrieving regions, provinces, municipalities, and barangays.
@@ -29,7 +29,7 @@ This package supports Node.js 18 or newer and browsers, with both CommonJS (`req
 
 ### Performance Characteristics
 
-- **Bundle Size**: ~373 KB (dist/index.mjs) — 40% smaller than the previous TOON-based format
+- **Bundle Size**: ~373 KB (dist/index.mjs) — 40% smaller than the previous format
 - **Initialization**: ~39 ms for barangays on first call (decompresses and caches all data)
 - **Subsequent Calls**: < 1ms (data is cached in memory)
 
@@ -42,7 +42,6 @@ Benchmarked on 42,010 barangay rows (20 iterations median):
 | Format | Compressed size | Decompress + parse |
 |---|---|---|
 | JSON | 586 KB | 81 ms |
-| TOON (former) | 508 KB | 220 ms |
 | CSV full | 477 KB | 77 ms |
 | **CSV optimized** (current) | **346 KB** | **39 ms** |
 

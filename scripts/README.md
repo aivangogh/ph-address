@@ -8,26 +8,21 @@ Scripts for processing the PSGC data.
 
 ### `migrate-psgc.ts`
 
-Converts the official PSGC Excel file into formatted JSON data.
+Converts the official PSGC Excel file into formatted JSON and optimized CSV data.
 
 - **Usage**: `pnpm migrate:psgc --file=<filename.xlsx>`
-- **Example**: `pnpm migrate:psgc --file=assets/PSGC-3Q-2025-Publication-Datafile.xlsx`
-- **Input**: Reads an Excel file (e.g., `assets/PSGC-3Q-2025-Publication-Datafile.xlsx`).
-- **Output**: Generates formatted JSON files in `src/data/`.
+- **Example**: `pnpm migrate:psgc --file=assets/PSGC-2Q-2026-Publication-Datafile.xlsx`
+- **Input**: Reads an official PSGC Excel workbook.
+- **Output**: Generates JSON files in `src/data/` and optimized CSV files in `src/data-csv/`.
 
 This script handles data cleaning, name reformatting (e.g., "City of Cebu" to "Cebu City"), and deriving hierarchical codes. The name reformatting logic is located in `src/utils/reformat.ts`.
 
-### `convert-to-toon.ts`
+### `convert-to-csv.ts`
 
-Converts the JSON data files into the TOON format. This script has two modes:
+Compresses the optimized CSV files into the TypeScript bundle used at runtime.
 
-1.  **Generate `.toon` files**: Creates individual `.toon` files for each JSON file.
-    -   **Usage**: `pnpm build:toon`
-    -   **Output**: Generates `.toon` files in `src/data-toon/`.
-
-2.  **Generate a TypeScript file**: Creates a single TypeScript file that exports the TOON data as strings.
-    -   **Usage**: `pnpm build:toon-ts`
-    -   **Output**: Generates `index.ts` in `src/data-toon-ts/`.
+- **Usage**: `pnpm build:csv-ts`
+- **Output**: Generates `src/data-csv-ts/index.ts`.
 
 
 ## Developer Tools
@@ -39,4 +34,4 @@ Utilities for development and data analysis.
 A CLI tool to quickly inspect the contents of a PSGC Excel file. This is useful for verifying the data structure before migration.
 
 - **Usage**: `pnpm exec tsx scripts/explore-excel.ts <path_to_excel_file>`
-- **Example**: `pnpm exec tsx scripts/explore-excel.ts assets/PSGC-3Q-2025-Publication-Datafile.xlsx`
+- **Example**: `pnpm exec tsx scripts/explore-excel.ts assets/PSGC-2Q-2026-Publication-Datafile.xlsx`

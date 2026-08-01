@@ -15,9 +15,6 @@ importers:
       '@changesets/cli':
         specifier: ^2.27.7
         version: 2.31.1(@types/node@25.9.5)
-      '@toon-format/toon':
-        specifier: ^2.1.0
-        version: 2.3.1
       '@types/node':
         specifier: ^25.5.0
         version: 25.9.5
@@ -766,9 +763,6 @@ packages:
     resolution: {integrity: sha512-zD6NdeWEByGE9QF9vCrlJ5YQB4oq9q91kPZS37Jwj5hOkvR1lTBSpsKhKDw4IJtbQ35LsTS1HD9DZYGKIshU1Q==}
     cpu: [x64]
     os: [win32]
-
-  '@toon-format/toon@2.3.1':
-    resolution: {integrity: sha512-sWqEMeAJGMda9qRrfPKrX3C4c33CO9SJuvJzzrcBEn5sbDB+k6pSLkDsfN0rVnLQwR97MV3sDgVbcxQNsq8xVw==}
 
   '@types/estree@1.0.9':
     resolution: {integrity: sha512-GhdPgy1el4/ImP05X05Uw4cw2/M93BCUmnEvWZNStlCzEKME4Fkk+YpoA5OiHNQmoS7Cafb8Xa3Pya8m1Qrzeg==}
@@ -2183,8 +2177,6 @@ snapshots:
 
   '@rollup/rollup-win32-x64-msvc@4.62.4':
     optional: true
-
-  '@toon-format/toon@2.3.1': {}
 
   '@types/estree@1.0.9': {}
 

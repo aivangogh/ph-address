@@ -85,10 +85,20 @@ let provincesByRegion: Map<string, readonly PHProvince[]> | undefined;
 let municipalitiesByProvince: Map<string, readonly PHMunicipality[]> | undefined;
 let barangaysByMunicipality: Map<string, readonly PHBarangay[]> | undefined;
 
+const regionOrder = new Map([
+    '0100000000', '0200000000', '0300000000', '0400000000',
+    '1700000000', '0500000000', '0600000000', '0700000000',
+    '0800000000', '0900000000', '1000000000', '1100000000',
+    '1200000000', '1600000000', '1300000000', '1400000000',
+    '1900000000', '1800000000',
+].map((code, index) => [code, index] as const));
+
 function initializeRegions() {
     if (regions) return regions;
 
-    regions = sortByName(decompressAndParse<PHRegion>(regionsCompressed));
+    regions = decompressAndParse<PHRegion>(regionsCompressed).sort(
+        (a, b) => regionOrder.get(a.psgcCode)! - regionOrder.get(b.psgcCode)!,
+    );
     regionsByCode = new Map(regions.map(region => [region.psgcCode, region]));
     return regions;
 }

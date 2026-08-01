@@ -63,7 +63,14 @@ jobs:
       - run: pnpm changeset pre enter rc
       - run: npm version "$RELEASE_VERSION-rc.${{ inputs.rc_number }}" --no-git-tag-version
       - run: pnpm build
-      - run: npm publish --tag next --access public
+      - name: Publish RC if needed
+        run: |
+          version="$RELEASE_VERSION-rc.${{ inputs.rc_number }}"
+          if npm view "@aivangogh/ph-address@$version" version --registry=https://registry.npmjs.org >/dev/null 2>&1; then
+            echo "@$version is already published"
+          else
+            npm publish --tag next --access public
+          fi
       - name: Smoke test published RC
         run: |
           for attempt in 1 2 3 4 5; do
@@ -93,7 +100,13 @@ jobs:
       - run: pnpm install --frozen-lockfile
       - run: test "$(pnpm pkg get version | tr -d '\"')" = "$RELEASE_VERSION"
       - run: pnpm build
-      - run: npm publish --tag latest --access public
+      - name: Publish stable if needed
+        run: |
+          if npm view "@aivangogh/ph-address@$RELEASE_VERSION" version --registry=https://registry.npmjs.org >/dev/null 2>&1; then
+            echo "@$RELEASE_VERSION is already published"
+          else
+            npm publish --tag latest --access public
+          fi
       - name: Smoke test published stable package
         run: |
           for attempt in 1 2 3 4 5; do

@@ -1,6 +1,9 @@
-import { getProvinces, getIndexedProvincesByRegion } from '../utils/data-loader';
+import {
+  getIndexedProvincesByCode,
+  getIndexedProvincesByRegion,
+  getProvinces,
+} from '../utils/data-loader';
 import { PHProvince } from '../types/province';
-import { sortByName } from '../utils/sort';
 
 /**
  * Retrieves all provinces sorted alphabetically.
@@ -8,7 +11,7 @@ import { sortByName } from '../utils/sort';
  * @returns {ReadonlyArray<PHProvince>} An array of PHProvince objects sorted alphabetically by name.
  */
 function getAllProvinces(): readonly PHProvince[] {
-  return sortByName(getProvinces());
+  return getProvinces();
 }
 
 /**
@@ -17,8 +20,11 @@ function getAllProvinces(): readonly PHProvince[] {
  * @returns {ReadonlyArray<PHProvince>} An array of PHProvince objects sorted alphabetically by name.
  */
 function getProvincesByRegion(code: string): readonly PHProvince[] {
-  const provinces = getIndexedProvincesByRegion().get(code) || [];
-  return sortByName(provinces);
+  return getIndexedProvincesByRegion().get(code) || [];
 }
 
-export { getAllProvinces, getProvincesByRegion };
+function getProvinceByCode(code: string): PHProvince | undefined {
+  return getIndexedProvincesByCode().get(code);
+}
+
+export { getAllProvinces, getProvinceByCode, getProvincesByRegion };

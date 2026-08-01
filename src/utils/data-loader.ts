@@ -10,6 +10,7 @@ import { PHRegion } from '../types/region';
 import { PHProvince } from '../types/province';
 import { PHMunicipality } from '../types/municipality';
 import { PHBarangay } from '../types/barangay';
+import { sortByName } from './sort';
 
 // ─── CSV parser ───────────────────────────────────────────────────────────────
 
@@ -70,92 +71,139 @@ function decompressAndParse<T>(compressed: string): T[] {
 
 // ─── In-memory store ──────────────────────────────────────────────────────────
 
-let regions: readonly PHRegion[];
-let provinces: readonly PHProvince[];
-let municipalities: readonly PHMunicipality[];
-let barangays: readonly PHBarangay[];
+let regions: readonly PHRegion[] | undefined;
+let provinces: readonly PHProvince[] | undefined;
+let municipalities: readonly PHMunicipality[] | undefined;
+let barangays: readonly PHBarangay[] | undefined;
 
-let provincesByRegion: Map<string, readonly PHProvince[]>;
-let municipalitiesByProvince: Map<string, readonly PHMunicipality[]>;
-let barangaysByMunicipality: Map<string, readonly PHBarangay[]>;
+let regionsByCode: Map<string, PHRegion> | undefined;
+let provincesByCode: Map<string, PHProvince> | undefined;
+let municipalitiesByCode: Map<string, PHMunicipality> | undefined;
+let barangaysByCode: Map<string, PHBarangay> | undefined;
 
-let isInitialized = false;
+let provincesByRegion: Map<string, readonly PHProvince[]> | undefined;
+let municipalitiesByProvince: Map<string, readonly PHMunicipality[]> | undefined;
+let barangaysByMunicipality: Map<string, readonly PHBarangay[]> | undefined;
 
-function initializeData() {
-    if (isInitialized) {
-        return;
-    }
+function initializeRegions() {
+    if (regions) return regions;
 
-    regions = decompressAndParse<PHRegion>(regionsCompressed);
+    regions = sortByName(decompressAndParse<PHRegion>(regionsCompressed));
+    regionsByCode = new Map(regions.map(region => [region.psgcCode, region]));
+    return regions;
+}
 
-    // regionCode is derivable from PSGC structure: digits 1-2 + '00000000'
-    provinces = decompressAndParse<Omit<PHProvince, 'regionCode'>>(provincesCompressed).map(p => ({
-        ...p,
-        regionCode: p.psgcCode.substring(0, 2) + '00000000',
-    }));
+function initializeProvinces() {
+    if (provinces) return provinces;
 
-    municipalities = decompressAndParse<PHMunicipality>(municipalitiesCompressed);
+    provinces = sortByName(
+        decompressAndParse<Omit<PHProvince, 'regionCode'>>(provincesCompressed).map(province => ({
+            ...province,
+            regionCode: province.psgcCode.substring(0, 2) + '00000000',
+        })),
+    );
+    provincesByCode = new Map(provinces.map(province => [province.psgcCode, province]));
 
-    // municipalCityCode is derivable from PSGC structure: digits 1-7 + '000'
-    barangays = decompressAndParse<Omit<PHBarangay, 'municipalCityCode'>>(barangaysCompressed).map(b => ({
-        ...b,
-        municipalCityCode: b.psgcCode.substring(0, 7) + '000',
-    }));
-
-    provincesByRegion = new Map();
+    const index = new Map<string, PHProvince[]>();
     for (const province of provinces) {
-        const existing = provincesByRegion.get(province.regionCode) || [];
-        provincesByRegion.set(province.regionCode, [...existing, province]);
+        const bucket = index.get(province.regionCode);
+        if (bucket) bucket.push(province);
+        else index.set(province.regionCode, [province]);
     }
+    provincesByRegion = index;
+    return provinces;
+}
 
-    municipalitiesByProvince = new Map();
+function initializeMunicipalities() {
+    if (municipalities) return municipalities;
+
+    municipalities = sortByName(
+        decompressAndParse<PHMunicipality>(municipalitiesCompressed),
+    );
+    municipalitiesByCode = new Map(
+        municipalities.map(municipality => [municipality.psgcCode, municipality]),
+    );
+
+    const index = new Map<string, PHMunicipality[]>();
     for (const municipality of municipalities) {
-        const existing = municipalitiesByProvince.get(municipality.provinceCode) || [];
-        municipalitiesByProvince.set(municipality.provinceCode, [...existing, municipality]);
+        const bucket = index.get(municipality.provinceCode);
+        if (bucket) bucket.push(municipality);
+        else index.set(municipality.provinceCode, [municipality]);
     }
+    municipalitiesByProvince = index;
+    return municipalities;
+}
 
-    barangaysByMunicipality = new Map();
+function initializeBarangays() {
+    if (barangays) return barangays;
+
+    barangays = sortByName(
+        decompressAndParse<Omit<PHBarangay, 'municipalCityCode'>>(barangaysCompressed).map(barangay => ({
+            ...barangay,
+            municipalCityCode: barangay.psgcCode.substring(0, 7) + '000',
+        })),
+    );
+    barangaysByCode = new Map(barangays.map(barangay => [barangay.psgcCode, barangay]));
+
+    const index = new Map<string, PHBarangay[]>();
     for (const barangay of barangays) {
-        const existing = barangaysByMunicipality.get(barangay.municipalCityCode) || [];
-        barangaysByMunicipality.set(barangay.municipalCityCode, [...existing, barangay]);
+        const bucket = index.get(barangay.municipalCityCode);
+        if (bucket) bucket.push(barangay);
+        else index.set(barangay.municipalCityCode, [barangay]);
     }
-
-    isInitialized = true;
+    barangaysByMunicipality = index;
+    return barangays;
 }
 
 // ─── Public API ───────────────────────────────────────────────────────────────
 
 export function getRegions(): readonly PHRegion[] {
-    initializeData();
-    return regions;
+    return initializeRegions();
 }
 
 export function getProvinces(): readonly PHProvince[] {
-    initializeData();
-    return provinces;
+    return initializeProvinces();
 }
 
 export function getMunicipalities(): readonly PHMunicipality[] {
-    initializeData();
-    return municipalities;
+    return initializeMunicipalities();
 }
 
 export function getBarangays(): readonly PHBarangay[] {
-    initializeData();
-    return barangays;
+    return initializeBarangays();
+}
+
+export function getIndexedRegionsByCode() {
+    initializeRegions();
+    return regionsByCode!;
+}
+
+export function getIndexedProvincesByCode() {
+    initializeProvinces();
+    return provincesByCode!;
+}
+
+export function getIndexedMunicipalitiesByCode() {
+    initializeMunicipalities();
+    return municipalitiesByCode!;
+}
+
+export function getIndexedBarangaysByCode() {
+    initializeBarangays();
+    return barangaysByCode!;
 }
 
 export function getIndexedProvincesByRegion() {
-    initializeData();
-    return provincesByRegion;
+    initializeProvinces();
+    return provincesByRegion!;
 }
 
 export function getIndexedMunicipalitiesByProvince() {
-    initializeData();
-    return municipalitiesByProvince;
+    initializeMunicipalities();
+    return municipalitiesByProvince!;
 }
 
 export function getIndexedBarangaysByMunicipality() {
-    initializeData();
-    return barangaysByMunicipality;
+    initializeBarangays();
+    return barangaysByMunicipality!;
 }

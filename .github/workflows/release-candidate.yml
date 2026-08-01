@@ -1,0 +1,99 @@
+name: Release candidate
+
+on:
+  workflow_dispatch:
+    inputs:
+      channel:
+        description: Publish an RC or the approved stable package
+        required: true
+        type: choice
+        options: [rc, stable]
+        default: rc
+      rc_number:
+        description: RC number (for example 1 for 2026.2.0-rc.1)
+        required: false
+        default: '1'
+        type: string
+
+permissions:
+  contents: write
+
+env:
+  RELEASE_VERSION: 2026.2.0
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.ref }}
+      - uses: pnpm/action-setup@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: pnpm
+          registry-url: https://registry.npmjs.org
+      - run: pnpm install --frozen-lockfile
+      - run: test "$(pnpm pkg get version | tr -d '\"')" = "$RELEASE_VERSION"
+      - run: pnpm data:check
+      - run: pnpm build
+      - run: pnpm typecheck
+      - run: pnpm test --run
+      - run: pnpm exec playwright install --with-deps chromium
+      - run: pnpm test:browser
+      - run: git diff --exit-code
+
+  publish-rc:
+    needs: verify
+    if: inputs.channel == 'rc'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.ref }}
+      - uses: pnpm/action-setup@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: pnpm
+          registry-url: https://registry.npmjs.org
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm changeset pre enter rc
+      - run: npm version "$RELEASE_VERSION-rc.${{ inputs.rc_number }}" --no-git-tag-version
+      - run: pnpm build
+      - run: npm publish --tag next --access public
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+      - run: pnpm test:published -- "@aivangogh/ph-address@$RELEASE_VERSION-rc.${{ inputs.rc_number }}"
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+      - run: gh release create "v$RELEASE_VERSION-rc.${{ inputs.rc_number }}" --repo "${{ github.repository }}" --prerelease --title "v$RELEASE_VERSION-rc.${{ inputs.rc_number }}" --generate-notes
+        env:
+          GH_TOKEN: ${{ github.token }}
+
+  publish-stable:
+    needs: verify
+    if: inputs.channel == 'stable' && github.ref == 'refs/heads/main'
+    environment: npm-production
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.ref }}
+      - uses: pnpm/action-setup@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: pnpm
+          registry-url: https://registry.npmjs.org
+      - run: pnpm install --frozen-lockfile
+      - run: test "$(pnpm pkg get version | tr -d '\"')" = "$RELEASE_VERSION"
+      - run: pnpm build
+      - run: npm publish --tag latest --access public
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+      - run: pnpm test:published -- "@aivangogh/ph-address@$RELEASE_VERSION"
+      - run: gh release create "v$RELEASE_VERSION" --repo "${{ github.repository }}" --title "v$RELEASE_VERSION" --generate-notes
+        env:
+          GH_TOKEN: ${{ github.token }}

@@ -44,8 +44,8 @@ function main() {
   const targetDirectory = process.argv[2];
 
   if (!targetDirectory) {
-    console.error('Usage: bun run scripts/minify-json.ts <directory_path>');
-    console.error('Example: bun run scripts/minify-json.ts src/data');
+    console.error('Usage: pnpm exec tsx scripts/minify-json.ts <directory_path>');
+    console.error('Example: pnpm exec tsx scripts/minify-json.ts src/data');
     process.exit(1);
   }
 

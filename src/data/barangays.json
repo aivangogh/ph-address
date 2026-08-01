@@ -4625,11 +4625,6 @@
     "municipalCityCode": "0102927000"
   },
   {
-    "name": "Ambuclao",
-    "psgcCode": "1401104001",
-    "municipalCityCode": "1401104000"
-  },
-  {
     "name": "Ambuetel",
     "psgcCode": "0105517002",
     "municipalCityCode": "0105517000"
@@ -4638,6 +4633,11 @@
     "name": "Ambugat",
     "psgcCode": "0102904001",
     "municipalCityCode": "0102904000"
+  },
+  {
+    "name": "Ambuklao",
+    "psgcCode": "1401104001",
+    "municipalCityCode": "1401104000"
   },
   {
     "name": "Ambulogan",
@@ -9233,11 +9233,6 @@
     "name": "Babo Sacan",
     "psgcCode": "0305415002",
     "municipalCityCode": "0305415000"
-  },
-  {
-    "name": "Baborawon",
-    "psgcCode": "1001307002",
-    "municipalCityCode": "1001307000"
   },
   {
     "name": "Babuyan",
@@ -15355,6 +15350,11 @@
     "municipalCityCode": "0803701000"
   },
   {
+    "name": "Balocbocan",
+    "psgcCode": "1001309002",
+    "municipalCityCode": "1001309000"
+  },
+  {
     "name": "Balococ",
     "psgcCode": "0105522004",
     "municipalCityCode": "0105522000"
@@ -15908,11 +15908,6 @@
     "name": "Balukbahan",
     "psgcCode": "0907303002",
     "municipalCityCode": "0907303000"
-  },
-  {
-    "name": "Balukbukan",
-    "psgcCode": "1001309002",
-    "municipalCityCode": "1001309000"
   },
   {
     "name": "Balulang",
@@ -32083,6 +32078,11 @@
     "name": "Barorao",
     "psgcCode": "1903609033",
     "municipalCityCode": "1903609000"
+  },
+  {
+    "name": "Barorawon",
+    "psgcCode": "1001307002",
+    "municipalCityCode": "1001307000"
   },
   {
     "name": "Baroro",
@@ -66825,11 +66825,6 @@
     "municipalCityCode": "0803729000"
   },
   {
-    "name": "Culasi",
-    "psgcCode": "1001319002",
-    "municipalCityCode": "1001319000"
-  },
-  {
     "name": "Culasian",
     "psgcCode": "1705311006",
     "municipalCityCode": "1705311000"
@@ -67701,11 +67696,6 @@
   },
   {
     "name": "Daclan",
-    "psgcCode": "1401104004",
-    "municipalCityCode": "1401104000"
-  },
-  {
-    "name": "Daclan",
     "psgcCode": "1401114005",
     "municipalCityCode": "1401114000"
   },
@@ -68388,6 +68378,11 @@
     "name": "Dakit",
     "psgcCode": "0806413004",
     "municipalCityCode": "0806413000"
+  },
+  {
+    "name": "Daklan",
+    "psgcCode": "1401104004",
+    "municipalCityCode": "1401104000"
   },
   {
     "name": "Daku",
@@ -80495,6 +80490,11 @@
     "municipalCityCode": "0804819000"
   },
   {
+    "name": "Genitligan",
+    "psgcCode": "0502002010",
+    "municipalCityCode": "0502002000"
+  },
+  {
     "name": "Genomoan",
     "psgcCode": "0701230039",
     "municipalCityCode": "0701230000"
@@ -80878,11 +80878,6 @@
     "name": "Ginictan",
     "psgcCode": "0600401005",
     "municipalCityCode": "0600401000"
-  },
-  {
-    "name": "Ginitligan",
-    "psgcCode": "0502002010",
-    "municipalCityCode": "0502002000"
   },
   {
     "name": "Ginomoy",
@@ -88105,14 +88100,14 @@
     "municipalCityCode": "1030500000"
   },
   {
+    "name": "Indalasa",
+    "psgcCode": "1001312018",
+    "municipalCityCode": "1001312000"
+  },
+  {
     "name": "Indalawan",
     "psgcCode": "1705304005",
     "municipalCityCode": "1705304000"
-  },
-  {
-    "name": "Indalaza",
-    "psgcCode": "1001312018",
-    "municipalCityCode": "1001312000"
   },
   {
     "name": "Indaluyon",
@@ -90450,11 +90445,6 @@
     "municipalCityCode": "0702224000"
   },
   {
-    "name": "Kabalabag",
-    "psgcCode": "1001312021",
-    "municipalCityCode": "1001312000"
-  },
-  {
     "name": "Kabalantian",
     "psgcCode": "1204718012",
     "municipalCityCode": "1204718000"
@@ -90845,7 +90835,7 @@
     "municipalCityCode": "0906609000"
   },
   {
-    "name": "Kahapunan",
+    "name": "Kahaponan",
     "psgcCode": "1001321011",
     "municipalCityCode": "1001321000"
   },
@@ -93465,6 +93455,11 @@
     "municipalCityCode": "1208007000"
   },
   {
+    "name": "Kibalabag",
+    "psgcCode": "1001312021",
+    "municipalCityCode": "1001312000"
+  },
+  {
     "name": "Kibalagon",
     "psgcCode": "1001306007",
     "municipalCityCode": "1001306000"
@@ -94893,6 +94888,11 @@
     "name": "Kulasi",
     "psgcCode": "0906605012",
     "municipalCityCode": "0906605000"
+  },
+  {
+    "name": "Kulasi",
+    "psgcCode": "1001319002",
+    "municipalCityCode": "1001319000"
   },
   {
     "name": "Kulasi",
@@ -107660,7 +107660,7 @@
     "municipalCityCode": "0702251000"
   },
   {
-    "name": "Lurogan",
+    "name": "Lurugan",
     "psgcCode": "1001321017",
     "municipalCityCode": "1001321000"
   },
@@ -109880,11 +109880,6 @@
     "municipalCityCode": "0802613000"
   },
   {
-    "name": "Maca-opao",
-    "psgcCode": "1001307007",
-    "municipalCityCode": "1001307000"
-  },
-  {
     "name": "Macaalan",
     "psgcCode": "0806004020",
     "municipalCityCode": "0806004000"
@@ -110318,6 +110313,11 @@
     "name": "Macaoayan",
     "psgcCode": "0102904014",
     "municipalCityCode": "0102904000"
+  },
+  {
+    "name": "Macaopao",
+    "psgcCode": "1001307007",
+    "municipalCityCode": "1001307000"
   },
   {
     "name": "Macapabellag",
@@ -125055,7 +125055,7 @@
     "municipalCityCode": "1204704000"
   },
   {
-    "name": "Merangerang",
+    "name": "Merangeran",
     "psgcCode": "1001317019",
     "municipalCityCode": "1001317000"
   },
@@ -127990,14 +127990,14 @@
     "municipalCityCode": "0201513000"
   },
   {
-    "name": "Nabago",
-    "psgcCode": "1804625007",
-    "municipalCityCode": "1804625000"
+    "name": "Nabag-o",
+    "psgcCode": "1001321022",
+    "municipalCityCode": "1001321000"
   },
   {
     "name": "Nabago",
-    "psgcCode": "1001321022",
-    "municipalCityCode": "1001321000"
+    "psgcCode": "1804625007",
+    "municipalCityCode": "1804625000"
   },
   {
     "name": "Nabago",
@@ -141790,7 +141790,7 @@
     "municipalCityCode": "1907009000"
   },
   {
-    "name": "Parang Parang",
+    "name": "Parang-Parang",
     "psgcCode": "0300809015",
     "municipalCityCode": "0300809000"
   },
@@ -149018,6 +149018,11 @@
     "name": "Poblacion",
     "psgcCode": "1102317029",
     "municipalCityCode": "1102317000"
+  },
+  {
+    "name": "Poblacion",
+    "psgcCode": "1102324013",
+    "municipalCityCode": "1102324000"
   },
   {
     "name": "Poblacion",
@@ -161078,11 +161083,6 @@
     "name": "Saint Peter",
     "psgcCode": "1381300093",
     "municipalCityCode": "1381300000"
-  },
-  {
-    "name": "Saint Peter",
-    "psgcCode": "1001312058",
-    "municipalCityCode": "1001312000"
   },
   {
     "name": "Saint Peter I",
@@ -174611,11 +174611,6 @@
   },
   {
     "name": "San Rafael",
-    "psgcCode": "0401007038",
-    "municipalCityCode": "0401007000"
-  },
-  {
-    "name": "San Rafael",
     "psgcCode": "0401028020",
     "municipalCityCode": "0401028000"
   },
@@ -179276,11 +179271,6 @@
   },
   {
     "name": "Santa Cruz",
-    "psgcCode": "1001317034",
-    "municipalCityCode": "1001317000"
-  },
-  {
-    "name": "Santa Cruz",
     "psgcCode": "1003505041",
     "municipalCityCode": "1003505000"
   },
@@ -179913,11 +179903,6 @@
     "name": "Santa Ines",
     "psgcCode": "0306910032",
     "municipalCityCode": "0306910000"
-  },
-  {
-    "name": "Santa Ines",
-    "psgcCode": "1001313009",
-    "municipalCityCode": "1001313000"
   },
   {
     "name": "Santa Ines",
@@ -182831,21 +182816,6 @@
   },
   {
     "name": "Santo Niño",
-    "psgcCode": "1001312061",
-    "municipalCityCode": "1001312000"
-  },
-  {
-    "name": "Santo Niño",
-    "psgcCode": "1001314021",
-    "municipalCityCode": "1001314000"
-  },
-  {
-    "name": "Santo Niño",
-    "psgcCode": "1001320016",
-    "municipalCityCode": "1001320000"
-  },
-  {
-    "name": "Santo Niño",
     "psgcCode": "1001801013",
     "municipalCityCode": "1001801000"
   },
@@ -183293,11 +183263,6 @@
     "name": "Santo Rosario",
     "psgcCode": "0908312025",
     "municipalCityCode": "0908312000"
-  },
-  {
-    "name": "Santo Rosario",
-    "psgcCode": "1001309030",
-    "municipalCityCode": "1001309000"
   },
   {
     "name": "Santo Rosario",
@@ -184608,11 +184573,6 @@
     "name": "Sawat",
     "psgcCode": "0306903055",
     "municipalCityCode": "0306903000"
-  },
-  {
-    "name": "Sawata",
-    "psgcCode": "1102324013",
-    "municipalCityCode": "1102324000"
   },
   {
     "name": "Sawe",
@@ -188605,6 +188565,11 @@
     "municipalCityCode": "0300806000"
   },
   {
+    "name": "St. Peter",
+    "psgcCode": "1001312058",
+    "municipalCityCode": "1001312000"
+  },
+  {
     "name": "Sta. Ana",
     "psgcCode": "0201513047",
     "municipalCityCode": "0201513000"
@@ -188701,6 +188666,11 @@
   },
   {
     "name": "Sta. Cruz",
+    "psgcCode": "1001317034",
+    "municipalCityCode": "1001317000"
+  },
+  {
+    "name": "Sta. Cruz",
     "psgcCode": "1102314016",
     "municipalCityCode": "1102314000"
   },
@@ -188718,6 +188688,11 @@
     "name": "Sta. Filomena",
     "psgcCode": "0203131033",
     "municipalCityCode": "0203131000"
+  },
+  {
+    "name": "Sta. Ines",
+    "psgcCode": "1001313009",
+    "municipalCityCode": "1001313000"
   },
   {
     "name": "Sta. Isabel",
@@ -189001,6 +188976,21 @@
   },
   {
     "name": "Sto. Niño",
+    "psgcCode": "1001312061",
+    "municipalCityCode": "1001312000"
+  },
+  {
+    "name": "Sto. Niño",
+    "psgcCode": "1001314021",
+    "municipalCityCode": "1001314000"
+  },
+  {
+    "name": "Sto. Niño",
+    "psgcCode": "1001320016",
+    "municipalCityCode": "1001320000"
+  },
+  {
+    "name": "Sto. Niño",
     "psgcCode": "1102303019",
     "municipalCityCode": "1102303000"
   },
@@ -189043,6 +189033,11 @@
     "name": "Sto. Rosario",
     "psgcCode": "0600617019",
     "municipalCityCode": "0600617000"
+  },
+  {
+    "name": "Sto. Rosario",
+    "psgcCode": "1001309030",
+    "municipalCityCode": "1001309000"
   },
   {
     "name": "Sto. Rosario",

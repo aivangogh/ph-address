@@ -10,10 +10,10 @@
  * - To assist developers in understanding the data format before running the migration script.
  *
  * Usage:
- * bun run scripts/explore-excel.ts [path_to_excel_file]
+ * pnpm exec tsx scripts/explore-excel.ts [path_to_excel_file]
  *
  * Example:
- * bun run scripts/explore-excel.ts assets/PSGC-3Q-2025-Publication-Datafile.xlsx
+ * pnpm exec tsx scripts/explore-excel.ts assets/PSGC-3Q-2025-Publication-Datafile.xlsx
  */
 
 import * as XLSX from 'xlsx';
@@ -94,9 +94,9 @@ function main() {
 	const excelFilePathArg = process.argv[2];
 
 	if (!excelFilePathArg) {
-		console.log('Usage: bun run scripts/explore-excel.ts [path_to_excel_file]');
+		console.log('Usage: pnpm exec tsx scripts/explore-excel.ts [path_to_excel_file]');
 		console.log(
-			'Example: bun run scripts/explore-excel.ts assets/PSGC-3Q-2025-Publication-Datafile.xlsx'
+			'Example: pnpm exec tsx scripts/explore-excel.ts assets/PSGC-3Q-2025-Publication-Datafile.xlsx'
 		);
 		process.exit(1);
 	}

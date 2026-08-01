@@ -1,5 +1,18 @@
 # @aivangogh/ph-address
 
+## 2026.2.0
+
+### Data Changes
+
+- Updated to the official PSGC publication as of 30 June 2026.
+- Applied the Q1 and Q2 2026 geographic name corrections, including Sawata and Poblacion in Davao del Norte.
+- Retired barangay code `0401007038` (San Rafael).
+- Current totals: 18 regions, 82 provinces, 1,656 municipalities/cities/submunicipalities, and 42,010 barangays.
+
+### Verification
+
+- Added release regression coverage and a CI reproducibility check for generated PSGC artifacts.
+
 ## 2025.4.3
 
 ### Major Changes

@@ -5,7 +5,7 @@
  * and outputs gzip-deflate + base64 encoded strings into a single .ts file.
  *
  * Usage:
- *   bun scripts/convert-to-csv.ts src/data-csv-ts/index.ts
+ *   pnpm exec tsx scripts/convert-to-csv.ts src/data-csv-ts/index.ts
  */
 
 import fs from 'fs';
@@ -24,7 +24,7 @@ const outputPath = path.resolve(process.cwd(), outputArg);
 
 if (!fs.existsSync(sourceDir)) {
     console.error(`Source directory not found: ${sourceDir}`);
-    console.error('Run: bun run migrate:psgc --file=<filename.xlsx>  to generate CSV files first.');
+    console.error('Run: pnpm migrate:psgc --file=<filename.xlsx> to generate CSV files first.');
     process.exit(1);
 }
 

@@ -12,12 +12,12 @@
 
 # PH-Address
 
-A lightweight package that provides a comprehensive collection of Philippine geographic data, based on the official [Philippine Standard Geographic Code (PSGC)](https://psa.gov.ph/classification/psgc/).
+A lightweight package that provides a comprehensive collection of Philippine geographic data, based on the official [Philippine Standard Geographic Code (PSGC)](https://psa.gov.ph/classification/psgc/) as of 30 June 2026.
 
 ## Features
 
 - **Up-to-Date Data**: Sourced from the latest PSGC publications.
-- **Ultra-Lightweight**: Highly optimized bundle size (~373 KB dist) using CSV + gzip compression — 40% smaller than the previous TOON-based format.
+- **Ultra-Lightweight**: Highly optimized bundle size (~373 KB dist) using CSV + gzip compression — 40% smaller than the previous format.
 - **Fast Performance**: Efficient data loading with automatic caching. Barangay data (42k rows) decompresses and parses in ~39 ms on first call; subsequent calls are nearly instant.
 - **Fully Typed**: Written in TypeScript for a better developer experience with full type definitions.
 - **Easy to Use**: A simple and intuitive API for retrieving regions, provinces, municipalities, and barangays.
@@ -25,11 +25,11 @@ A lightweight package that provides a comprehensive collection of Philippine geo
 
 ## Node.js and Browser Support
 
-This package is a "hybrid" package that supports both CommonJS (`require()`) and ESM (`import`) syntax. It is compatible with both Node.js and browser environments out of the box. The data is bundled directly with the code using efficient compression, so it works seamlessly without needing file system access.
+This package supports Node.js 18 or newer and browsers, with both CommonJS (`require()`) and ESM (`import`) syntax. The data is bundled directly with the code using efficient compression, so it works seamlessly without needing file system access.
 
 ### Performance Characteristics
 
-- **Bundle Size**: ~373 KB (dist/index.mjs) — 40% smaller than the previous TOON-based format
+- **Bundle Size**: ~373 KB (dist/index.mjs) — 40% smaller than the previous format
 - **Initialization**: ~39 ms for barangays on first call (decompresses and caches all data)
 - **Subsequent Calls**: < 1ms (data is cached in memory)
 
@@ -37,12 +37,11 @@ The package uses CSV with gzip compression for optimal size and parse speed. Dat
 
 ### Format Benchmark
 
-Benchmarked on 42,011 barangay rows (20 iterations median):
+Benchmarked on 42,010 barangay rows (20 iterations median):
 
 | Format | Compressed size | Decompress + parse |
 |---|---|---|
 | JSON | 586 KB | 81 ms |
-| TOON (former) | 508 KB | 220 ms |
 | CSV full | 477 KB | 77 ms |
 | **CSV optimized** (current) | **346 KB** | **39 ms** |
 
@@ -79,11 +78,27 @@ You can import all functions from the package:
 import {
   getAllRegions,
   getAllProvinces,
+  getAllMunicipalities,
+  getAllBarangays,
   getProvincesByRegion,
   getMunicipalitiesByProvince,
   getBarangaysByMunicipality,
+  getBarangayByCode,
+  getAddressByBarangayCode,
 } from "@aivangogh/ph-address";
 ```
+
+---
+
+### Code and Address Lookup
+
+```ts
+const barangay = getBarangayByCode("0730600001");
+const address = getAddressByBarangayCode("0730600001");
+```
+
+Exact lookups return `undefined` for unknown codes. `address.province` is
+optional for NCR and independent or highly urbanized cities.
 
 ---
 

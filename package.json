@@ -39,6 +39,7 @@
     "build": "pnpm build:csv-ts && pnpm build:tsup",
     "typecheck": "tsc --noEmit",
     "test:browser": "node tests/browser-smoke.mjs",
+    "test:published": "node scripts/test-published-rc.mjs",
     "format": "prettier --write .",
     "benchmark": "tsx scripts/benchmark.ts"
   },

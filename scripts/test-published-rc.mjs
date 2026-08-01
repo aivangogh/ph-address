@@ -14,11 +14,11 @@ if (!packageSpec) {
 }
 
 const consumer = mkdtempSync(join(tmpdir(), 'ph-address-rc-'));
-const env = { ...process.env, npm_config_cache: join(tmpdir(), 'ph-address-rc-npm-cache') };
+const env = { ...process.env, npm_config_cache: mkdtempSync(join(tmpdir(), 'ph-address-rc-npm-cache-')) };
 
 try {
   writeFileSync(join(consumer, 'package.json'), '{"type":"module"}\n');
-  execFileSync('npm', ['install', '--ignore-scripts', '--no-package-lock', packageSpec], {
+  execFileSync('npm', ['install', '--prefer-online', '--ignore-scripts', '--no-package-lock', packageSpec], {
     cwd: consumer,
     env,
     stdio: 'inherit',
@@ -58,6 +58,7 @@ try {
   }
 } finally {
   rmSync(consumer, { recursive: true, force: true });
+  rmSync(env.npm_config_cache, { recursive: true, force: true });
 }
 
 function fileURLToPath(url) {

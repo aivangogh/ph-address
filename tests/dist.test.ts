@@ -1,14 +1,32 @@
 import { describe, it, expect } from 'vitest';
 import {
+  getAddressByBarangayCode,
+  getAllBarangays,
+  getAllMunicipalities,
   getAllProvinces,
   getAllRegions,
+  getBarangayByCode,
   getProvincesByRegion,
+  getProvinceByCode,
+  getRegionByCode,
+  getMunicipalityByCode,
   getMunicipalitiesByProvince,
   getBarangaysByMunicipality
 } from '@aivangogh/ph-address';
 
 describe('Distribution files test suite', () => {
   describe('Data Loading & Decompression', () => {
+    it('should expose complete lists and exact-code lookups', () => {
+      expect(getAllMunicipalities()).toHaveLength(1656);
+      expect(getAllBarangays()).toHaveLength(42010);
+      expect(getRegionByCode('0700000000')?.name).toBe('Region VII');
+      expect(getProvinceByCode('0702200000')?.name).toBe('Cebu');
+      expect(getMunicipalityByCode('0730600000')?.name).toBe('Cebu City');
+      expect(getBarangayByCode('0730600001')?.name).toBe('Adlaon');
+      expect(getAddressByBarangayCode('0730600001')?.region.name).toBe('Region VII');
+      expect(getBarangayByCode('9999999999')).toBeUndefined();
+    });
+
     it('should return all regions from the dist files', () => {
       const result = getAllRegions();
       expect(result.length).toBeGreaterThan(0);

@@ -47,9 +47,12 @@ describe('lazy data loader', () => {
   });
 
   it('loads only regions for a regions-only lookup', async () => {
-    const { getRegions } = await import('../src/utils/data-loader');
+    const loader = await import('../src/utils/data-loader');
 
-    expect(getRegions().map(({ name }) => name)).toEqual(['Alpha', 'Zulu']);
+    expect(loader.getRegions().map(({ name }) => name)).toEqual(['Alpha', 'Zulu']);
+    expect(loader.getIndexedRegionsByCode().get('0100000000')).toBe(
+      loader.getRegions()[0],
+    );
     expect(inflate).toHaveBeenCalledTimes(1);
     expect(new TextDecoder().decode(inflate.mock.calls[0][0])).toBe('regions');
   });
@@ -61,6 +64,9 @@ describe('lazy data loader', () => {
       'Alpha Province',
       'Zulu Province',
     ]);
+    expect(loader.getIndexedProvincesByCode().get('0200200000')).toBe(
+      loader.getProvinces()[0],
+    );
     expect(
       loader
         .getIndexedProvincesByRegion()
@@ -72,6 +78,9 @@ describe('lazy data loader', () => {
       'Alpha Town',
       'Zulu Town',
     ]);
+    expect(loader.getIndexedMunicipalitiesByCode().get('0200102000')).toBe(
+      loader.getMunicipalities()[0],
+    );
     expect(
       loader
         .getIndexedMunicipalitiesByProvince()
@@ -83,6 +92,9 @@ describe('lazy data loader', () => {
       'Alpha Barangay',
       'Zulu Barangay',
     ]);
+    expect(loader.getIndexedBarangaysByCode().get('0200101001')).toBe(
+      loader.getBarangays()[0],
+    );
     expect(
       loader
         .getIndexedBarangaysByMunicipality()

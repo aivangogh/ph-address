@@ -76,12 +76,21 @@ let provinces: readonly PHProvince[] | undefined;
 let municipalities: readonly PHMunicipality[] | undefined;
 let barangays: readonly PHBarangay[] | undefined;
 
+let regionsByCode: Map<string, PHRegion> | undefined;
+let provincesByCode: Map<string, PHProvince> | undefined;
+let municipalitiesByCode: Map<string, PHMunicipality> | undefined;
+let barangaysByCode: Map<string, PHBarangay> | undefined;
+
 let provincesByRegion: Map<string, readonly PHProvince[]> | undefined;
 let municipalitiesByProvince: Map<string, readonly PHMunicipality[]> | undefined;
 let barangaysByMunicipality: Map<string, readonly PHBarangay[]> | undefined;
 
 function initializeRegions() {
-    return regions ??= sortByName(decompressAndParse<PHRegion>(regionsCompressed));
+    if (regions) return regions;
+
+    regions = sortByName(decompressAndParse<PHRegion>(regionsCompressed));
+    regionsByCode = new Map(regions.map(region => [region.psgcCode, region]));
+    return regions;
 }
 
 function initializeProvinces() {
@@ -93,6 +102,7 @@ function initializeProvinces() {
             regionCode: province.psgcCode.substring(0, 2) + '00000000',
         })),
     );
+    provincesByCode = new Map(provinces.map(province => [province.psgcCode, province]));
 
     const index = new Map<string, PHProvince[]>();
     for (const province of provinces) {
@@ -109,6 +119,9 @@ function initializeMunicipalities() {
 
     municipalities = sortByName(
         decompressAndParse<PHMunicipality>(municipalitiesCompressed),
+    );
+    municipalitiesByCode = new Map(
+        municipalities.map(municipality => [municipality.psgcCode, municipality]),
     );
 
     const index = new Map<string, PHMunicipality[]>();
@@ -130,6 +143,7 @@ function initializeBarangays() {
             municipalCityCode: barangay.psgcCode.substring(0, 7) + '000',
         })),
     );
+    barangaysByCode = new Map(barangays.map(barangay => [barangay.psgcCode, barangay]));
 
     const index = new Map<string, PHBarangay[]>();
     for (const barangay of barangays) {
@@ -157,6 +171,26 @@ export function getMunicipalities(): readonly PHMunicipality[] {
 
 export function getBarangays(): readonly PHBarangay[] {
     return initializeBarangays();
+}
+
+export function getIndexedRegionsByCode() {
+    initializeRegions();
+    return regionsByCode!;
+}
+
+export function getIndexedProvincesByCode() {
+    initializeProvinces();
+    return provincesByCode!;
+}
+
+export function getIndexedMunicipalitiesByCode() {
+    initializeMunicipalities();
+    return municipalitiesByCode!;
+}
+
+export function getIndexedBarangaysByCode() {
+    initializeBarangays();
+    return barangaysByCode!;
 }
 
 export function getIndexedProvincesByRegion() {

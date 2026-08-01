@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { getAllProvinces, getProvincesByRegion } from '../src';
+import { getAllProvinces, getProvinceByCode, getProvincesByRegion } from '../src';
 import allProvinces from '../src/data/provinces.json';
 import { sortByName } from '../src/utils/sort';
 
@@ -31,5 +31,10 @@ describe('Get province/s test suite', () => {
     const regionCode = 'non-existent-code';
     const result = getProvincesByRegion(regionCode);
     expect(result).toEqual([]);
+  });
+
+  it('should find a province by code', () => {
+    expect(getProvinceByCode('0702200000')?.name).toBe('Cebu');
+    expect(getProvinceByCode('9999999999')).toBeUndefined();
   });
 });

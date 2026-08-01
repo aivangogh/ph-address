@@ -1,4 +1,8 @@
-import { getIndexedMunicipalitiesByProvince } from '../utils/data-loader';
+import {
+  getIndexedMunicipalitiesByCode,
+  getIndexedMunicipalitiesByProvince,
+  getMunicipalities,
+} from '../utils/data-loader';
 import { PHMunicipality } from '../types/municipality';
 
 /**
@@ -11,4 +15,16 @@ function getMunicipalitiesByProvince(code: string): readonly PHMunicipality[] {
   return getIndexedMunicipalitiesByProvince().get(code) || [];
 }
 
-export { getMunicipalitiesByProvince };
+function getAllMunicipalities(): readonly PHMunicipality[] {
+  return getMunicipalities();
+}
+
+function getMunicipalityByCode(code: string): PHMunicipality | undefined {
+  return getIndexedMunicipalitiesByCode().get(code);
+}
+
+export {
+  getAllMunicipalities,
+  getMunicipalityByCode,
+  getMunicipalitiesByProvince,
+};

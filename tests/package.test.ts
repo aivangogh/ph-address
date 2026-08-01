@@ -38,24 +38,25 @@ describe('packed package', () => {
 
     execFileSync(
       'node',
-      ['-e', "require('@aivangogh/ph-address').getAllRegions()"],
+      ['-e', "require('@aivangogh/ph-address').getAddressByBarangayCode('0730600001')"],
       { cwd: consumerRoot }
     );
     execFileSync(
       'node',
-      ['--input-type=module', '-e', "import('@aivangogh/ph-address').then(m => m.getAllRegions())"],
+      ['--input-type=module', '-e', "import('@aivangogh/ph-address').then(m => m.getAllBarangays())"],
       { cwd: consumerRoot }
     );
 
     writeFileSync(join(consumerRoot, 'index.ts'), `
       import type {
+        PHAddress,
         PHRegion,
         PHProvince,
         PHMunicipality,
         PHBarangay
       } from '@aivangogh/ph-address';
 
-      const values: [PHRegion, PHProvince, PHMunicipality, PHBarangay] = [] as never;
+      const values: [PHAddress, PHRegion, PHProvince, PHMunicipality, PHBarangay] = [] as never;
       void values;
     `);
     execFileSync(

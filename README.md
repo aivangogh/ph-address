@@ -78,11 +78,27 @@ You can import all functions from the package:
 import {
   getAllRegions,
   getAllProvinces,
+  getAllMunicipalities,
+  getAllBarangays,
   getProvincesByRegion,
   getMunicipalitiesByProvince,
   getBarangaysByMunicipality,
+  getBarangayByCode,
+  getAddressByBarangayCode,
 } from "@aivangogh/ph-address";
 ```
+
+---
+
+### Code and Address Lookup
+
+```ts
+const barangay = getBarangayByCode("0730600001");
+const address = getAddressByBarangayCode("0730600001");
+```
+
+Exact lookups return `undefined` for unknown codes. `address.province` is
+optional for NCR and independent or highly urbanized cities.
 
 ---
 

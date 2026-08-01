@@ -17,6 +17,7 @@ on:
 
 permissions:
   contents: write
+  id-token: write
 
 env:
   RELEASE_VERSION: 2026.2.0
@@ -62,12 +63,22 @@ jobs:
       - run: pnpm changeset pre enter rc
       - run: npm version "$RELEASE_VERSION-rc.${{ inputs.rc_number }}" --no-git-tag-version
       - run: pnpm build
-      - run: npm publish --tag next --access public
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
-      - run: pnpm test:published -- "@aivangogh/ph-address@$RELEASE_VERSION-rc.${{ inputs.rc_number }}"
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+      - name: Publish RC if needed
+        run: |
+          version="$RELEASE_VERSION-rc.${{ inputs.rc_number }}"
+          if npm view "@aivangogh/ph-address@$version" version --registry=https://registry.npmjs.org >/dev/null 2>&1; then
+            echo "@$version is already published"
+          else
+            npm publish --tag next --access public
+          fi
+      - run: pnpm exec playwright install --with-deps chromium
+      - name: Smoke test published RC
+        run: |
+          for attempt in 1 2 3 4 5; do
+            pnpm test:published -- "@aivangogh/ph-address@$RELEASE_VERSION-rc.${{ inputs.rc_number }}" && exit 0
+            if [ "$attempt" -lt 5 ]; then sleep 15; fi
+          done
+          exit 1
       - run: gh release create "v$RELEASE_VERSION-rc.${{ inputs.rc_number }}" --repo "${{ github.repository }}" --prerelease --title "v$RELEASE_VERSION-rc.${{ inputs.rc_number }}" --generate-notes
         env:
           GH_TOKEN: ${{ github.token }}
@@ -90,10 +101,21 @@ jobs:
       - run: pnpm install --frozen-lockfile
       - run: test "$(pnpm pkg get version | tr -d '\"')" = "$RELEASE_VERSION"
       - run: pnpm build
-      - run: npm publish --tag latest --access public
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
-      - run: pnpm test:published -- "@aivangogh/ph-address@$RELEASE_VERSION"
+      - name: Publish stable if needed
+        run: |
+          if npm view "@aivangogh/ph-address@$RELEASE_VERSION" version --registry=https://registry.npmjs.org >/dev/null 2>&1; then
+            echo "@$RELEASE_VERSION is already published"
+          else
+            npm publish --tag latest --access public
+          fi
+      - run: pnpm exec playwright install --with-deps chromium
+      - name: Smoke test published stable package
+        run: |
+          for attempt in 1 2 3 4 5; do
+            pnpm test:published -- "@aivangogh/ph-address@$RELEASE_VERSION" && exit 0
+            if [ "$attempt" -lt 5 ]; then sleep 15; fi
+          done
+          exit 1
       - run: gh release create "v$RELEASE_VERSION" --repo "${{ github.repository }}" --title "v$RELEASE_VERSION" --generate-notes
         env:
           GH_TOKEN: ${{ github.token }}

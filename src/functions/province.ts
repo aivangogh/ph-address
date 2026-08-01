@@ -1,4 +1,8 @@
-import { getProvinces, getIndexedProvincesByRegion } from '../utils/data-loader';
+import {
+  getIndexedProvincesByCode,
+  getIndexedProvincesByRegion,
+  getProvinces,
+} from '../utils/data-loader';
 import { PHProvince } from '../types/province';
 
 /**
@@ -19,4 +23,8 @@ function getProvincesByRegion(code: string): readonly PHProvince[] {
   return getIndexedProvincesByRegion().get(code) || [];
 }
 
-export { getAllProvinces, getProvincesByRegion };
+function getProvinceByCode(code: string): PHProvince | undefined {
+  return getIndexedProvincesByCode().get(code);
+}
+
+export { getAllProvinces, getProvinceByCode, getProvincesByRegion };

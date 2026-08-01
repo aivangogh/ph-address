@@ -1,4 +1,8 @@
-import { getIndexedBarangaysByMunicipality } from '../utils/data-loader';
+import {
+  getBarangays,
+  getIndexedBarangaysByCode,
+  getIndexedBarangaysByMunicipality,
+} from '../utils/data-loader';
 import { PHBarangay } from '../types/barangay';
 
 /**
@@ -11,4 +15,12 @@ function getBarangaysByMunicipality(code: string): readonly PHBarangay[] {
   return getIndexedBarangaysByMunicipality().get(code) || [];
 }
 
-export { getBarangaysByMunicipality };
+function getAllBarangays(): readonly PHBarangay[] {
+  return getBarangays();
+}
+
+function getBarangayByCode(code: string): PHBarangay | undefined {
+  return getIndexedBarangaysByCode().get(code);
+}
+
+export { getAllBarangays, getBarangayByCode, getBarangaysByMunicipality };

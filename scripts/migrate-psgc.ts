@@ -33,7 +33,7 @@ function parseArguments(): { filePath: string } {
 
 	if (!filePath) {
 		console.error('Error: --file argument is required.');
-		console.error('Usage: bun run scripts/migrate-psgc.ts --file=<filename.xlsx>');
+		console.error('Usage: pnpm migrate:psgc --file=<filename.xlsx>');
 		process.exit(1);
 	}
 

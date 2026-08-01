@@ -19,9 +19,6 @@ permissions:
   contents: write
   id-token: write
 
-env:
-  RELEASE_VERSION: 2026.2.0
-
 jobs:
   verify:
     runs-on: ubuntu-latest
@@ -36,6 +33,7 @@ jobs:
           cache: pnpm
           registry-url: https://registry.npmjs.org
       - run: pnpm install --frozen-lockfile
+      - run: echo "RELEASE_VERSION=$(pnpm pkg get version | tr -d '\"')" >> "$GITHUB_ENV"
       - run: test "$(pnpm pkg get version | tr -d '\"')" = "$RELEASE_VERSION"
       - run: pnpm data:check
       - run: pnpm build
@@ -60,6 +58,7 @@ jobs:
           cache: pnpm
           registry-url: https://registry.npmjs.org
       - run: pnpm install --frozen-lockfile
+      - run: echo "RELEASE_VERSION=$(pnpm pkg get version | tr -d '\"')" >> "$GITHUB_ENV"
       - run: pnpm changeset pre enter rc
       - run: npm version "$RELEASE_VERSION-rc.${{ inputs.rc_number }}" --no-git-tag-version
       - run: pnpm build
@@ -79,7 +78,14 @@ jobs:
             if [ "$attempt" -lt 5 ]; then sleep 15; fi
           done
           exit 1
-      - run: gh release create "v$RELEASE_VERSION-rc.${{ inputs.rc_number }}" --repo "${{ github.repository }}" --prerelease --title "v$RELEASE_VERSION-rc.${{ inputs.rc_number }}" --generate-notes
+      - name: Create RC GitHub release if needed
+        run: |
+          tag="v$RELEASE_VERSION-rc.${{ inputs.rc_number }}"
+          if gh release view "$tag" --repo "${{ github.repository }}" >/dev/null 2>&1; then
+            echo "$tag already exists"
+          else
+            gh release create "$tag" --repo "${{ github.repository }}" --prerelease --title "$tag" --generate-notes
+          fi
         env:
           GH_TOKEN: ${{ github.token }}
 
@@ -99,6 +105,7 @@ jobs:
           cache: pnpm
           registry-url: https://registry.npmjs.org
       - run: pnpm install --frozen-lockfile
+      - run: echo "RELEASE_VERSION=$(pnpm pkg get version | tr -d '\"')" >> "$GITHUB_ENV"
       - run: test "$(pnpm pkg get version | tr -d '\"')" = "$RELEASE_VERSION"
       - run: pnpm build
       - name: Publish stable if needed
@@ -116,6 +123,13 @@ jobs:
             if [ "$attempt" -lt 5 ]; then sleep 15; fi
           done
           exit 1
-      - run: gh release create "v$RELEASE_VERSION" --repo "${{ github.repository }}" --title "v$RELEASE_VERSION" --generate-notes
+      - name: Create stable GitHub release if needed
+        run: |
+          tag="v$RELEASE_VERSION"
+          if gh release view "$tag" --repo "${{ github.repository }}" >/dev/null 2>&1; then
+            echo "$tag already exists"
+          else
+            gh release create "$tag" --repo "${{ github.repository }}" --title "$tag" --generate-notes
+          fi
         env:
           GH_TOKEN: ${{ github.token }}

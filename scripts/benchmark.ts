@@ -10,9 +10,10 @@
  * Both raw and compressed (gzip deflate + base64) sizes are measured,
  * since the library ships data as compressed TS string literals.
  *
- * Run: bun run benchmark
+ * Run: pnpm benchmark
  */
 
+import { spawnSync } from 'node:child_process';
 import fs from 'fs';
 import path from 'path';
 import pako from 'pako';
@@ -154,15 +155,15 @@ function benchmarkQuery(expression: string, importName: string): QueryTiming {
         cached: (finished - initialized) / 1000,
       }));
     `;
-    const result = Bun.spawnSync(['bun', '--eval', script], {
+    const result = spawnSync('pnpm', ['exec', 'tsx', '--eval', script], {
       cwd: process.cwd(),
-      stdout: 'pipe',
-      stderr: 'inherit',
+      encoding: 'utf8',
+      stdio: ['ignore', 'pipe', 'inherit'],
     });
-    if (result.exitCode !== 0) {
+    if (result.status !== 0) {
       throw new Error(`Query benchmark failed: ${expression}`);
     }
-    const timing = JSON.parse(new TextDecoder().decode(result.stdout));
+    const timing = JSON.parse(result.stdout);
     cold.push(timing.cold);
     cached.push(timing.cached);
   }

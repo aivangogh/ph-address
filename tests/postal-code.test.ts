@@ -1,3 +1,5 @@
+import fs from "fs";
+import path from "path";
 import { describe, expect, it } from "vitest";
 import {
   getAllPostalCodes,
@@ -7,6 +9,42 @@ import {
 import municipalities from "../src/data/municipalities.json";
 
 describe("postal codes", () => {
+  it("documents reviewed municipality changes", () => {
+    const [header, ...lines] = fs
+      .readFileSync(
+        path.join(
+          process.cwd(),
+          "assets/ph-postal-code/municipality-mappings.csv",
+        ),
+        "utf8",
+      )
+      .trim()
+      .split("\n");
+    const columns = header.split(",");
+    const mappings = lines.map((line) =>
+      Object.fromEntries(
+        line.split(",").map((value, index) => [columns[index], value]),
+      ),
+    );
+
+    expect(mappings).toContainEqual(
+      expect.objectContaining({
+        municipalityName: "Amai Manabilang",
+        municipalityCode: "1903637000",
+        sourceMunicipality: "Bumbaran",
+        changeType: "renamed",
+      }),
+    );
+    expect(mappings).toContainEqual(
+      expect.objectContaining({
+        municipalityName: "Nabalawag",
+        postalCodes: "9410|9415",
+        sourceMunicipality: "Midsayap and Aleosan",
+        changeType: "inherited-area",
+      }),
+    );
+  });
+
   it("loads the complete GeoNames snapshot once", () => {
     const postalCodes = getAllPostalCodes();
 

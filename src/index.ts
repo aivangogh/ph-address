@@ -15,12 +15,18 @@ import {
     getProvincesByRegion,
 } from "./functions/province";
 import { getAllRegions, getRegionByCode } from "./functions/region";
+import {
+    getAllPostalCodes,
+    getLocationsByPostalCode,
+    getPostalCodesByMunicipality,
+} from "./functions/postal-code";
 
 export type { PHBarangay } from "./types/barangay";
 export type { PHAddress } from "./types/address";
 export type { PHMunicipality } from "./types/municipality";
 export type { PHProvince } from "./types/province";
 export type { PHRegion } from "./types/region";
+export type { PHPostalCode } from "./types/postal-code";
 
 export {
     getAddressByBarangayCode,
@@ -32,6 +38,9 @@ export {
     getBarangaysByMunicipality,
     getMunicipalityByCode,
     getMunicipalitiesByProvince,
+    getAllPostalCodes,
+    getLocationsByPostalCode,
+    getPostalCodesByMunicipality,
     getProvinceByCode,
     getProvincesByRegion,
     getRegionByCode,

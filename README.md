@@ -41,11 +41,11 @@ The package uses CSV with gzip compression for optimal size and parse speed. Dat
 
 Benchmarked on 42,010 barangay rows (20 iterations median):
 
-| Format | Compressed size | Decompress + parse |
-|---|---|---|
-| JSON | 586 KB | 81 ms |
-| CSV full | 477 KB | 77 ms |
-| **CSV optimized** (current) | **346 KB** | **39 ms** |
+| Format                      | Compressed size | Decompress + parse |
+| --------------------------- | --------------- | ------------------ |
+| JSON                        | 586 KB          | 81 ms              |
+| CSV full                    | 477 KB          | 77 ms              |
+| **CSV optimized** (current) | **346 KB**      | **39 ms**          |
 
 CSV optimized removes columns that are derivable from the 10-digit PSGC code structure, then derives them at load time — smaller payload and less to parse.
 
@@ -160,7 +160,7 @@ Returns a sorted list of provinces within a specific region.
 import { getProvincesByRegion } from "@aivangogh/ph-address";
 
 // Get all provinces in Region VII (Central Visayas)
-const provinces = getProvincesByRegion("0700000000"); 
+const provinces = getProvincesByRegion("0700000000");
 console.log(provinces);
 /*
 [
@@ -222,6 +222,30 @@ console.log(barangays);
 */
 ```
 
+## Postal Codes
+
+Postal codes are separate from the PSGC hierarchy because one municipality can
+have multiple delivery localities and codes.
+
+```ts
+import {
+  getAllPostalCodes,
+  getLocationsByPostalCode,
+  getPostalCodesByMunicipality,
+} from "@aivangogh/ph-address";
+
+getLocationsByPostalCode("6000");
+getPostalCodesByMunicipality("0730600000"); // Cebu City
+getAllPostalCodes();
+```
+
+Every current PSGC municipality/city has at least one postal-code mapping.
+Historical names and spelling differences are resolved through reviewed
+aliases. New BARMM Special Geographic Area municipalities use the PHLPost
+codes inherited from the municipalities that previously contained their
+barangays. GeoNames localities that still cannot be identified safely remain
+available through postal-code lookup without a `municipalityCode`.
+
 ## Types
 
 You can import all the necessary types for use in your TypeScript projects.
@@ -231,14 +255,21 @@ import type {
   PHRegion,
   PHProvince,
   PHMunicipality,
-  PHBarangay
+  PHBarangay,
+  PHPostalCode,
 } from "@aivangogh/ph-address";
 ```
 
 ## Data Source
 
-The data is sourced directly from the quarterly publications of the **Philippine Statistics Authority (PSA)**.
+Geographic data is sourced from the quarterly publications of the **Philippine Statistics Authority (PSA)**.
+
+Postal-code data is from [GeoNames](https://www.geonames.org/), licensed under
+[CC BY 4.0](https://creativecommons.org/licenses/by/4.0/). The source snapshot
+and its readme are stored in `assets/ph-postal-code`. Reviewed mappings use the
+[PHLPost ZIP Code Locator](https://phlpost.gov.ph/zip-code-locator/) and the
+PSA PSGC correspondence data bundled with this package.
 
 ## License
 
-[MIT](LICENSE)
+[MIT](LICENCE)

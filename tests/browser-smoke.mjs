@@ -12,6 +12,7 @@ const html = `<!doctype html>
   import {
     getAllProvinces,
     getAllRegions,
+    getLocationsByPostalCode,
     getBarangaysByMunicipality,
     getMunicipalitiesByProvince,
     getProvincesByRegion
@@ -22,7 +23,8 @@ const html = `<!doctype html>
     getAllProvinces().length,
     getProvincesByRegion("1400000000").length,
     getMunicipalitiesByProvince("1400100000").length,
-    getBarangaysByMunicipality("0730600000").length
+    getBarangaysByMunicipality("0730600000").length,
+    getLocationsByPostalCode("6000")[0].placeName
   ]);
 </script>`;
 
@@ -57,7 +59,7 @@ try {
 
   assert.deepEqual(
     JSON.parse(await page.evaluate(() => document.body.dataset.results)),
-    [18, 82, 6, 27, 80]
+    [18, 82, 6, 27, 80, 'Cebu City']
   );
 } finally {
   await browser?.close();

@@ -1,228 +1,302 @@
-import * as XLSX from 'xlsx';
-import * as path from 'path';
-import * as fs from 'fs';
-import { reformatCityName } from '../src/utils/reformat';
-import { PHRegion } from '../src/types/region';
-import { PHProvince } from '../src/types/province';
-import { PHMunicipality } from '../src/types/municipality';
-import { PHBarangay } from '../src/types/barangay';
-import { sortByName } from '../src/utils/sort';
+import * as XLSX from "xlsx";
+import * as path from "path";
+import * as fs from "fs";
+import { reformatCityName } from "../src/utils/reformat";
+import { PHRegion } from "../src/types/region";
+import { PHProvince } from "../src/types/province";
+import { PHMunicipality } from "../src/types/municipality";
+import { PHBarangay } from "../src/types/barangay";
+import { sortByName } from "../src/utils/sort";
 
-const PSGC_SHEET_NAME = 'PSGC';
-const ASSETS_DIR = path.join(__dirname, '../assets');
-const DATA_DIR = path.join(__dirname, '../src/data');
-const CSV_DATA_DIR = path.join(__dirname, '../src/data-csv');
+const PSGC_SHEET_NAME = "PSGC";
+const ASSETS_DIR = path.join(__dirname, "../assets");
+const DATA_DIR = path.join(__dirname, "../src/data");
+const CSV_DATA_DIR = path.join(__dirname, "../src/data-csv");
+const REGION_LEVEL = "Reg";
+const PROVINCE_LEVEL = "Prov";
+const DISTRICT_LEVEL = "Dist";
+const CITY_LEVEL = "City";
+const MUNICIPALITY_LEVEL = "Mun";
+const SUBMUNICIPALITY_LEVEL = "SubMun";
+const BARANGAY_LEVEL = "Bgy";
+const NCR_PREFIX = "13";
 
 interface RawPSGCDataRow {
-	['10-digit PSGC']?: string | number;
-	Name?: string;
-	['Geographic Level']?: string;
-	Code?: string | number; // Alternative for 10-digit PSGC
+  ["10-digit PSGC"]?: string | number;
+  Name?: string;
+  ["Geographic Level"]?: string;
+  Code?: string | number; // Alternative for 10-digit PSGC
 }
 
 function parseArguments(): { filePath: string } {
-	const args = process.argv.slice(2);
-	let filePath: string | undefined;
+  const args = process.argv.slice(2);
+  let filePath: string | undefined;
 
-	for (const arg of args) {
-		if (arg.startsWith('--file=')) {
-			filePath = arg.split('=')[1];
-			break;
-		}
-	}
+  for (const arg of args) {
+    if (arg.startsWith("--file=")) {
+      filePath = arg.split("=")[1];
+      break;
+    }
+  }
 
-	if (!filePath) {
-		console.error('Error: --file argument is required.');
-		console.error('Usage: pnpm migrate:psgc --file=<filename.xlsx>');
-		process.exit(1);
-	}
+  if (!filePath) {
+    console.error("Error: --file argument is required.");
+    console.error("Usage: pnpm migrate:psgc --file=<filename.xlsx>");
+    process.exit(1);
+  }
 
-	return { filePath };
+  return { filePath };
 }
 
 function readExcelFile(excelPath: string): RawPSGCDataRow[] {
-	const workbook = XLSX.readFile(excelPath);
-	const worksheet = workbook.Sheets[PSGC_SHEET_NAME];
+  const workbook = XLSX.readFile(excelPath);
+  const worksheet = workbook.Sheets[PSGC_SHEET_NAME];
 
-	if (!worksheet) {
-		console.error(`Sheet "${PSGC_SHEET_NAME}" not found in ${excelPath}!`);
-		process.exit(1);
-	}
+  if (!worksheet) {
+    console.error(`Sheet "${PSGC_SHEET_NAME}" not found in ${excelPath}!`);
+    process.exit(1);
+  }
 
-	return XLSX.utils.sheet_to_json<RawPSGCDataRow>(worksheet);
+  return XLSX.utils.sheet_to_json<RawPSGCDataRow>(worksheet);
 }
 
 function getPsgcCode(row: RawPSGCDataRow): string {
-	const code = row['10-digit PSGC'] || row.Code;
-	if (code === undefined) {
-		throw new Error(`Missing PSGC code in row: ${JSON.stringify(row)}`);
-	}
-	return String(code).padStart(10, '0');
+  const code = row["10-digit PSGC"] || row.Code;
+  if (code === undefined) {
+    throw new Error(`Missing PSGC code in row: ${JSON.stringify(row)}`);
+  }
+  return String(code).padStart(10, "0");
+}
+
+function deriveRegionCode(psgcCode: string): string {
+  return `${psgcCode.substring(0, 2)}00000000`;
+}
+
+function deriveProvinceCode(psgcCode: string): string {
+  return `${psgcCode.substring(0, 5)}00000`;
+}
+
+function deriveMunicipalityCode(psgcCode: string): string {
+  return `${psgcCode.substring(0, 7)}000`;
+}
+
+function hasDirectParentProvince(
+  psgcCode: string,
+  provinces: PHProvince[],
+): boolean {
+  const expectedProvinceCode = deriveProvinceCode(psgcCode);
+  return provinces.some(
+    (province) => province.psgcCode === expectedProvinceCode,
+  );
+}
+
+function resolveProvinceCode(
+  psgcCode: string,
+  geoLevel: string,
+  provinces: PHProvince[],
+): string {
+  // NCR cities are parented directly by the NCR region; Manila submunicipalities
+  // retain Manila City as their parent through the ordinary derived code.
+  if (
+    psgcCode.startsWith(NCR_PREFIX) &&
+    (geoLevel === CITY_LEVEL || geoLevel === MUNICIPALITY_LEVEL)
+  ) {
+    return deriveRegionCode(psgcCode);
+  }
+
+  // Independent and highly urbanized cities have no direct province row and
+  // therefore self-parent in this package's municipality hierarchy.
+  if (
+    psgcCode.substring(5, 7) === "00" &&
+    !hasDirectParentProvince(psgcCode, provinces)
+  ) {
+    return psgcCode;
+  }
+
+  return deriveProvinceCode(psgcCode);
 }
 
 function extractData(rawData: RawPSGCDataRow[]) {
-	const regions: PHRegion[] = [];
-	const provinces: PHProvince[] = [];
-	const municipalities: PHMunicipality[] = [];
-	const barangays: PHBarangay[] = [];
+  const regions: PHRegion[] = [];
+  const provinces: PHProvince[] = [];
+  const municipalities: PHMunicipality[] = [];
+  const barangays: PHBarangay[] = [];
 
-	rawData.forEach(row => {
-		const psgcCode = getPsgcCode(row);
-		const name = row.Name?.trim() || '';
-		const geoLevel = row['Geographic Level']?.trim();
+  rawData.forEach((row) => {
+    const psgcCode = getPsgcCode(row);
+    const name = row.Name?.trim() || "";
+    const geoLevel = row["Geographic Level"]?.trim();
 
-		if (!name || !geoLevel) {
-			return; // Skip rows with missing name or geo level
-		}
+    if (!name || !geoLevel) {
+      return; // Skip rows with missing name or geo level
+    }
 
-		switch (geoLevel) {
-			case 'Reg': {
-				const designationMatch = name.match(/\(([^)]+)\)$/);
-				const designation = designationMatch ? designationMatch[1] : '';
-				const cleanedName = name.replace(/\s*\([^)]+\)$/, '').trim();
-				regions.push({ name: cleanedName, psgcCode, designation });
-				break;
-			}
-			case 'Prov':
-			case 'Dist': { // Treat districts as provinces
-				const regionCode = psgcCode.substring(0, 2) + '00000000';
-				provinces.push({ name, psgcCode, regionCode });
-				break;
-			}
-			case 'City':
-			case 'Mun':
-			case 'SubMun': { // Treat sub-municipalities as municipalities
-				let provinceCode = psgcCode.substring(0, 5) + '00000';
-				if (psgcCode.startsWith('13') && (geoLevel === 'City' || geoLevel === 'Mun')) {
-					// Special handling for NCR cities/municipalities using region code as province code
-					provinceCode = psgcCode.substring(0, 2) + '00000000'; // NCR region code
-				} else if (psgcCode.substring(5, 7) === '00') {
-					// For Highly Urbanized Cities (HUC), their province code might be their own PSGC code
-					// We need to check if there is a parent province
-					const parentProvince = provinces.find(p => psgcCode.startsWith(p.psgcCode.substring(0, 5)) && psgcCode !== p.psgcCode);
-					if (!parentProvince) {
-						// If no direct parent province, use own code (HUCs, independent cities)
-						provinceCode = psgcCode;
-					}
-				}
+    switch (geoLevel) {
+      case REGION_LEVEL: {
+        const designationMatch = name.match(/\(([^)]+)\)$/);
+        const designation = designationMatch ? designationMatch[1] : "";
+        const cleanedName = name.replace(/\s*\([^)]+\)$/, "").trim();
+        regions.push({ name: cleanedName, psgcCode, designation });
+        break;
+      }
+      case PROVINCE_LEVEL:
+      case DISTRICT_LEVEL: {
+        // Treat districts as provinces
+        const regionCode = deriveRegionCode(psgcCode);
+        provinces.push({ name, psgcCode, regionCode });
+        break;
+      }
+      case CITY_LEVEL:
+      case MUNICIPALITY_LEVEL:
+      case SUBMUNICIPALITY_LEVEL: {
+        // Treat sub-municipalities as municipalities
+        const provinceCode = resolveProvinceCode(psgcCode, geoLevel, provinces);
+        municipalities.push({
+          name: reformatCityName(name),
+          psgcCode,
+          provinceCode,
+        });
+        break;
+      }
+      case BARANGAY_LEVEL: {
+        const municipalCityCode = deriveMunicipalityCode(psgcCode);
+        barangays.push({ name, psgcCode, municipalCityCode });
+        break;
+      }
+    }
+  });
 
-				municipalities.push({ name: reformatCityName(name), psgcCode, provinceCode });
-				break;
-			}
-			case 'Bgy': {
-				const municipalCityCode = psgcCode.substring(0, 7) + '000';
-				barangays.push({ name, psgcCode, municipalCityCode });
-				break;
-			}
-		}
-	});
-
-	return { regions, provinces, municipalities, barangays };
+  return { regions, provinces, municipalities, barangays };
 }
 
 function csvEscape(value: string): string {
-	return value.includes(',') || value.includes('"') || value.includes('\n')
-		? `"${value.replace(/"/g, '""')}"`
-		: value;
+  return value.includes(",") || value.includes('"') || value.includes("\n")
+    ? `"${value.replace(/"/g, '""')}"`
+    : value;
 }
 
 function toCSV(headers: string[], rows: Record<string, string>[]): string {
-	const lines = [
-		headers.join(','),
-		...rows.map(row => headers.map(h => csvEscape(row[h] ?? '')).join(',')),
-	];
-	return lines.join('\n');
+  const lines = [
+    headers.join(","),
+    ...rows.map((row) => headers.map((h) => csvEscape(row[h] ?? "")).join(",")),
+  ];
+  return lines.join("\n");
 }
 
 function writeCsvFiles(data: {
-	regions: PHRegion[];
-	provinces: PHProvince[];
-	municipalities: PHMunicipality[];
-	barangays: PHBarangay[];
+  regions: PHRegion[];
+  provinces: PHProvince[];
+  municipalities: PHMunicipality[];
+  barangays: PHBarangay[];
 }) {
-	if (!fs.existsSync(CSV_DATA_DIR)) {
-		fs.mkdirSync(CSV_DATA_DIR, { recursive: true });
-	}
+  if (!fs.existsSync(CSV_DATA_DIR)) {
+    fs.mkdirSync(CSV_DATA_DIR, { recursive: true });
+  }
 
-	const sortedRegions = sortByName(data.regions);
-	const sortedProvinces = sortByName(data.provinces);
-	const sortedMunicipalities = sortByName(data.municipalities);
-	const sortedBarangays = sortByName(data.barangays);
+  const sortedRegions = sortByName(data.regions);
+  const sortedProvinces = sortByName(data.provinces);
+  const sortedMunicipalities = sortByName(data.municipalities);
+  const sortedBarangays = sortByName(data.barangays);
 
-	// regionCode  = psgcCode[0:2] + '00000000' → derivable, omitted from CSV
-	// municipalCityCode = psgcCode[0:7] + '000' → derivable, omitted from CSV
-	// provinceCode for municipalities is NOT always derivable (NCR/HUC special cases) → kept
-	fs.writeFileSync(
-		path.join(CSV_DATA_DIR, 'regions.csv'),
-		toCSV(['name', 'psgcCode', 'designation'], sortedRegions as unknown as Record<string, string>[]),
-	);
-	fs.writeFileSync(
-		path.join(CSV_DATA_DIR, 'provinces.csv'),
-		toCSV(['name', 'psgcCode'], sortedProvinces as unknown as Record<string, string>[]),
-	);
-	fs.writeFileSync(
-		path.join(CSV_DATA_DIR, 'municipalities.csv'),
-		toCSV(['name', 'psgcCode', 'provinceCode'], sortedMunicipalities as unknown as Record<string, string>[]),
-	);
-	fs.writeFileSync(
-		path.join(CSV_DATA_DIR, 'barangays.csv'),
-		toCSV(['name', 'psgcCode'], sortedBarangays as unknown as Record<string, string>[]),
-	);
+  // regionCode  = psgcCode[0:2] + '00000000' → derivable, omitted from CSV
+  // municipalCityCode = psgcCode[0:7] + '000' → derivable, omitted from CSV
+  // provinceCode for municipalities is NOT always derivable (NCR/HUC special cases) → kept
+  fs.writeFileSync(
+    path.join(CSV_DATA_DIR, "regions.csv"),
+    toCSV(
+      ["name", "psgcCode", "designation"],
+      sortedRegions as unknown as Record<string, string>[],
+    ),
+  );
+  fs.writeFileSync(
+    path.join(CSV_DATA_DIR, "provinces.csv"),
+    toCSV(
+      ["name", "psgcCode"],
+      sortedProvinces as unknown as Record<string, string>[],
+    ),
+  );
+  fs.writeFileSync(
+    path.join(CSV_DATA_DIR, "municipalities.csv"),
+    toCSV(
+      ["name", "psgcCode", "provinceCode"],
+      sortedMunicipalities as unknown as Record<string, string>[],
+    ),
+  );
+  fs.writeFileSync(
+    path.join(CSV_DATA_DIR, "barangays.csv"),
+    toCSV(
+      ["name", "psgcCode"],
+      sortedBarangays as unknown as Record<string, string>[],
+    ),
+  );
 
-	console.log('Generated CSV files in src/data-csv/');
+  console.log("Generated CSV files in src/data-csv/");
 }
 
 function writeJsonFiles(data: {
-	regions: PHRegion[];
-	provinces: PHProvince[];
-	municipalities: PHMunicipality[];
-	barangays: PHBarangay[];
+  regions: PHRegion[];
+  provinces: PHProvince[];
+  municipalities: PHMunicipality[];
+  barangays: PHBarangay[];
 }) {
-	if (!fs.existsSync(DATA_DIR)) {
-		fs.mkdirSync(DATA_DIR, { recursive: true });
-	}
+  if (!fs.existsSync(DATA_DIR)) {
+    fs.mkdirSync(DATA_DIR, { recursive: true });
+  }
 
-	const sortedRegions = sortByName(data.regions);
-	const sortedProvinces = sortByName(data.provinces);
-	const sortedMunicipalities = sortByName(data.municipalities);
-	const sortedBarangays = sortByName(data.barangays);
+  const sortedRegions = sortByName(data.regions);
+  const sortedProvinces = sortByName(data.provinces);
+  const sortedMunicipalities = sortByName(data.municipalities);
+  const sortedBarangays = sortByName(data.barangays);
 
-	fs.writeFileSync(path.join(DATA_DIR, 'regions.json'), JSON.stringify(sortedRegions, null, 2));
-	fs.writeFileSync(path.join(DATA_DIR, 'provinces.json'), JSON.stringify(sortedProvinces, null, 2));
-	fs.writeFileSync(path.join(DATA_DIR, 'municipalities.json'), JSON.stringify(sortedMunicipalities, null, 2));
-	fs.writeFileSync(path.join(DATA_DIR, 'barangays.json'), JSON.stringify(sortedBarangays, null, 2));
+  fs.writeFileSync(
+    path.join(DATA_DIR, "regions.json"),
+    JSON.stringify(sortedRegions, null, 2),
+  );
+  fs.writeFileSync(
+    path.join(DATA_DIR, "provinces.json"),
+    JSON.stringify(sortedProvinces, null, 2),
+  );
+  fs.writeFileSync(
+    path.join(DATA_DIR, "municipalities.json"),
+    JSON.stringify(sortedMunicipalities, null, 2),
+  );
+  fs.writeFileSync(
+    path.join(DATA_DIR, "barangays.json"),
+    JSON.stringify(sortedBarangays, null, 2),
+  );
 
-	console.log('Generated JSON files in src/data/');
+  console.log("Generated JSON files in src/data/");
 }
 
 function main() {
-	const { filePath: inputFileName } = parseArguments();
-	let excelFilePath: string;
+  const { filePath: inputFileName } = parseArguments();
+  let excelFilePath: string;
 
-	if (path.isAbsolute(inputFileName)) {
-		excelFilePath = inputFileName;
-	} else if (inputFileName.startsWith('assets/')) {
-		excelFilePath = path.join(process.cwd(), inputFileName);
-	} else {
-		excelFilePath = path.join(ASSETS_DIR, inputFileName);
-	}
+  if (path.isAbsolute(inputFileName)) {
+    excelFilePath = inputFileName;
+  } else if (inputFileName.startsWith("assets/")) {
+    excelFilePath = path.join(process.cwd(), inputFileName);
+  } else {
+    excelFilePath = path.join(ASSETS_DIR, inputFileName);
+  }
 
-	if (!fs.existsSync(excelFilePath)) {
-		console.error(`Error: Excel file not found at ${excelFilePath}`);
-		process.exit(1);
-	}
+  if (!fs.existsSync(excelFilePath)) {
+    console.error(`Error: Excel file not found at ${excelFilePath}`);
+    process.exit(1);
+  }
 
-	console.log(`Reading Excel file: ${excelFilePath}`);
-	const rawData = readExcelFile(excelFilePath);
-	console.log(`Found ${rawData.length} rows in the Excel file.`);
+  console.log(`Reading Excel file: ${excelFilePath}`);
+  const rawData = readExcelFile(excelFilePath);
+  console.log(`Found ${rawData.length} rows in the Excel file.`);
 
-	const { regions, provinces, municipalities, barangays } = extractData(rawData);
+  const { regions, provinces, municipalities, barangays } =
+    extractData(rawData);
 
-	console.log('Writing JSON files...');
-	writeJsonFiles({ regions, provinces, municipalities, barangays });
-	console.log('Writing CSV files...');
-	writeCsvFiles({ regions, provinces, municipalities, barangays });
-	console.log('Data migration complete.');
+  console.log("Writing JSON files...");
+  writeJsonFiles({ regions, provinces, municipalities, barangays });
+  console.log("Writing CSV files...");
+  writeCsvFiles({ regions, provinces, municipalities, barangays });
+  console.log("Data migration complete.");
 }
 
 main();

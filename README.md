@@ -1,5 +1,5 @@
 <p align="center">
-  <a href="LICENSE" >
+  <a href="LICENCE" >
     <img src="https://img.shields.io/npm/l/@aivangogh/ph-address"/>
   </a>
   <a href="https://www.npmjs.com/package/@aivangogh/ph-address">
@@ -13,6 +13,8 @@
 # PH-Address
 
 A lightweight package that provides a comprehensive collection of Philippine geographic data, based on the official [Philippine Standard Geographic Code (PSGC)](https://psa.gov.ph/classification/psgc/) as of 30 June 2026.
+
+[Explore the Philippine address data](https://aivangogh.dev/tools/ph-address)
 
 ## Features
 

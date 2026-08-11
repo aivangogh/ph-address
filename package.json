@@ -1,6 +1,6 @@
 {
   "name": "@aivangogh/ph-address",
-  "version": "2026.2.1",
+  "version": "2026.2.2",
   "description": "A collection of philippine geographic data based on PSGC",
   "main": "./dist/index.js",
   "module": "./dist/index.mjs",
@@ -30,10 +30,23 @@
   "repository": {
     "url": "git+ssh://git@github.com/aivangogh/ph-address.git"
   },
-  "homepage": "https://aivangogh.github.io/tools/ph-address",
+  "homepage": "https://aivangogh.dev/tools/ph-address",
   "license": "MIT",
   "packageManager": "pnpm@10.15.1",
-  "keywords": ["philippines", "address", "ph-address", "psgc"],
+  "keywords": [
+    "philippines",
+    "address",
+    "ph-address",
+    "psgc",
+    "philippine-address",
+    "philippines-address",
+    "psgc-data",
+    "regions",
+    "provinces",
+    "cities",
+    "municipalities",
+    "barangays"
+  ],
   "scripts": {
     "build:tsup": "tsup",
     "release": "pnpm build && changeset publish",

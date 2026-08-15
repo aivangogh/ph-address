@@ -98,20 +98,54 @@ You can import all functions from the package:
 ```ts
 import {
   getAllRegions,
+  getRegionByCode,
   getAllProvinces,
+  getProvinceByCode,
   getAllMunicipalities,
+  getMunicipalityByCode,
   getAllBarangays,
+  getBarangayByCode,
   getProvincesByRegion,
   getMunicipalitiesByProvince,
   getBarangaysByMunicipality,
-  getBarangayByCode,
   getAddressByBarangayCode,
+  getAllPostalCodes,
+  getLocationsByPostalCode,
+  getPostalCodesByMunicipality,
 } from "@aivangogh/ph-address";
 ```
+
+### Function signatures
+
+| Function                                                 | Return type                   |
+| -------------------------------------------------------- | ----------------------------- |
+| `getAllRegions()`                                        | `readonly PHRegion[]`         |
+| `getRegionByCode(code: string)`                          | `PHRegion \| undefined`       |
+| `getAllProvinces()`                                      | `readonly PHProvince[]`       |
+| `getProvinceByCode(code: string)`                        | `PHProvince \| undefined`     |
+| `getProvincesByRegion(code: string)`                     | `readonly PHProvince[]`       |
+| `getAllMunicipalities()`                                 | `readonly PHMunicipality[]`   |
+| `getMunicipalityByCode(code: string)`                    | `PHMunicipality \| undefined` |
+| `getMunicipalitiesByProvince(code: string)`              | `readonly PHMunicipality[]`   |
+| `getAllBarangays()`                                      | `readonly PHBarangay[]`       |
+| `getBarangayByCode(code: string)`                        | `PHBarangay \| undefined`     |
+| `getBarangaysByMunicipality(code: string)`               | `readonly PHBarangay[]`       |
+| `getAddressByBarangayCode(code: string)`                 | `PHAddress \| undefined`      |
+| `getAllPostalCodes()`                                    | `readonly PHPostalCode[]`     |
+| `getLocationsByPostalCode(postalCode: string)`           | `readonly PHPostalCode[]`     |
+| `getPostalCodesByMunicipality(municipalityCode: string)` | `readonly PHPostalCode[]`     |
+
+Collection lookups return an empty readonly array when no records match;
+exact-code lookups return `undefined`.
 
 ---
 
 ### Code and Address Lookup
+
+```ts
+getBarangayByCode(code: string): PHBarangay | undefined;
+getAddressByBarangayCode(code: string): PHAddress | undefined;
+```
 
 ```ts
 const barangay = getBarangayByCode("0730600001");
@@ -125,7 +159,7 @@ optional for NCR and independent or highly urbanized cities.
 
 ### `getAllRegions()`
 
-Returns a sorted list of all regions.
+Returns `readonly PHRegion[]`, sorted by region order.
 
 **Example:**
 
@@ -147,7 +181,7 @@ console.log(regions);
 
 ### `getAllProvinces()`
 
-Returns a sorted list of all provinces.
+Returns `readonly PHProvince[]`, sorted alphabetically.
 
 **Example:**
 
@@ -169,7 +203,8 @@ console.log(provinces);
 
 ### `getProvincesByRegion(regionCode)`
 
-Returns a sorted list of provinces within a specific region.
+Returns `readonly PHProvince[]`, sorted alphabetically. Returns an empty array
+when the region has no matching provinces.
 
 - `regionCode` (string): The PSGC code of the region.
 
@@ -193,7 +228,8 @@ console.log(provinces);
 
 ### `getMunicipalitiesByProvince(provinceCode)`
 
-Returns a sorted list of municipalities/cities within a specific province.
+Returns `readonly PHMunicipality[]`, sorted alphabetically. Returns an empty
+array when the province has no matching municipalities or cities.
 
 - `provinceCode` (string): The PSGC code of the province.
 
@@ -218,7 +254,8 @@ console.log(municipalities);
 
 ### `getBarangaysByMunicipality(municipalityCode)`
 
-Returns a sorted list of barangays within a specific municipality or city.
+Returns `readonly PHBarangay[]`, sorted alphabetically. Returns an empty array
+when the municipality or city has no matching barangays.
 
 - `municipalityCode` (string): The PSGC code of the municipality or city.
 
@@ -245,6 +282,16 @@ console.log(barangays);
 
 Postal codes are separate from the PSGC hierarchy because one municipality can
 have multiple delivery localities and codes.
+
+```ts
+getAllPostalCodes(): readonly PHPostalCode[];
+getLocationsByPostalCode(postalCode: string): readonly PHPostalCode[];
+getPostalCodesByMunicipality(
+  municipalityCode: string,
+): readonly PHPostalCode[];
+```
+
+Postal-code lookups return an empty readonly array when no records match.
 
 ```ts
 import {
@@ -276,8 +323,54 @@ import type {
   PHMunicipality,
   PHBarangay,
   PHPostalCode,
+  PHAddress,
 } from "@aivangogh/ph-address";
 ```
+
+```ts
+type PHRegion = {
+  name: string;
+  psgcCode: string;
+  designation: string;
+};
+
+type PHProvince = {
+  name: string;
+  psgcCode: string;
+  regionCode: string;
+};
+
+type PHMunicipality = {
+  name: string;
+  psgcCode: string;
+  provinceCode: string;
+};
+
+type PHBarangay = {
+  name: string;
+  psgcCode: string;
+  municipalCityCode: string;
+};
+
+type PHPostalCode = {
+  postalCode: string;
+  placeName: string;
+  provinceName: string;
+  regionName: string;
+  municipalityCode?: string;
+};
+
+type PHAddress = {
+  region: PHRegion;
+  province?: PHProvince;
+  municipality: PHMunicipality;
+  barangay: PHBarangay;
+};
+```
+
+`PHAddress.province` is optional for NCR and independent or highly urbanized
+cities. `PHPostalCode.municipalityCode` is optional when a delivery locality
+cannot be mapped safely to a current PSGC municipality or city.
 
 ## Data Source
 

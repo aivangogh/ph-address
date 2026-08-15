@@ -4,12 +4,14 @@ import {
     provinces as provincesCompressed,
     municipalities as municipalitiesCompressed,
     barangays as barangaysCompressed,
+    postalCodes as postalCodesCompressed,
 } from '../data-csv-ts';
 
 import { PHRegion } from '../types/region';
 import { PHProvince } from '../types/province';
 import { PHMunicipality } from '../types/municipality';
 import { PHBarangay } from '../types/barangay';
+import { PHPostalCode } from '../types/postal-code';
 import { sortByName } from './sort';
 
 // ─── CSV parser ───────────────────────────────────────────────────────────────
@@ -75,6 +77,7 @@ let regions: readonly PHRegion[] | undefined;
 let provinces: readonly PHProvince[] | undefined;
 let municipalities: readonly PHMunicipality[] | undefined;
 let barangays: readonly PHBarangay[] | undefined;
+let postalCodes: readonly PHPostalCode[] | undefined;
 
 let regionsByCode: Map<string, PHRegion> | undefined;
 let provincesByCode: Map<string, PHProvince> | undefined;
@@ -84,6 +87,8 @@ let barangaysByCode: Map<string, PHBarangay> | undefined;
 let provincesByRegion: Map<string, readonly PHProvince[]> | undefined;
 let municipalitiesByProvince: Map<string, readonly PHMunicipality[]> | undefined;
 let barangaysByMunicipality: Map<string, readonly PHBarangay[]> | undefined;
+let postalCodesByValue: Map<string, readonly PHPostalCode[]> | undefined;
+let postalCodesByMunicipality: Map<string, readonly PHPostalCode[]> | undefined;
 
 const regionOrder = new Map([
     '0100000000', '0200000000', '0300000000', '0400000000',
@@ -165,6 +170,33 @@ function initializeBarangays() {
     return barangays;
 }
 
+function initializePostalCodes() {
+    if (postalCodes) return postalCodes;
+
+    postalCodes = decompressAndParse<PHPostalCode>(postalCodesCompressed).map(
+        (record) => ({
+            ...record,
+            municipalityCode: record.municipalityCode || undefined,
+        }),
+    );
+
+    const byValue = new Map<string, PHPostalCode[]>();
+    const byMunicipality = new Map<string, PHPostalCode[]>();
+    for (const record of postalCodes) {
+        const valueBucket = byValue.get(record.postalCode);
+        if (valueBucket) valueBucket.push(record);
+        else byValue.set(record.postalCode, [record]);
+
+        if (!record.municipalityCode) continue;
+        const municipalityBucket = byMunicipality.get(record.municipalityCode);
+        if (municipalityBucket) municipalityBucket.push(record);
+        else byMunicipality.set(record.municipalityCode, [record]);
+    }
+    postalCodesByValue = byValue;
+    postalCodesByMunicipality = byMunicipality;
+    return postalCodes;
+}
+
 // ─── Public API ───────────────────────────────────────────────────────────────
 
 export function getRegions(): readonly PHRegion[] {
@@ -181,6 +213,10 @@ export function getMunicipalities(): readonly PHMunicipality[] {
 
 export function getBarangays(): readonly PHBarangay[] {
     return initializeBarangays();
+}
+
+export function getPostalCodes(): readonly PHPostalCode[] {
+    return initializePostalCodes();
 }
 
 export function getIndexedRegionsByCode() {
@@ -216,4 +252,14 @@ export function getIndexedMunicipalitiesByProvince() {
 export function getIndexedBarangaysByMunicipality() {
     initializeBarangays();
     return barangaysByMunicipality!;
+}
+
+export function getIndexedPostalCodesByValue() {
+    initializePostalCodes();
+    return postalCodesByValue!;
+}
+
+export function getIndexedPostalCodesByMunicipality() {
+    initializePostalCodes();
+    return postalCodesByMunicipality!;
 }

@@ -43,7 +43,7 @@ describe('packed package', () => {
     );
     execFileSync(
       'node',
-      ['--input-type=module', '-e', "import('@aivangogh/ph-address').then(m => m.getAllBarangays())"],
+      ['--input-type=module', '-e', "import('@aivangogh/ph-address').then(m => m.getLocationsByPostalCode('6000'))"],
       { cwd: consumerRoot }
     );
 
@@ -53,10 +53,11 @@ describe('packed package', () => {
         PHRegion,
         PHProvince,
         PHMunicipality,
-        PHBarangay
+        PHBarangay,
+        PHPostalCode
       } from '@aivangogh/ph-address';
 
-      const values: [PHAddress, PHRegion, PHProvince, PHMunicipality, PHBarangay] = [] as never;
+      const values: [PHAddress, PHRegion, PHProvince, PHMunicipality, PHBarangay, PHPostalCode] = [] as never;
       void values;
     `);
     execFileSync(

@@ -374,7 +374,7 @@ cannot be mapped safely to a current PSGC municipality or city.
 
 ## Data Source
 
-Geographic data is sourced from the quarterly publications of the **Philippine Statistics Authority (PSA)**.
+Geographic data is sourced from the quarterly [Philippine Standard Geographic Code publications](https://psa.gov.ph/classification/psgc/node/1684083815) of the **Philippine Statistics Authority (PSA)**.
 
 Postal-code data is from [GeoNames](https://www.geonames.org/), licensed under
 [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/). The source snapshot

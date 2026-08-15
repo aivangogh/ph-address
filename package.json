@@ -1,7 +1,7 @@
 {
   "name": "@aivangogh/ph-address",
-  "version": "2026.2.2",
-  "description": "A collection of philippine geographic data based on PSGC",
+  "version": "2026.2.3",
+  "description": "Philippine geographic and postal-code data based on the PSGC",
   "main": "./dist/index.js",
   "module": "./dist/index.mjs",
   "types": "./dist/index.d.ts",
@@ -21,7 +21,11 @@
     },
     "./package.json": "./package.json"
   },
-  "files": ["dist", "LICENCE", "README.md"],
+  "files": [
+    "dist",
+    "LICENCE",
+    "README.md"
+  ],
   "author": {
     "name": "Ivan Gemota",
     "email": "aivangogh.dev@gmail.com",
@@ -45,7 +49,11 @@
     "provinces",
     "cities",
     "municipalities",
-    "barangays"
+    "barangays",
+    "postal-code",
+    "zip-code",
+    "philippine-postal-code",
+    "philippine-zip-code"
   ],
   "scripts": {
     "build:tsup": "tsup",

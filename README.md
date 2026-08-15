@@ -33,7 +33,7 @@ This package supports Node.js 18 or newer and browsers, with both CommonJS (`req
 
 ### PSGC geographic codes
 
-![PSGC old and Revision 1 coding structures](assets/psgc/coding-structure.png)
+![PSGC Revision 1 10-digit coding structure](assets/psgc/coding-structure.png)
 
 PSGC Revision 1 uses a 10-digit `RR-PPP-MM-BBB` structure:
 

@@ -12,13 +12,13 @@
 
 # PH-Address
 
-A lightweight package that provides a comprehensive collection of Philippine geographic data, based on the official [Philippine Standard Geographic Code (PSGC)](https://psa.gov.ph/classification/psgc/) as of 30 June 2026.
+A lightweight Philippine address-data package containing the official [Philippine Standard Geographic Code (PSGC)](https://psa.gov.ph/classification/psgc/) geographic hierarchy as of 30 June 2026 and separate postal-code mappings.
 
 [Explore the Philippine address data](https://aivangogh.dev/tools/ph-address)
 
 ## Features
 
-- **Up-to-Date Data**: Sourced from the latest PSGC publications.
+- **Address Data**: PSGC regions, provinces, municipalities, cities, and barangays, plus Philippine postal-code mappings.
 - **Ultra-Lightweight**: Highly optimized bundle size (~373 KB dist) using CSV + gzip compression — 40% smaller than the previous format.
 - **Fast Performance**: Efficient data loading with automatic caching. Barangay data (42k rows) decompresses and parses in ~39 ms on first call; subsequent calls are nearly instant.
 - **Fully Typed**: Written in TypeScript for a better developer experience with full type definitions.
@@ -28,6 +28,25 @@ A lightweight package that provides a comprehensive collection of Philippine geo
 ## Node.js and Browser Support
 
 This package supports Node.js 18 or newer and browsers, with both CommonJS (`require()`) and ESM (`import`) syntax. The data is bundled directly with the code using efficient compression, so it works seamlessly without needing file system access.
+
+## Address Data Model
+
+### PSGC geographic codes
+
+![PSGC old and Revision 1 coding structures](assets/psgc/coding-structure.png)
+
+PSGC Revision 1 uses a 10-digit `RR-PPP-MM-BBB` structure:
+
+| Segment | Meaning                                 |
+| ------- | --------------------------------------- |
+| `RR`    | Region                                  |
+| `PPP`   | Province or highly urbanized city (HUC) |
+| `MM`    | Municipality or city                    |
+| `BBB`   | Barangay                                |
+
+### Postal codes
+
+Philippine postal codes are separate four-digit delivery-area identifiers. They complement PSGC codes but are not derived from them: a municipality can have multiple postal codes, and a postal code can cover multiple localities.
 
 ### Performance Characteristics
 

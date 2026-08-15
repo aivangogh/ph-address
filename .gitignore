@@ -26,5 +26,6 @@ dist-ssr
 
 .worktrees/
 graphify-out/
+docs/superpowers/
 
 src/data-compressed

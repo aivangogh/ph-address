@@ -1,0 +1,99 @@
+municipalityName,municipalityCode,postalCodes,sourceMunicipality,changeType,notes
+Amai Manabilang,1903637000,9320,Bumbaran,renamed,PSGC current name replaces the GeoNames historical name
+Bacolod-Kalawi,1903601000,9316,Bacolod Grande,renamed,PSGC current name replaces the GeoNames historical name
+Baliwag City,0301403000,3006,Baliuag,spelling,GeoNames uses the former spelling
+Bataraza,1705305000,5306,Batazara,spelling,GeoNames transposes letters in the municipality name
+Binondo,1380602000,1006,Binondo,district,GeoNames uses the former Manila district hierarchy
+Calauan,0403406000,4012,Caluan,spelling,GeoNames omits one letter
+Carranglan,0304905000,3123,Carrangalan,spelling,GeoNames contains an extra letter
+Cortes,1606808000,8313,Cortez,spelling,PHLPost spells the municipality with z
+Cotabato City,1908703000,9600,Cotabato City,historical-province,GeoNames uses the former Maguindanao hierarchy
+Datu Abdullah Sangki,1908803000,9621,Datu Abdullah Sangki,historical-province,GeoNames predates the Maguindanao province split
+Datu Anggal Midtimbang,1908804000,9622,Datu Anggal Midtimbang,historical-province,GeoNames predates the Maguindanao province split
+Datu Blah T. Sinsuat,1908704000,9623,Datu Blah T Sinsuat,historical-province,GeoNames predates the Maguindanao province split
+Datu Hoffer Ampatuan,1908805000,9624,Datu Hoffer Ampatuan,historical-province,GeoNames predates the Maguindanao province split
+Datu Odin Sinsuat,1908705000,9601,Datu Odin Sinsuat,historical-province,GeoNames predates the Maguindanao province split
+Datu Salibo,1908808000,9625,Datu Salibo,historical-province,GeoNames predates the Maguindanao province split
+Datu Saudi Ampatuan,1908809000,9626,Datu Saudi Ampatuan,historical-province,GeoNames predates the Maguindanao province split
+Ditsaan-Ramain,1903624000,9713,Ramain-Ditsaan,renamed,PSGC and GeoNames use different historical word order
+Don Victoriano,1004217000,7216,Don Victoriano Chiongbian,renamed,PSGC shortens the municipality name
+Dr. Jose P. Rizal,1705323000,5323,Rizal (Marcos),renamed,PSGC current name replaces the GeoNames historical name
+Enrique B. Magalona,1804508000,6118,Enrique Magalona,spelling,GeoNames omits the middle initial
+Gen. S.K. Pendatun,1908811000,9618,General Salipada K. Pendatun,renamed,PSGC abbreviates the full municipality name
+General Emilio Aguinaldo,0402107000,4124,Gen. Aguinaldo (Bailen),renamed,PSGC expands the PHLPost historical name
+General Luna,1606710000,8419,Gen. Luna,spelling,GeoNames abbreviates General
+General Mamerto Natividad,0304909000,3125,Gen. M. Natividad,spelling,GeoNames abbreviates the municipality name
+General Santos City,1230800000,9500,Gen. Santos City,spelling,GeoNames abbreviates General
+General Tinio,0304910000,3104,Gen. Tinio,spelling,GeoNames abbreviates General
+General Trias City,0402108000,4107,Gen. Trias,spelling,GeoNames abbreviates General and omits City
+Getafe,0701226000,6334,Jetafe,spelling,GeoNames uses the historical spelling
+Governor Generoso,1102506000,8210,Gov. Generoso,spelling,GeoNames abbreviates Governor
+Guindulungan,1908812000,9628,Guindulungan,historical-province,GeoNames predates the Maguindanao province split
+Intramuros,1380609000,1002,Intramuros,district,GeoNames uses the former Manila district hierarchy
+Isabela City,0990101000,7300,Isabela City,historical-province,PSGC treats the city outside a geographic province
+Island Garden City of Samal,1102317000,8118|8119|8120,Babak and Samal and Kaputian,renamed,The city combines three former postal municipalities
+Kabuntalan,1908706000,9606,Kabuntulan,spelling,GeoNames uses a different vowel
+Kadayangan,1999903000,9410,Midsayap,inherited-area,Barangays retain the predecessor postal area
+Kalingalan Caluang,0906603000,7416,Kalingalan Kalauang,spelling,GeoNames contains an extra vowel
+Kapalawan,1999901000,9408,Carmen,inherited-area,Barangays retain the predecessor postal area
+Lambayong,1206508000,9802,Mariano Marcos,renamed,PSGC current name replaces the GeoNames historical name
+Leon T. Postigo,0907226000,7125,Leon B. Postigo,spelling,GeoNames uses a different middle initial
+Ligawasan,1999907000,9409,Pikit,inherited-area,Barangays retain the predecessor postal area
+Malate,1380610000,1004,Malate,district,GeoNames uses the former Manila district hierarchy
+Malidegao,1999906000,9409,Pikit,inherited-area,Barangays retain the predecessor postal area
+Mamasapano,1908813000,9629,Mamasapano,historical-province,GeoNames predates the Maguindanao province split
+Mangudadatu,1908814000,9620,Mangudadatu,historical-province,GeoNames predates the Maguindanao province split
+Manila City,1380600000,1000,Manila Central Post Office,district,PHLPost assigns the general Manila postal area
+Nabalawag,1999904000,9410|9415,Midsayap and Aleosan,inherited-area,Barangays retain both predecessor postal areas
+Naguilian,0203120000,3302,Naguillan,spelling,GeoNames contains an extra letter
+Northern Kabuntalan,1908708000,9630,Northern Kabuntalan,historical-province,GeoNames predates the Maguindanao province split
+Old Kaabakan,1999902000,9407,Kabacan,inherited-area,Barangays retain the predecessor postal area
+Old Panamao,0906607000,7402,Panamao,renamed,PSGC distinguishes the current municipality from its historical name
+Ozamiz City,1004210000,7200,Ozamis City,spelling,GeoNames uses s instead of z
+Paco,1380611000,1007,Paco,district,GeoNames uses the former Manila district hierarchy
+Pagagawan,1908815000,9631,Datu Montawal (formerly Pagagawan),renamed,PSGC retains the historical municipality name
+Pagalungan,1908816000,9610,Pagalungan,historical-province,GeoNames predates the Maguindanao province split
+Pahamuddin,1999905000,9412,Pigkawayan,inherited-area,Barangays retain the predecessor postal area
+Paluan,1705107000,5107,Palauan,spelling,GeoNames contains an extra letter
+Pandacan,1380612000,1011,Pandacan,district,GeoNames uses the former Manila district hierarchy
+Pangutaran,0906608000,7414,Panguntaran,spelling,GeoNames contains an extra letter
+Paranas,0806022000,6703,Wright,renamed,PSGC current name replaces the GeoNames historical name
+Pio V. Corpus,0504116000,5406,Pio V. Corpuz,spelling,GeoNames uses z instead of s
+Polillo,0405636000,4339,Polilio,spelling,GeoNames omits one letter
+Port Area,1380613000,1018,Port Area,district,GeoNames uses the former Manila district hierarchy
+Pres. Manuel A. Roxas,0907211000,7102,President Manuel A. Roxas,spelling,PSGC abbreviates President
+President Quirino,1206510000,9804,Pres. Quirino,spelling,GeoNames abbreviates President
+President Roxas,1204713000,9405,Pre. Roxas,spelling,PHLPost abbreviates President
+Quezon City,1381300000,1100,Quezon City,district,GeoNames uses the former NCR district hierarchy
+Quiapo,1380603000,1001,Quiapo,district,GeoNames uses the former Manila district hierarchy
+Rajah Buayan,1908819000,9634,Rajah Buayan,historical-province,GeoNames predates the Maguindanao province split
+Salvador Benedicto,1804532000,6133,Don Salvador Benedicto,renamed,PSGC omits the honorific
+Sampaloc,1380606000,1008|1015,Sampaloc East and Sampaloc West,district,PSGC combines both Manila postal areas
+San Jose,0600613000,5700,San Jose de Buenavista,renamed,PSGC uses the shortened municipality name
+San Juan City,1381400000,1500|1502|1503|1504,City of San Juan,district,GeoNames uses the former NCR district hierarchy
+San Miguel,1380607000,1005,San Miguel,district,GeoNames uses the former Manila district hierarchy
+San Nicolas,1380604000,1010,San Nicolas,district,GeoNames uses the former Manila district hierarchy
+San Policarpo,0802621000,6821,San Policarpio,spelling,GeoNames contains an extra letter
+San Remigio,0600614000,5714,San Remegio,spelling,GeoNames uses e instead of i
+San Remigio,0702243000,6011,San Remegio,spelling,GeoNames uses e instead of i
+Santa Ana,1380614000,1009,Santa Ana,district,GeoNames uses the former Manila district hierarchy
+Santa Cruz,1380605000,1003,Santa Cruz,district,GeoNames uses the former Manila district hierarchy
+Sawata,1102324000,8121,San Isidro,renamed,The municipality was ratified under its new name in 2026
+Science City of Muñoz,0304917000,3119,Muñoz,renamed,PSGC includes the official city designation
+Sergio Osmeña Sr.,0907214000,7108,Sergio Osmeña,spelling,GeoNames omits the suffix
+Shariff Aguak,1908820000,9608,Shariff Aguak,historical-province,GeoNames predates the Maguindanao province split
+Shariff Saydona Mustapha,1908821000,9635,Shariff Saydona Mustapha,historical-province,GeoNames predates the Maguindanao province split
+Sirawai,0907220000,7121,Siraway,spelling,GeoNames uses y instead of i
+Sominot,0907340000,7022,Don Mariano Marcos,renamed,PSGC current name replaces the GeoNames historical name
+Sultan Dumalondong,1903640000,9324,Sultan Domalondong,spelling,GeoNames uses o instead of u
+Sultan Mastura,1908711000,9636,Sultan Mastura,historical-province,GeoNames predates the Maguindanao province split
+Sultan Sa Barongis,1908823000,9611,Sultan Sa Barongis,historical-province,GeoNames predates the Maguindanao province split
+Talayan,1908824000,9612,Talayan,historical-province,GeoNames predates the Maguindanao province split
+Talitay,1908712000,9637,Sultan Sumagka (formerly Talitay),renamed,PSGC retains the historical municipality name
+Talugtug,0304931000,3118,Talugtog,spelling,GeoNames uses o instead of u
+Tondo I/II,1380601000,1012|1013,Tondo North and Tondo South,district,PSGC combines both Manila postal areas
+Tongkil,0906615000,7406,Banguingui (formerly Tongkil),renamed,PSGC retains the historical municipality name
+Trece Martires City,0402122000,4109,Trece Martirez City,spelling,GeoNames uses z instead of s
+Tugunan,1999908000,9409|9415,Pikit and Aleosan,inherited-area,Barangays retain both predecessor postal areas
+Turtle Islands,1907008000,7507,Turtle Island (Taganak),spelling,GeoNames uses the singular locality name
+Vincenzo A. Sagun,0907341000,7036,Vicencio Sagun,spelling,GeoNames uses a different spelling and omits the initial

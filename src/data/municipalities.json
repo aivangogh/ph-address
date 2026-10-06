@@ -317,7 +317,7 @@
   {
     "name": "Angeles City",
     "psgcCode": "0330100000",
-    "provinceCode": "0330100000"
+    "provinceCode": "0305400000"
   },
   {
     "name": "Angono",
@@ -487,7 +487,7 @@
   {
     "name": "Bacolod City",
     "psgcCode": "1830200000",
-    "provinceCode": "1830200000"
+    "provinceCode": "1804500000"
   },
   {
     "name": "Bacolod-Kalawi",
@@ -562,7 +562,7 @@
   {
     "name": "Baguio City",
     "psgcCode": "1430300000",
-    "provinceCode": "1430300000"
+    "provinceCode": "1401100000"
   },
   {
     "name": "Bagulin",
@@ -1392,7 +1392,7 @@
   {
     "name": "Butuan City",
     "psgcCode": "1630400000",
-    "provinceCode": "1630400000"
+    "provinceCode": "1600200000"
   },
   {
     "name": "Buug",
@@ -1477,7 +1477,7 @@
   {
     "name": "Cagayan De Oro City",
     "psgcCode": "1030500000",
-    "provinceCode": "1030500000"
+    "provinceCode": "1004300000"
   },
   {
     "name": "Cagayancillo",
@@ -1897,7 +1897,7 @@
   {
     "name": "Cebu City",
     "psgcCode": "0730600000",
-    "provinceCode": "0730600000"
+    "provinceCode": "0702200000"
   },
   {
     "name": "Cervantes",
@@ -2217,7 +2217,7 @@
   {
     "name": "Davao City",
     "psgcCode": "1130700000",
-    "provinceCode": "1130700000"
+    "provinceCode": "1102400000"
   },
   {
     "name": "Del Carmen",
@@ -2632,7 +2632,7 @@
   {
     "name": "General Santos City",
     "psgcCode": "1230800000",
-    "provinceCode": "1230800000"
+    "provinceCode": "1206300000"
   },
   {
     "name": "General Tinio",
@@ -2922,7 +2922,7 @@
   {
     "name": "Iligan City",
     "psgcCode": "1030900000",
-    "provinceCode": "1030900000"
+    "provinceCode": "1003500000"
   },
   {
     "name": "Ilog",
@@ -2932,7 +2932,7 @@
   {
     "name": "Iloilo City",
     "psgcCode": "0631000000",
-    "provinceCode": "0631000000"
+    "provinceCode": "0603000000"
   },
   {
     "name": "Imelda",
@@ -3562,7 +3562,7 @@
   {
     "name": "Lapu-Lapu City",
     "psgcCode": "0731100000",
-    "provinceCode": "0731100000"
+    "provinceCode": "0702200000"
   },
   {
     "name": "Lapuyan",
@@ -3907,7 +3907,7 @@
   {
     "name": "Lucena City",
     "psgcCode": "0431200000",
-    "provinceCode": "0431200000"
+    "provinceCode": "0405600000"
   },
   {
     "name": "Lugait",
@@ -4422,7 +4422,7 @@
   {
     "name": "Mandaue City",
     "psgcCode": "0731300000",
-    "provinceCode": "0731300000"
+    "provinceCode": "0702200000"
   },
   {
     "name": "Mangaldan",
@@ -5077,7 +5077,7 @@
   {
     "name": "Olongapo City",
     "psgcCode": "0331400000",
-    "provinceCode": "0331400000"
+    "provinceCode": "0307100000"
   },
   {
     "name": "Olutanga",
@@ -5822,7 +5822,7 @@
   {
     "name": "Puerto Princesa City",
     "psgcCode": "1731500000",
-    "provinceCode": "1731500000"
+    "provinceCode": "1705300000"
   },
   {
     "name": "Pugo",
@@ -7507,7 +7507,7 @@
   {
     "name": "Tacloban City",
     "psgcCode": "0831600000",
-    "provinceCode": "0831600000"
+    "provinceCode": "0803700000"
   },
   {
     "name": "Tacurong City",
@@ -8257,7 +8257,7 @@
   {
     "name": "Zamboanga City",
     "psgcCode": "0931700000",
-    "provinceCode": "0931700000"
+    "provinceCode": "0907300000"
   },
   {
     "name": "Zamboanguita",

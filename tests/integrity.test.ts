@@ -95,7 +95,7 @@ describe('generated PSGC integrity', () => {
     const municipalityParentCodes = new Set([
       ...regionCodes, // NCR uses its region as the parent.
       ...provinceCodes,
-      ...municipalityCodes, // HUCs self-parent; submunicipalities use their city.
+      ...municipalityCodes, // Submunicipalities use their city as the parent.
       '0990100000', // The workbook's "City of Isabela (Not a Province)" parent.
       '1999900000' // The workbook's Special Geographic Area has no geographic level.
     ]);
@@ -105,6 +105,26 @@ describe('generated PSGC integrity', () => {
     expect(
       orphanedMunicipality,
       `orphaned municipality ${orphanedMunicipality?.psgcCode}: ${orphanedMunicipality?.provinceCode}`
+    ).toBeUndefined();
+
+    // A newly designated HUC falls back to self-parenting in migrate-psgc.ts
+    // until it is added to HIGHLY_URBANIZED_CITY_MOTHER_PROVINCES.
+    const selfParentedCity = datasets.municipality.find(
+      municipality => municipality.provinceCode === municipality.psgcCode
+    );
+    expect(
+      selfParentedCity,
+      `self-parented city ${selfParentedCity?.psgcCode} (${selfParentedCity?.name}): add it to HIGHLY_URBANIZED_CITY_MOTHER_PROVINCES`
+    ).toBeUndefined();
+
+    const highlyUrbanizedCityWithoutProvince = datasets.municipality.find(
+      municipality =>
+        /^\d{2}3\d{2}00000$/.test(municipality.psgcCode) &&
+        !provinceCodes.has(municipality.provinceCode)
+    );
+    expect(
+      highlyUrbanizedCityWithoutProvince,
+      `HUC without a mother province ${highlyUrbanizedCityWithoutProvince?.psgcCode} (${highlyUrbanizedCityWithoutProvince?.name})`
     ).toBeUndefined();
 
     const orphanedBarangay = datasets.barangay.find(

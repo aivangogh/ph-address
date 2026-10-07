@@ -44,8 +44,17 @@ describe('Get barangays test suite', () => {
   it.each([
     ['1400101001', 'Cordillera Administrative Region', 'Abra', 'Bangued', 'Agtangao'],
     ['1381300001', 'National Capital Region', undefined, 'Quezon City', 'Alicia'],
-    ['0730600001', 'Region VII', undefined, 'Cebu City', 'Adlaon'],
+    ['0730600001', 'Region VII', 'Cebu', 'Cebu City', 'Adlaon'],
     ['0203135001', 'Region II', 'Isabela', 'Santiago City', 'Abra'],
+    ['1130700001', 'Region XI', 'Davao del Sur', 'Davao City', 'Acacia'],
+    [
+      '1430300125',
+      'Cordillera Administrative Region',
+      'Benguet',
+      'Baguio City',
+      'A. Bonifacio-Caguioa-Rimando',
+    ],
+    ['0990101005', 'Region IX', undefined, 'Isabela City', 'Baluno'],
   ])(
     'should resolve the address hierarchy for %s',
     (code, region, province, municipality, barangay) => {

@@ -20,6 +20,29 @@ const MUNICIPALITY_LEVEL = "Mun";
 const SUBMUNICIPALITY_LEVEL = "SubMun";
 const BARANGAY_LEVEL = "Bgy";
 const NCR_PREFIX = "13";
+// Highly urbanized cities have no parent province row in the PSGC workbook.
+// PSA treats them as province-independent; this package parents them by their
+// historical mother province so they remain reachable from a region → province
+// → city hierarchy.
+const HIGHLY_URBANIZED_CITY_MOTHER_PROVINCES: Record<string, string> = {
+  "0330100000": "0305400000", // Angeles City -> Pampanga
+  "0331400000": "0307100000", // Olongapo City -> Zambales
+  "0431200000": "0405600000", // Lucena City -> Quezon
+  "0631000000": "0603000000", // Iloilo City -> Iloilo
+  "0730600000": "0702200000", // Cebu City -> Cebu
+  "0731100000": "0702200000", // Lapu-Lapu City -> Cebu
+  "0731300000": "0702200000", // Mandaue City -> Cebu
+  "0831600000": "0803700000", // Tacloban City -> Leyte
+  "0931700000": "0907300000", // Zamboanga City -> Zamboanga del Sur
+  "1030500000": "1004300000", // Cagayan De Oro City -> Misamis Oriental
+  "1030900000": "1003500000", // Iligan City -> Lanao del Norte
+  "1130700000": "1102400000", // Davao City -> Davao del Sur
+  "1230800000": "1206300000", // General Santos City -> South Cotabato
+  "1430300000": "1401100000", // Baguio City -> Benguet
+  "1630400000": "1600200000", // Butuan City -> Agusan del Norte
+  "1731500000": "1705300000", // Puerto Princesa City -> Palawan
+  "1830200000": "1804500000", // Bacolod City -> Negros Occidental
+};
 
 interface RawPSGCDataRow {
   ["10-digit PSGC"]?: string | number;
@@ -95,6 +118,9 @@ function resolveProvinceCode(
   geoLevel: string,
   provinces: PHProvince[],
 ): string {
+  const motherProvinceCode = HIGHLY_URBANIZED_CITY_MOTHER_PROVINCES[psgcCode];
+  if (motherProvinceCode) return motherProvinceCode;
+
   // NCR cities are parented directly by the NCR region; Manila submunicipalities
   // retain Manila City as their parent through the ordinary derived code.
   if (
@@ -104,8 +130,9 @@ function resolveProvinceCode(
     return deriveRegionCode(psgcCode);
   }
 
-  // Independent and highly urbanized cities have no direct province row and
-  // therefore self-parent in this package's municipality hierarchy.
+  // Fallback for a city with no direct province row that is not yet listed in
+  // HIGHLY_URBANIZED_CITY_MOTHER_PROVINCES: self-parent rather than orphan it.
+  // The integrity suite fails on this case so a newly designated HUC is caught.
   if (
     psgcCode.substring(5, 7) === "00" &&
     !hasDirectParentProvince(psgcCode, provinces)

@@ -1,6 +1,7 @@
 import { describe, it, expect } from 'vitest';
 import {
   getAllMunicipalities,
+  getAllProvinces,
   getMunicipalityByCode,
   getMunicipalitiesByProvince,
 } from '../src';
@@ -39,4 +40,24 @@ describe('Get Cities/Municipalities test suite', () => {
     expect(getMunicipalityByCode('0730600000')?.name).toBe('Cebu City');
     expect(getMunicipalityByCode('9999999999')).toBeUndefined();
   });
+
+  it.each([
+    ['Davao del Sur', ['Davao City']],
+    ['Cebu', ['Cebu City', 'Lapu-Lapu City', 'Mandaue City']],
+    ['Benguet', ['Baguio City']],
+    ['Negros Occidental', ['Bacolod City']],
+    ['Pampanga', ['Angeles City']],
+  ])(
+    'should list the highly urbanized cities of %s under it',
+    (provinceName, expectedCities) => {
+      const province = getAllProvinces().find((p) => p.name === provinceName);
+      expect(province).toBeDefined();
+
+      const names = getMunicipalitiesByProvince(province!.psgcCode).map(
+        (m) => m.name
+      );
+
+      expectedCities.forEach((city) => expect(names).toContain(city));
+    }
+  );
 });

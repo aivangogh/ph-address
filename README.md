@@ -153,7 +153,9 @@ const address = getAddressByBarangayCode("0730600001");
 ```
 
 Exact lookups return `undefined` for unknown codes. `address.province` is
-optional for NCR and independent or highly urbanized cities.
+optional — it is absent for NCR cities and for the PSGC special cases that sit
+outside the province hierarchy (Isabela City and the BARMM Special Geographic
+Area). Highly urbanized cities resolve to their mother province.
 
 ---
 
@@ -368,9 +370,14 @@ type PHAddress = {
 };
 ```
 
-`PHAddress.province` is optional for NCR and independent or highly urbanized
-cities. `PHPostalCode.municipalityCode` is optional when a delivery locality
-cannot be mapped safely to a current PSGC municipality or city.
+`PHAddress.province` is optional: it is absent for NCR cities and for the PSGC
+special cases that sit outside the province hierarchy (Isabela City and the
+BARMM Special Geographic Area). Highly urbanized cities such as Cebu City,
+Davao City and Baguio City are province-independent in the PSGC source, but this
+package parents them by their mother province so they remain reachable from a
+region → province → city hierarchy. `PHPostalCode.municipalityCode` is optional
+when a delivery locality cannot be mapped safely to a current PSGC municipality
+or city.
 
 ## Data Source
 
